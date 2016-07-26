@@ -1,0 +1,20 @@
+.Side-menu {
+  background-color: blue;
+  color:red;
+
+  .children {
+    transition: max-height 1s linear 0.1s;
+    overflow: hidden;
+    &.active {
+      max-height: 100px;
+    }
+
+    &.inactive {
+      max-height: 0;
+    }
+  }
+}
+
+div {
+  background-color: black !important;
+}

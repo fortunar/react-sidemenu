@@ -1,0 +1,33 @@
+{
+  "name": "react-sidemenu",
+  "version": "0.0.1",
+  "description": "React side menu component.",
+  "main": "lib/SideMenu.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/banomaster/react-sidemenu.git"
+  },
+  "keywords": [
+    "react",
+    "sidebar",
+    "sidenav",
+    "navigation",
+    "menu",
+    "side"
+  ],
+  "author": "Rok Fortuna & Urban Marovt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/banomaster/react-sidemenu/issues"
+  },
+  "homepage": "https://github.com/banomaster/react-sidemenu#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "react": "^15.2.1",
+    "react-component-gulp-tasks": "^0.7.7",
+    "react-dom": "^15.2.1"
+  }
+}
