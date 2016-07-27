@@ -13,17 +13,17 @@ export default class SideMenu extends Component {
   }
 
   buildTree(children, parent) {
-      return children.map((child) => {
-        let newChild = {...child}
-        let subTree = [];
-        if (child.children) {
-          subTree = this.buildTree(child.children, newChild);
-        }
-        newChild.children = subTree;
-        newChild.parent = parent;
-        newChild.active = false;
-        return newChild;
-      });
+    return children.map((child) => {
+      let newChild = {...child}
+      let subTree = [];
+      if (child.children) {
+        subTree = this.buildTree(child.children, newChild);
+      }
+      newChild.children = subTree;
+      newChild.parent = parent;
+      newChild.active = false;
+      return newChild;
+    });
   }
 
   componentDidMount() {
@@ -79,7 +79,7 @@ export default class SideMenu extends Component {
     }
   }
 
-  renderItem(item){
+  renderItem(item, level) {
     const {onMenuItemClick} = this.props;
     return (
       <div key={item.value}
@@ -95,9 +95,9 @@ export default class SideMenu extends Component {
         {item.children.length === 0 && onMenuItemClick &&
           <span onClick={()=> onMenuItemClick(item.value)}> {item.label} </span>
         }
-        <div className={`children ${item.active ? 'active' : 'inactive'}`}>
+        <div className={`children ${item.active ? 'active' : 'inactive'}`} style={{paddingLeft: `${level * 20}px`}}>
           {item.children && item.children.map((child) =>
-            this.renderItem(child)
+            this.renderItem(child, level + 1)
           )}
         </div>
       </div>
@@ -111,7 +111,7 @@ export default class SideMenu extends Component {
     return (
       <div className="Side-menu">
         {itemTree && itemTree.map((item) =>
-          this.renderItem(item)
+          this.renderItem(item, 1)
         )}
       </div>
     );
