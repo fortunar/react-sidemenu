@@ -2,15 +2,16 @@ import React, {Component, PropTypes} from 'react';
 
 export class SideMenu extends Component {
 
-  propTypes : {
+  propTypes: {
     items: PropTypes.array,
     onMenuItemClick: PropTypes.func,
-    theme: PropTypes.string
+    theme: PropTypes.string,
+    collapse: PropTypes.bool
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {items: [], componentStateTree: []};
+  constructor(props, defaultProps) {
+   super(props, defaultProps);
+   this.state = {items: [], componentStateTree: []};
   }
 
   //
@@ -39,23 +40,22 @@ export class SideMenu extends Component {
   }
 
   handleComponentClick(item) {
+    const {collapse} = this.props;
     const {componentStateTree} = this.state;
     const activeBefore = item.active;
-    this.deactivateComponentTree(componentStateTree);
+
+    // collapse
+    console.log("COLLAPSE ", collapse)
+    if (collapse) {
+      this.deactivateComponentTree(componentStateTree);
+    }
     this.activateParentsComponentTree(item, activeBefore);
     this.setState({componentStateTree: componentStateTree});
   }
 
   activateParentsComponentTree(item, activeBefore) {
     if (item) {
-
-      if (activeBefore) {
-        // toggle on click
-        item.active = false;
-      } else {
-        item.active = true;
-      }
-
+      item.active = !activeBefore;
       this.activateParentsComponentTree(item.parent);
     }
   }
@@ -221,6 +221,10 @@ export class SideMenu extends Component {
       )
     }
   }
+}
+
+SideMenu.defaultProps = {
+  collapse: true
 }
 
 export class Item extends Component {

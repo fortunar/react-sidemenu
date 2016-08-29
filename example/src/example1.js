@@ -26,7 +26,7 @@ let Example1 = React.createClass({
 	render: function() {
 		return (
 			<div>
-				<SideMenu items={items}/>
+				<SideMenu items={items} />
 			</div>
 		)
 	}
