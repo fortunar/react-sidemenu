@@ -1,14 +1,66 @@
 <!doctype html>
 <head>
 	<title>React Starter Component</title>
-	<link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/solarized-dark.min.css">
+  <link rel="stylesheet" href="app.css">
 	<script src="https://use.fontawesome.com/4e5876b62f.js"></script>
 </head>
 <body>
-	<div class="container">
-	   <div id="app"></div>
-	</div>
+    <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">react-sidemenu</a>
+      </div>
+    </div>
+  </nav>
+  <div>
+    <h3>&nbsp;Example using a config .json structure.</h3>
+    <div id="example-1" style="display: inline-block;width: 400px; margin-right: 100px;vertical-align: top;padding-top: 18px;"></div>
+    <div style="display:inline-block">
+      <h4>Code</h4>
+      <pre><code class="javascript hljs">
+        import React from 'react';
+        import SideMenu from 'react-sidemenu';
+        import ReactDOM from 'react-dom';
+
+        const items = [
+        	{divider: true, label: 'Main navigation', value: 'main-nav'},
+        	{label: 'item 1', value: 'item1', icon: 'fa-search',
+        	children: [
+        		{label: 'item 1.1', value: 'item1.1', icon: 'fa-snapchat',
+        		children: [
+        			{label: 'item 1.1.1', value: 'item1.1.1', icon: 'fa-anchor'},
+        			{label: 'item 1.1.2', value: 'item1.1.2', icon: 'fa-bar-chart'}]},
+        		{label: 'item 1.2', value: 'item1.2'}]},
+        	{label: 'item 2', value: 'item2', icon: 'fa-automobile',
+        	children: [
+        		{label: 'item 2.1', value: 'item2.1',
+        		children: [
+        			{label: 'item 2.1.1', value: 'item2.1.1'},
+        			{label: 'item 2.1.2', value: 'item2.1.2'}]},
+        		{label: 'item 2.2', value: 'item2.2'}]},
+        	{divider: true, label: 'Motors', value: 'motors-nav'},
+        	{label: 'item 3', value: 'item3', icon: 'fa-beer'}
+        ];
+
+        let Example1 = React.createClass({
+        	render: function() {
+        		return (
+        			<div>
+        				<SideMenu items={items}/>
+        			</div>
+        		)
+        	}
+        });
+
+        ReactDOM.render(<Example1 />, document.getElementById('example-1'));
+      </code></pre>
+    </div>
+  </div>
+  <script>hljs.initHighlightingOnLoad();</script>
 	<script src="common.js"></script>
 	<script src="bundle.js"></script>
-	<script src="app.js"></script>
+	<script src="example1.js"></script>
 </body>

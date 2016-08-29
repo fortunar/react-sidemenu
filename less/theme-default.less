@@ -14,13 +14,17 @@
     font-weight: 300;
   }
 
+  * {
+    box-sizing: border-box;
+  }
+
   max-width: 400px;
   width: 100%;
   background-color: @color-blue-dark;
   color: @color-grey-light;
 
   .divider {
-    height: 26px;
+    height: 42px;
     padding-top: 14px;
     padding-left: 14px;
     background-color: @color-blue-darkest;
@@ -32,24 +36,41 @@
  .item {
 
     .item-title {
-      min-height: 24px;
+      height: 40px;
       padding-top: 14px;
       padding-left: 18px;
       font-size: 14px;
       cursor: pointer !important;
     }
 
+    a {
+      text-decoration: none;
+      color: @color-grey-light;
+    }
+
     &.active {
       color: white;
 
       .children {
-        color: @color-grey-dark;
+        color: @color-grey-light;
+      }
+
+      >.item-title {
+        >a {
+          color: white;
+        }
       }
     }
 
     &:hover {
-      color: white;
-      cursor: pointer;
+      > .item-title {
+        color: white;
+        cursor: pointer;
+
+        a {
+          color: white;
+        }
+      }
     }
 
     .fa-chevron-down, .fa-chevron-left {
@@ -61,8 +82,8 @@
     }
 
     &.item-level-1 {
-      .item-title {
-        min-height: 30px;
+      >.item-title {
+        height: 45px;
       }
 
       &:hover {
@@ -83,9 +104,8 @@
     .item-icon {
       margin-right: 10px;
     }
-
-
   }
+
 
   //
   // .item {
