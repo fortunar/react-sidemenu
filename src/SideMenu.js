@@ -116,10 +116,12 @@ export class SideMenu extends Component {
 
   onItemClick (item) {
     const {itemTree} = this.state;
+    const {onMenuItemClick} = this.props;
     const self = this;
     return (e) => {
       e.stopPropagation();
       e.nativeEvent.stopImmediatePropagation();
+      // handle UI changes
       if (!item.active) {
         item.active = true;
         self.deactivateTree(itemTree);
@@ -132,6 +134,15 @@ export class SideMenu extends Component {
           self.activeParentPath(item.parent);
         }
         self.setState({itemTree: itemTree});
+      }
+
+      //handle what happens if the item is a leaf node
+      if (!item.children || item.children.length === 0) {
+        if (onMenuItemClick) {
+          onMenuItemClick(item.value);
+        } else {
+          window.location.href = `#${item.value}`;
+        }
       }
     }
   }
@@ -147,6 +158,7 @@ export class SideMenu extends Component {
     return null;
   }
 
+
   renderItem(item, level) {
     const {onMenuItemClick, theme} = this.props;
 
@@ -156,28 +168,16 @@ export class SideMenu extends Component {
     else {
       return (<div
         key={item.value}
-        onClick={this.onItemClick(item)}
         className={`item item-level-${level} ${item.active ? 'active': ''}`}
         >
-        <div className="item-title">
+        <div className="item-title"
+        onClick={this.onItemClick(item)}>
           {/* render icon if provided*/}
           {item.icon &&
             <i className={`fa ${item.icon} item-icon`}> </i>
           }
-          {/* render a simple label if not a leaf element */}
-          {item.children.length > 0 &&
-            <span> {item.label} </span>
-          }
-          {/* render a link if it is a leaf and no onMenuItemClick is provided */}
-          {item.children.length === 0 && !onMenuItemClick &&
-            <a href={`#${item.value}`}>
-              <span> {item.label} </span>
-            </a>
-          }
-          {/* use onMenuItemClick if provided */}
-          {item.children.length === 0 && onMenuItemClick &&
-            <span onClick={()=> onMenuItemClick(item.value)}> {item.label} </span>
-          }
+          {/* render a simple label */}
+          <span> {item.label} </span>
           {/* render fa chevrons for default theme */}
           { (!theme || theme == 'default') && this.renderChevron(item)}
         </div>
@@ -192,8 +192,8 @@ export class SideMenu extends Component {
   }
 
   render() {
-    const {itemTree, componentStateTree, onMenuItemClick} = this.state;
-    const {theme} = this.props;
+    const {itemTree, componentStateTree} = this.state;
+    const {theme, onMenuItemClick} = this.props;
 
 
     if (!this.props.children) {
@@ -240,6 +240,14 @@ export class Item extends Component {
 
   onItemClick() {
     this.props.handleComponentClick(this.props.activeState);
+    const {onMenuItemClick, children, value} = this.props;
+    if (!children || children.length === 0) {
+      if (onMenuItemClick) {
+        onMenuItemClick(value);
+      } else {
+        window.location.href = `#${value}`;
+      }
+    }
   }
 
   renderChevron (children, activeState) {
@@ -276,20 +284,8 @@ export class Item extends Component {
             {icon &&
               <i className={`fa ${icon} item-icon`}> </i>
             }
-            {/* render a simple label if not a leaf element */}
-            {this.props.children &&
-              <span> {label} </span>
-            }
-            {/* render a link if it is a leaf and no onMenuItemClick is provided */}
-            {!this.props.children && !onMenuItemClick &&
-              <a href={`#${value}`}>
-                <span> {label} </span>
-              </a>
-            }
-            {/* use onMenuItemClick if provided */}
-            {!this.props.children && onMenuItemClick &&
-              <span onClick={()=> onMenuItemClick(value)}> {label} </span>
-            }
+            {/* render a simple label*/}
+            <span> {label} </span>
             {/* render fa chevrons for default theme */}
             { (!theme || theme == 'default') && this.renderChevron(children, activeState)}
           </div>
