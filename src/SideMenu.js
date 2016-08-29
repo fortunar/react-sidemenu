@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 
-export default class SideMenu extends Component {
+export class SideMenu extends Component {
 
   propTypes : {
     items: PropTypes.array,
@@ -9,7 +9,7 @@ export default class SideMenu extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {items: []};
+    this.state = {items: [], componentStateTree: []};
   }
 
   buildTree(children, parent) {
@@ -27,14 +27,14 @@ export default class SideMenu extends Component {
   }
 
   componentDidMount() {
-    console.log('DID MOUNT');
     const {items} = this.props;
-    console.log(this.buildTree(items, null));
-    this.setState({itemTree: this.buildTree(items, null)});
-    console.log(this.state);
-    // items.forEach((item) => this.setInactiveState(item));
-  }
 
+    if (items) {
+      console.log(this.buildTree(items, null));
+      this.setState({itemTree: this.buildTree(items, null)});
+      console.log(this.state);
+    }
+  }
 
   activateItem(item) {
     const {itemTree} = this.state;
@@ -105,15 +105,117 @@ export default class SideMenu extends Component {
   }
 
   render() {
-    console.log(this.state);
-    const {itemTree} = this.state;
+    const {itemTree, componentStateTree} = this.state;
 
-    return (
-      <div className="Side-menu">
-        {itemTree && itemTree.map((item) =>
-          this.renderItem(item, 1)
-        )}
-      </div>
-    );
+    if (!this.props.children) {
+      // sidemenu constructed from json
+      return (
+        <div className="Side-menu">
+          {itemTree && itemTree.map((item) =>
+            this.renderItem(item, 1)
+          )}
+        </div>
+      );
+    } else {
+      // sidemenu constructed with react components
+      return (
+        <div className="Side-menu">
+          { React.Children.map(this.props.children, (child, index) => {
+              return React.cloneElement(child, {
+                activeState: componentStateTree[index],
+                handleComponentClick: this.handleComponentClick.bind(this)
+              })
+          })}
+        </div>
+      )
+    }
   }
+
+  componentWillMount() {
+    if (this.props.children) {
+      this.setState({componentStateTree: this.buildComponentStateTree(this.props.children, null)});
+    }
+  }
+
+  buildComponentStateTree(children, parent) {
+    return React.Children.map(children, (child) => {
+      let newChild = {}
+      let subTree = [];
+      if (child.props.children) {
+        subTree = this.buildComponentStateTree(child.props.children, newChild);
+      }
+      newChild.children = subTree;
+      newChild.active = false;
+      newChild.parent = parent;
+
+      return newChild;
+    });
+  }
+
+  handleComponentClick(item) {
+    const {componentStateTree} = this.state;
+    this.deactivateComponentTree(componentStateTree);
+    this.activateParentsComponentTree(item);
+    this.setState({componentStateTree: componentStateTree});
+
+  }
+
+  activateParentsComponentTree(item) {
+    if (item) {
+      item.active = true;
+      if (item.parent) {
+        this.activateParentsComponentTree(item.parent);
+      }
+    }
+  }
+
+  deactivateComponentTree(componentStateTree) {
+    return componentStateTree.map((child) => {
+      child.active = false;
+      if (child.children) {
+        child.children = this.deactivateComponentTree(child.children);
+      }
+
+      return child;
+    });
+  }
+}
+
+export class Item extends Component {
+
+  propTypes : {
+    label: PropTypes.string,
+    value: PropTypes.string
+  }
+
+  onItemClick() {
+    this.props.handleComponentClick(this.props.activeState);
+  }
+
+  render() {
+    const {label, activeState} = this.props;
+    if (this.props.children) {
+      return (
+        <div className="parent">
+          <span onClick={this.onItemClick.bind(this)}>{label}</span>
+          <div className={`children ${activeState.active ? 'active' : 'inactive'}`} style={{paddingLeft: `${20}px`}}>
+            { React.Children.map(this.props.children, (child, index) => {
+                return React.cloneElement(child, {
+                  handleComponentClick: this.props.handleComponentClick,
+                  activeState: activeState.children[index]
+                })
+            })}
+          </div>
+        </div>
+      )
+    } else {
+      return (
+        <div className="child" onClick={this.onItemClick.bind(this)}>
+          <span>{label}</span>
+        </div>
+      )
+    }
+
+  }
+
 }

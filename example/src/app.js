@@ -1,5 +1,5 @@
 import React from 'react';
-import SideMenu from 'react-sidemenu';
+import {SideMenu, Item} from 'react-sidemenu';
 import ReactDOM from 'react-dom';
 
 const items = [
@@ -19,7 +19,22 @@ let App = React.createClass({
 	render: function() {
 		return (
 			<div>
-				<SideMenu items={items} />
+				<SideMenu>
+					<Item label="Item 1">
+						<Item label="Item 1.1">
+							<Item label="Item 1.1.1"/>
+							<Item label="Item 1.1.2" />
+						</Item>
+						<Item label="Item 1.2"/>
+					</Item>
+					<Item label="Item 2">
+						<Item label="Item 2.1">
+							<Item label="Item 2.1.1"/>
+							<Item label="Item 2.1.2"/>
+						</Item>
+						<Item label="Item 2.2"/>
+					</Item>
+				</SideMenu>
 			</div>
 		)
 	}
