@@ -116,20 +116,22 @@ export class SideMenu extends Component {
 
   onItemClick (item) {
     const {itemTree} = this.state;
-    const {onMenuItemClick} = this.props;
+    const {onMenuItemClick, collapse} = this.props;
     const self = this;
     return (e) => {
       e.stopPropagation();
       e.nativeEvent.stopImmediatePropagation();
       // handle UI changes
+      if (collapse) {
+        self.deactivateTree(itemTree);
+      }
+
       if (!item.active) {
         item.active = true;
-        self.deactivateTree(itemTree);
         self.activeParentPath(item);
         self.setState({itemTree: itemTree});
       } else {
         item.active = false;
-        self.deactivateTree(itemTree);
         if (item.parent) {
           self.activeParentPath(item.parent);
         }
