@@ -21,7 +21,8 @@ var taskConfig = {
       'index.html'
     ],
     scripts: [
-      'app.js'
+      'example1.js',
+      'example2.js'
     ],
     less: [
       'app.less'

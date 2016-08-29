@@ -1,0 +1,123 @@
+
+&.Side-menu-default {
+
+  @color-blue-darkest: #1A2226;
+  @color-blue-dark: #222D32;
+  @color-grey-light: #B8C7CE;
+  @color-grey-dark: #4A636E;
+  @color-blue-light: #C4EAF2;
+
+
+
+  *:not(i) {
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 300;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  max-width: 400px;
+  width: 100%;
+  background-color: @color-blue-dark;
+  color: @color-grey-light;
+
+  .divider {
+    height: 42px;
+    padding-top: 14px;
+    padding-left: 14px;
+    background-color: @color-blue-darkest;
+    color: @color-grey-dark;
+    text-transform: uppercase;
+    font-size: 12px;
+  }
+
+ .item {
+
+    .item-title {
+      height: 40px;
+      padding-top: 14px;
+      padding-left: 18px;
+      font-size: 14px;
+      cursor: pointer !important;
+    }
+
+    a {
+      text-decoration: none;
+      color: @color-grey-light;
+    }
+
+    &.active {
+      color: white;
+
+      .children {
+        color: @color-grey-light;
+      }
+
+      >.item-title {
+        >a {
+          color: white;
+        }
+      }
+    }
+
+    &:hover {
+      > .item-title {
+        color: white;
+        cursor: pointer;
+
+        a {
+          color: white;
+        }
+      }
+    }
+
+    .fa-chevron-down, .fa-chevron-left {
+      float: right;
+      position: relative;
+      right: 18px;
+      font-size: 12px;
+      padding-top: 3px;
+    }
+
+    &.item-level-1 {
+      >.item-title {
+        height: 45px;
+      }
+
+      &:hover {
+        >.item-title {
+          background-color: lighten(@color-blue-darkest, 20%);
+        }
+      }
+
+      &:hover, &.active {
+        border-left: 4px solid @color-blue-light;
+      }
+    }
+
+    .children {
+      padding-left: 25px;
+    }
+
+    .item-icon {
+      margin-right: 10px;
+    }
+  }
+
+
+  //
+  // .item {
+  //   height: 30px;
+  //   padding-top: 14px;
+  //   padding-left: 18px;
+  //   font-size: 14px;
+  //
+  //   .fa-chevron-down, .fa-chevron-left {
+  //     float: right;
+  //     position: relative;
+  //     right: 18px;
+  //   }
+  // }
+}

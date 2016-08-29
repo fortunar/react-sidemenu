@@ -4,7 +4,8 @@ export class SideMenu extends Component {
 
   propTypes : {
     items: PropTypes.array,
-    onMenuItemClick: PropTypes.func
+    onMenuItemClick: PropTypes.func,
+    theme: PropTypes.string
   }
 
   constructor(props) {
@@ -12,124 +13,9 @@ export class SideMenu extends Component {
     this.state = {items: [], componentStateTree: []};
   }
 
-  buildTree(children, parent) {
-    return children.map((child) => {
-      let newChild = {...child}
-      let subTree = [];
-      if (child.children) {
-        subTree = this.buildTree(child.children, newChild);
-      }
-      newChild.children = subTree;
-      newChild.parent = parent;
-      newChild.active = false;
-      return newChild;
-    });
-  }
-
-  componentDidMount() {
-    const {items} = this.props;
-
-    if (items) {
-      console.log(this.buildTree(items, null));
-      this.setState({itemTree: this.buildTree(items, null)});
-      console.log(this.state);
-    }
-  }
-
-  activateItem(item) {
-    const {itemTree} = this.state;
-    const self = this;
-    return (e) => {
-      item.active = true;
-      console.log('ACTIVATE ITEM');
-      console.log(item);
-      console.log(items);
-      console.log(e);
-      this.setState({items: items});
-    }
-  }
-
-  deactivateTree(itemTree) {
-    itemTree.forEach((item) => {
-      item.active = false;
-      if (item.children) {
-        this.deactivateTree(item.children);
-      }
-    });
-  }
-
-  activeParentPath(item) {
-    let curItem = item;
-    while (curItem !== null) {
-      curItem.active = true;
-      curItem = curItem.parent;
-    }
-  }
-
-  onItemClick (item) {
-    const {itemTree} = this.state;
-    const self = this;
-    return (e) => {
-      e.stopPropagation();
-      item.active = true;
-      self.deactivateTree(itemTree);
-      self.activeParentPath(item);
-      self.setState({itemTree: itemTree});
-      console.log(item);
-    }
-  }
-
-  renderItem(item, level) {
-    const {onMenuItemClick} = this.props;
-    return (
-      <div key={item.value}
-      onClick={this.onItemClick(item)}>
-        {item.children.length > 0 &&
-          <span> {item.label} </span>
-        }
-        {item.children.length === 0 && !onMenuItemClick &&
-          <a href={`#${item.value}`}>
-            <span> {item.label} </span>
-          </a>
-        }
-        {item.children.length === 0 && onMenuItemClick &&
-          <span onClick={()=> onMenuItemClick(item.value)}> {item.label} </span>
-        }
-        <div className={`children ${item.active ? 'active' : 'inactive'}`} style={{paddingLeft: `${level * 20}px`}}>
-          {item.children && item.children.map((child) =>
-            this.renderItem(child, level + 1)
-          )}
-        </div>
-      </div>
-    );
-  }
-
-  render() {
-    const {itemTree, componentStateTree} = this.state;
-
-    if (!this.props.children) {
-      // sidemenu constructed from json
-      return (
-        <div className="Side-menu">
-          {itemTree && itemTree.map((item) =>
-            this.renderItem(item, 1)
-          )}
-        </div>
-      );
-    } else {
-      // sidemenu constructed with react components
-      return (
-        <div className="Side-menu">
-          { React.Children.map(this.props.children, (child, index) => {
-              return React.cloneElement(child, {
-                activeState: componentStateTree[index],
-                handleComponentClick: this.handleComponentClick.bind(this)
-              })
-          })}
-        </div>
-      )
-    }
-  }
+  //
+  // methods for COMPONENT structure
+  //
 
   componentWillMount() {
     if (this.props.children) {
@@ -154,18 +40,23 @@ export class SideMenu extends Component {
 
   handleComponentClick(item) {
     const {componentStateTree} = this.state;
+    const activeBefore = item.active;
     this.deactivateComponentTree(componentStateTree);
-    this.activateParentsComponentTree(item);
+    this.activateParentsComponentTree(item, activeBefore);
     this.setState({componentStateTree: componentStateTree});
-
   }
 
-  activateParentsComponentTree(item) {
+  activateParentsComponentTree(item, activeBefore) {
     if (item) {
-      item.active = true;
-      if (item.parent) {
-        this.activateParentsComponentTree(item.parent);
+
+      if (activeBefore) {
+        // toggle on click
+        item.active = false;
+      } else {
+        item.active = true;
       }
+
+      this.activateParentsComponentTree(item.parent);
     }
   }
 
@@ -179,39 +70,236 @@ export class SideMenu extends Component {
       return child;
     });
   }
+
+  //
+  // methods for JSON structure
+  //
+
+  componentDidMount() {
+    const {items} = this.props;
+
+    if (items) {
+      this.setState({itemTree: this.buildTree(items, null)});
+    }
+  }
+
+  buildTree(children, parent) {
+    return children.map((child) => {
+      let newChild = {...child}
+      let subTree = [];
+      if (child.children) {
+        subTree = this.buildTree(child.children, newChild);
+      }
+      newChild.children = subTree;
+      newChild.parent = parent;
+      newChild.active = false;
+      return newChild;
+    });
+  }
+
+  deactivateTree(itemTree) {
+    itemTree.forEach((item) => {
+      item.active = false;
+      if (item.children) {
+        this.deactivateTree(item.children);
+      }
+    });
+  }
+
+  activeParentPath(item) {
+    let curItem = item;
+    while (curItem !== null) {
+      curItem.active = true;
+      curItem = curItem.parent;
+    }
+  }
+
+  onItemClick (item) {
+    const {itemTree} = this.state;
+    const self = this;
+    return (e) => {
+      e.stopPropagation();
+      e.nativeEvent.stopImmediatePropagation();
+      if (!item.active) {
+        item.active = true;
+        self.deactivateTree(itemTree);
+        self.activeParentPath(item);
+        self.setState({itemTree: itemTree});
+      } else {
+        item.active = false;
+        self.deactivateTree(itemTree);
+        if (item.parent) {
+          self.activeParentPath(item.parent);
+        }
+        self.setState({itemTree: itemTree});
+      }
+    }
+  }
+
+  renderChevron (item) {
+    if (item.children && item.children.length > 0) {
+      if (item.active) {
+        return (<i className="fa fa-chevron-down"></i>);
+      } else {
+        return (<i className="fa fa-chevron-left"></i>);
+      }
+    }
+    return null;
+  }
+
+  renderItem(item, level) {
+    const {onMenuItemClick, theme} = this.props;
+
+    if (item.divider) {
+      return (<div key={item.value} className={`divider divider-level-${level}`}>{item.label} </div>);
+    }
+    else {
+      return (<div
+        key={item.value}
+        onClick={this.onItemClick(item)}
+        className={`item item-level-${level} ${item.active ? 'active': ''}`}
+        >
+        <div className="item-title">
+          {/* render icon if provided*/}
+          {item.icon &&
+            <i className={`fa ${item.icon} item-icon`}> </i>
+          }
+          {/* render a simple label if not a leaf element */}
+          {item.children.length > 0 &&
+            <span> {item.label} </span>
+          }
+          {/* render a link if it is a leaf and no onMenuItemClick is provided */}
+          {item.children.length === 0 && !onMenuItemClick &&
+            <a href={`#${item.value}`}>
+              <span> {item.label} </span>
+            </a>
+          }
+          {/* use onMenuItemClick if provided */}
+          {item.children.length === 0 && onMenuItemClick &&
+            <span onClick={()=> onMenuItemClick(item.value)}> {item.label} </span>
+          }
+          {/* render fa chevrons for default theme */}
+          { (!theme || theme == 'default') && this.renderChevron(item)}
+        </div>
+        {/* render children */}
+        <div className={`children ${item.active ? 'active' : 'inactive'}`}>
+          {item.children && item.children.map((child) =>
+            this.renderItem(child, level + 1)
+          )}
+        </div>
+      </div>);
+    }
+  }
+
+  render() {
+    const {itemTree, componentStateTree, onMenuItemClick} = this.state;
+    const {theme} = this.props;
+
+
+    if (!this.props.children) {
+      // sidemenu constructed from json
+      return (
+        <div className={`Side-menu ${theme ? `Side-menu-${theme}` : 'Side-menu-default'} children active`}>
+          {itemTree && itemTree.map((item) =>
+            this.renderItem(item, 1)
+          )}
+        </div>
+      );
+    } else {
+      // sidemenu constructed with react components
+      return (
+        <div className={`Side-menu ${theme ? `Side-menu-${theme}` : 'Side-menu-default'} children active`}>
+          { React.Children.map(this.props.children, (child, index) => {
+              return React.cloneElement(child, {
+                activeState: componentStateTree[index],
+                handleComponentClick: this.handleComponentClick.bind(this),
+                level: 1,
+                onMenuItemClick: onMenuItemClick
+              })
+          })}
+        </div>
+      )
+    }
+  }
 }
 
 export class Item extends Component {
 
   propTypes : {
     label: PropTypes.string,
-    value: PropTypes.string
+    value: PropTypes.string,
+    activeState: PropTypes.object,
+    level: PropTypes.number,
+    icon: PropTypes.string,
+    devider: PropTypes.bool
   }
 
   onItemClick() {
     this.props.handleComponentClick(this.props.activeState);
   }
 
+  renderChevron (children, activeState) {
+    if (children) {
+      if (activeState.active) {
+        return (<i className="fa fa-chevron-down"></i>);
+      } else {
+        return (<i className="fa fa-chevron-left"></i>);
+      }
+    }
+    return null;
+  }
+
   render() {
-    const {label, activeState} = this.props;
-    if (this.props.children) {
+    const {label,
+      activeState,
+      level,
+      icon,
+      onMenuItemClick,
+      divider,
+      theme,
+      value,
+      children} = this.props;
+
+    if (divider) {
       return (
-        <div className="parent">
-          <span onClick={this.onItemClick.bind(this)}>{label}</span>
-          <div className={`children ${activeState.active ? 'active' : 'inactive'}`} style={{paddingLeft: `${20}px`}}>
-            { React.Children.map(this.props.children, (child, index) => {
-                return React.cloneElement(child, {
-                  handleComponentClick: this.props.handleComponentClick,
-                  activeState: activeState.children[index]
-                })
-            })}
-          </div>
-        </div>
+        <div className={`divider divider-level-${level}`}>{label} </div>
       )
     } else {
       return (
-        <div className="child" onClick={this.onItemClick.bind(this)}>
-          <span>{label}</span>
+        <div className={`item item-level-${level} ${activeState.active ? 'active': ''}`}>
+          <div className="item-title" onClick={this.onItemClick.bind(this)}>
+            {/* render icon if provided*/}
+            {icon &&
+              <i className={`fa ${icon} item-icon`}> </i>
+            }
+            {/* render a simple label if not a leaf element */}
+            {this.props.children &&
+              <span> {label} </span>
+            }
+            {/* render a link if it is a leaf and no onMenuItemClick is provided */}
+            {!this.props.children && !onMenuItemClick &&
+              <a href={`#${value}`}>
+                <span> {label} </span>
+              </a>
+            }
+            {/* use onMenuItemClick if provided */}
+            {!this.props.children && onMenuItemClick &&
+              <span onClick={()=> onMenuItemClick(value)}> {label} </span>
+            }
+            {/* render fa chevrons for default theme */}
+            { (!theme || theme == 'default') && this.renderChevron(children, activeState)}
+          </div>
+          {children &&
+          <div className={`children ${activeState.active ? 'active' : 'inactive'}`} style={{paddingLeft: `${20}px`}}>
+            { React.Children.map(children, (child, index) => {
+                return React.cloneElement(child, {
+                  handleComponentClick: this.props.handleComponentClick,
+                  activeState: activeState.children[index],
+                  level: level + 1,
+                  onMenuItemClick: onMenuItemClick
+                })
+            })}
+          </div>}
         </div>
       )
     }
