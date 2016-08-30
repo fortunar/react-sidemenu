@@ -26,7 +26,10 @@ let Example1 = React.createClass({
 	render: function() {
 		return (
 			<div>
-				<SideMenu items={items} />
+				<SideMenu
+				items={items}
+				renderMenuItemContent={(item) => <span>{item.label}</span>}
+				/>
 			</div>
 		)
 	}
