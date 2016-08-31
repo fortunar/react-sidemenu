@@ -47,7 +47,6 @@ export class SideMenu extends Component {
     const activeBefore = item.active;
 
     // collapse
-    console.log("COLLAPSE ", collapse)
     if (collapse) {
       this.deactivateComponentTree(componentStateTree);
     }
@@ -170,7 +169,7 @@ export class SideMenu extends Component {
   }
 
   handleRenderMenuItemContent (item) {
-    const {renderMenuItemContent, theme} = this.props;
+    const {renderMenuItemContent, reverse, theme} = this.props;
     if (renderMenuItemContent) {
       return renderMenuItemContent(item);
     }
@@ -181,16 +180,16 @@ export class SideMenu extends Component {
             <i className={`fa ${item.icon} item-icon`}> </i>
           }
           {/* render a simple label */}
-          <span> {item.label} </span>
+          <span className="item-label"> {item.label} </span>
           {/* render fa chevrons for default theme */}
-          {this.renderChevron(item)}
+          {this.renderChevron(item, reverse)}
         </span>
       );
     }
   }
 
   renderItem(item, level) {
-    const {onMenuItemClick, reverse} = this.props;
+    const {onMenuItemClick} = this.props;
 
     if (item.divider) {
       return (<div key={item.value} className={`divider divider-level-${level}`}>{item.label} </div>);
@@ -200,7 +199,7 @@ export class SideMenu extends Component {
         key={item.value}
         className={`item item-level-${level} ${item.active ? 'active': ''}`}
         >
-        <div className={`item-title ${reverse ? 'reverse' : ''}`}
+        <div className={`item-title`}
         onClick={this.onItemClick(item)}>
           {this.handleRenderMenuItemContent(item)}
         </div>
@@ -216,13 +215,13 @@ export class SideMenu extends Component {
 
   render() {
     const {itemTree, componentStateTree} = this.state;
-    const {theme, onMenuItemClick, reverse} = this.props;
+    const {theme, onMenuItemClick, reverse, renderMenuItemContent} = this.props;
 
 
     if (!this.props.children) {
       // sidemenu constructed from json
       return (
-        <div className={`Side-menu ${theme ? `Side-menu-${theme}` : 'Side-menu-default'} children active`}>
+        <div className={`Side-menu ${theme ? `Side-menu-${theme}` : 'Side-menu-default'} ${reverse ? 'reverse' : ''} children active`}>
           {itemTree && itemTree.map((item) =>
             this.renderItem(item, 1)
           )}
@@ -231,14 +230,15 @@ export class SideMenu extends Component {
     } else {
       // sidemenu constructed with react components
       return (
-        <div className={`Side-menu ${theme ? `Side-menu-${theme}` : 'Side-menu-default'} children active`}>
+        <div className={`Side-menu ${theme ? `Side-menu-${theme}` : 'Side-menu-default'} ${reverse ? 'reverse' : ''} children active`}>
           { React.Children.map(this.props.children, (child, index) => {
               return React.cloneElement(child, {
                 activeState: componentStateTree[index],
                 handleComponentClick: this.handleComponentClick.bind(this),
-                level: 1,
+                renderMenuItemContent: renderMenuItemContent,
                 onMenuItemClick: onMenuItemClick,
-                reverse: reverse
+                reverse: reverse,
+                level: 1
               })
           })}
         </div>
@@ -289,6 +289,27 @@ export class Item extends Component {
     return null;
   }
 
+  handleRenderMenuItemContent () {
+    const {renderMenuItemContent, children, theme, value, label, icon, activeState, reverse} = this.props;
+    if (renderMenuItemContent) {
+      return renderMenuItemContent({theme: theme, value: value, label: label});
+    }
+    else {
+      return (
+        <span>
+          {/* render icon if provided*/}
+          {icon &&
+            <i className={`fa ${icon} item-icon`}></i>
+          }
+          {/* render a simple label*/}
+          <span className="item-label"> {label} </span>
+          {/* render fa chevrons for default theme */}
+          { (!theme || theme == 'default') && this.renderChevron(children, activeState, reverse)}
+        </span>
+      );
+    }
+  }
+
   render() {
     const {label,
       activeState,
@@ -299,7 +320,8 @@ export class Item extends Component {
       theme,
       value,
       children,
-      reverse} = this.props;
+      reverse,
+      renderMenuItemContent} = this.props;
 
     if (divider) {
       return (
@@ -308,25 +330,19 @@ export class Item extends Component {
     } else {
       return (
         <div className={`item item-level-${level} ${activeState.active ? 'active': ''}`}>
-          <div className={`item-title ${reverse ? 'reverse' : ''}`} onClick={this.onItemClick.bind(this)}>
-            {/* render icon if provided*/}
-            {icon &&
-              <i className={`fa ${icon} item-icon`}></i>
-            }
-            {/* render a simple label*/}
-            <span> {label} </span>
-            {/* render fa chevrons for default theme */}
-            { (!theme || theme == 'default') && this.renderChevron(children, activeState, reverse)}
+          <div className={`item-title`} onClick={this.onItemClick.bind(this)}>
+            {this.handleRenderMenuItemContent()}
           </div>
           {children &&
-          <div className={`children ${activeState.active ? 'active' : 'inactive'}`} style={{paddingLeft: `${20}px`}}>
+          <div className={`children ${activeState.active ? 'active' : 'inactive'}`}>
             { React.Children.map(children, (child, index) => {
                 return React.cloneElement(child, {
                   handleComponentClick: this.props.handleComponentClick,
                   activeState: activeState.children[index],
-                  level: level + 1,
+                  renderMenuItemContent: renderMenuItemContent,
                   onMenuItemClick: onMenuItemClick,
-                  reverse: reverse
+                  reverse: reverse,
+                  level: level + 1
                 })
             })}
           </div>}
