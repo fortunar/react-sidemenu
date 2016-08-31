@@ -215,7 +215,7 @@ export class SideMenu extends Component {
 
   render() {
     const {itemTree, componentStateTree} = this.state;
-    const {theme, onMenuItemClick, reverse} = this.props;
+    const {theme, onMenuItemClick, reverse, renderMenuItemContent} = this.props;
 
 
     if (!this.props.children) {
@@ -235,9 +235,10 @@ export class SideMenu extends Component {
               return React.cloneElement(child, {
                 activeState: componentStateTree[index],
                 handleComponentClick: this.handleComponentClick.bind(this),
-                level: 1,
+                renderMenuItemContent: renderMenuItemContent,
                 onMenuItemClick: onMenuItemClick,
-                reverse: reverse
+                reverse: reverse,
+                level: 1
               })
           })}
         </div>
@@ -288,6 +289,27 @@ export class Item extends Component {
     return null;
   }
 
+  handleRenderMenuItemContent () {
+    const {renderMenuItemContent, children, theme, value, label, icon, activeState, reverse} = this.props;
+    if (renderMenuItemContent) {
+      return renderMenuItemContent({theme: theme, value: value, label: label});
+    }
+    else {
+      return (
+        <span>
+          {/* render icon if provided*/}
+          {icon &&
+            <i className={`fa ${icon} item-icon`}></i>
+          }
+          {/* render a simple label*/}
+          <span className="item-title"> {label} </span>
+          {/* render fa chevrons for default theme */}
+          { (!theme || theme == 'default') && this.renderChevron(children, activeState, reverse)}
+        </span>
+      );
+    }
+  }
+
   render() {
     const {label,
       activeState,
@@ -298,7 +320,8 @@ export class Item extends Component {
       theme,
       value,
       children,
-      reverse} = this.props;
+      reverse,
+      renderMenuItemContent} = this.props;
 
     if (divider) {
       return (
@@ -308,14 +331,7 @@ export class Item extends Component {
       return (
         <div className={`item item-level-${level} ${activeState.active ? 'active': ''}`}>
           <div className={`item-title`} onClick={this.onItemClick.bind(this)}>
-            {/* render icon if provided*/}
-            {icon &&
-              <i className={`fa ${icon} item-icon`}></i>
-            }
-            {/* render a simple label*/}
-            <span className="item-label"> {label} </span>
-            {/* render fa chevrons for default theme */}
-            { (!theme || theme == 'default') && this.renderChevron(children, activeState, reverse)}
+            {this.handleRenderMenuItemContent()}
           </div>
           {children &&
           <div className={`children ${activeState.active ? 'active' : 'inactive'}`}>
@@ -323,9 +339,10 @@ export class Item extends Component {
                 return React.cloneElement(child, {
                   handleComponentClick: this.props.handleComponentClick,
                   activeState: activeState.children[index],
-                  level: level + 1,
+                  renderMenuItemContent: renderMenuItemContent,
                   onMenuItemClick: onMenuItemClick,
-                  reverse: reverse
+                  reverse: reverse,
+                  level: level + 1
                 })
             })}
           </div>}
