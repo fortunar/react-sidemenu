@@ -32,7 +32,7 @@
     "react-component-gulp-tasks": "^0.7.7",
     "react-dom": "^15.2.1"
   },
-  "browser": "src/SideMenu.js",
+  "browser": "lib/SideMenu.js",
   "browserify-shim": {
     "react": "global:React"
   }
