@@ -6,7 +6,8 @@ export class SideMenu extends Component {
     items: PropTypes.array,
     onMenuItemClick: PropTypes.func,
     theme: PropTypes.string,
-    collapse: PropTypes.bool
+    collapse: PropTypes.bool,
+    reverse: PropTypes.bool
   }
 
   constructor(props, defaultProps) {
@@ -149,10 +150,12 @@ export class SideMenu extends Component {
     }
   }
 
-  renderChevron (item) {
+  renderChevron (item, reverse) {
     if (item.children && item.children.length > 0) {
       if (item.active) {
         return (<i className="fa fa-chevron-down"></i>);
+      } else if (reverse) {
+        return (<i className="fa fa-chevron-right"></i>);
       } else {
         return (<i className="fa fa-chevron-left"></i>);
       }
@@ -162,7 +165,7 @@ export class SideMenu extends Component {
 
 
   renderItem(item, level) {
-    const {onMenuItemClick, theme} = this.props;
+    const {onMenuItemClick, theme, reverse} = this.props;
 
     if (item.divider) {
       return (<div key={item.value} className={`divider divider-level-${level}`}>{item.label} </div>);
@@ -172,7 +175,7 @@ export class SideMenu extends Component {
         key={item.value}
         className={`item item-level-${level} ${item.active ? 'active': ''}`}
         >
-        <div className="item-title"
+        <div className={`item-title ${reverse ? 'reverse' : ''}`}
         onClick={this.onItemClick(item)}>
           {/* render icon if provided*/}
           {item.icon &&
@@ -181,7 +184,7 @@ export class SideMenu extends Component {
           {/* render a simple label */}
           <span> {item.label} </span>
           {/* render fa chevrons for default theme */}
-          { (!theme || theme == 'default') && this.renderChevron(item)}
+          { (!theme || theme == 'default') && this.renderChevron(item, reverse)}
         </div>
         {/* render children */}
         <div className={`children ${item.active ? 'active' : 'inactive'}`}>
@@ -195,7 +198,7 @@ export class SideMenu extends Component {
 
   render() {
     const {itemTree, componentStateTree} = this.state;
-    const {theme, onMenuItemClick} = this.props;
+    const {theme, onMenuItemClick, reverse} = this.props;
 
 
     if (!this.props.children) {
@@ -216,7 +219,8 @@ export class SideMenu extends Component {
                 activeState: componentStateTree[index],
                 handleComponentClick: this.handleComponentClick.bind(this),
                 level: 1,
-                onMenuItemClick: onMenuItemClick
+                onMenuItemClick: onMenuItemClick,
+                reverse: reverse
               })
           })}
         </div>
@@ -226,7 +230,8 @@ export class SideMenu extends Component {
 }
 
 SideMenu.defaultProps = {
-  collapse: true
+  collapse: true,
+  reverse: false
 }
 
 export class Item extends Component {
@@ -237,7 +242,8 @@ export class Item extends Component {
     activeState: PropTypes.object,
     level: PropTypes.number,
     icon: PropTypes.string,
-    devider: PropTypes.bool
+    devider: PropTypes.bool,
+    reverse: PropTypes.bool
   }
 
   onItemClick() {
@@ -252,10 +258,12 @@ export class Item extends Component {
     }
   }
 
-  renderChevron (children, activeState) {
+  renderChevron (children, activeState, reverse) {
     if (children) {
       if (activeState.active) {
         return (<i className="fa fa-chevron-down"></i>);
+      } else if (reverse) {
+        return (<i className="fa fa-chevron-right"></i>);
       } else {
         return (<i className="fa fa-chevron-left"></i>);
       }
@@ -272,7 +280,8 @@ export class Item extends Component {
       divider,
       theme,
       value,
-      children} = this.props;
+      children,
+      reverse} = this.props;
 
     if (divider) {
       return (
@@ -281,15 +290,15 @@ export class Item extends Component {
     } else {
       return (
         <div className={`item item-level-${level} ${activeState.active ? 'active': ''}`}>
-          <div className="item-title" onClick={this.onItemClick.bind(this)}>
+          <div className={`item-title ${reverse ? 'reverse' : ''}`} onClick={this.onItemClick.bind(this)}>
             {/* render icon if provided*/}
             {icon &&
-              <i className={`fa ${icon} item-icon`}> </i>
+              <i className={`fa ${icon} item-icon`}></i>
             }
             {/* render a simple label*/}
             <span> {label} </span>
             {/* render fa chevrons for default theme */}
-            { (!theme || theme == 'default') && this.renderChevron(children, activeState)}
+            { (!theme || theme == 'default') && this.renderChevron(children, activeState, reverse)}
           </div>
           {children &&
           <div className={`children ${activeState.active ? 'active' : 'inactive'}`} style={{paddingLeft: `${20}px`}}>
@@ -298,7 +307,8 @@ export class Item extends Component {
                   handleComponentClick: this.props.handleComponentClick,
                   activeState: activeState.children[index],
                   level: level + 1,
-                  onMenuItemClick: onMenuItemClick
+                  onMenuItemClick: onMenuItemClick,
+                  reverse: reverse
                 })
             })}
           </div>}

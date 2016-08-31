@@ -38,8 +38,39 @@
       height: 40px;
       padding-top: 14px;
       padding-left: 18px;
+      padding-right: 18px;
       font-size: 14px;
       cursor: pointer !important;
+
+      .item-icon {
+        margin-right: 10px;
+      }
+
+      .fa-chevron-down, .fa-chevron-left {
+        float: right;
+        position: relative;
+        font-size: 12px;
+        padding-top: 3px;
+      }
+
+      &.reverse {
+
+        span {
+          float: right;
+        }
+
+        .item-icon {
+          margin-right: 0px;
+          margin-left: 10px;
+          margin-top: 3px;
+          float: right;
+        }
+
+        .fa-chevron-down, .fa-chevron-left {
+          float: left;
+        }
+      }
+
     }
 
     a {
@@ -72,14 +103,6 @@
       }
     }
 
-    .fa-chevron-down, .fa-chevron-left {
-      float: right;
-      position: relative;
-      right: 18px;
-      font-size: 12px;
-      padding-top: 3px;
-    }
-
     &.item-level-1 {
       >.item-title {
         height: 45px;
@@ -100,9 +123,7 @@
       padding-left: 25px;
     }
 
-    .item-icon {
-      margin-right: 10px;
-    }
+
   }
 
 
