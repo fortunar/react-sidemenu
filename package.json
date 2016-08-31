@@ -1,6 +1,6 @@
 {
   "name": "react-sidemenu",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "description": "React side menu component.",
   "main": "lib/SideMenu.js",
   "scripts": {
