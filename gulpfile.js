@@ -21,8 +21,11 @@ var taskConfig = {
       'index.html'
     ],
     scripts: [
-      'example1.js',
-      'example2.js'
+      'example-custom-click.js',
+      'example-custom-render.js',
+      'example-no-collapse.js',
+      'example-normal.js',
+      'example-rtl.js',
     ],
     less: [
       'app.less'

@@ -2,11 +2,11 @@ import React from 'react';
 import {SideMenu, Item} from 'react-sidemenu';
 import ReactDOM from 'react-dom';
 
-let Example2 = React.createClass({
+let Example4 = React.createClass({
 	render: function() {
 		return (
 			<div>
-	      <SideMenu reverse={true}>
+	      <SideMenu onMenuItemClick={(value) => alert(`You just clicked me: ${value}`)}>
 					<Item divider={true} label="Segment 1" value="segment1"/>
 	        <Item label="Item 1" icon="fa-search">
 	          <Item label="Item 1.1" value="item1.1" icon="fa-snapchat">
@@ -30,4 +30,4 @@ let Example2 = React.createClass({
 	}
 });
 
-ReactDOM.render(<Example2 />, document.getElementById('example-2'));
+ReactDOM.render(<Example4 />, document.getElementById('example-custom-click'));

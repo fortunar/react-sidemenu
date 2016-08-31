@@ -196,11 +196,11 @@ var SideMenu = (function (_Component) {
     }
   }, {
     key: "renderChevron",
-    value: function renderChevron(item, reverse) {
+    value: function renderChevron(item, rtl) {
       if (item.children && item.children.length > 0) {
         if (item.active) {
           return _react2["default"].createElement("i", { className: "fa fa-chevron-down" });
-        } else if (reverse) {
+        } else if (rtl) {
           return _react2["default"].createElement("i", { className: "fa fa-chevron-right" });
         } else {
           return _react2["default"].createElement("i", { className: "fa fa-chevron-left" });
@@ -213,8 +213,7 @@ var SideMenu = (function (_Component) {
     value: function handleRenderMenuItemContent(item) {
       var _props2 = this.props;
       var renderMenuItemContent = _props2.renderMenuItemContent;
-      var reverse = _props2.reverse;
-      var theme = _props2.theme;
+      var rtl = _props2.rtl;
 
       if (renderMenuItemContent) {
         return renderMenuItemContent(item);
@@ -234,7 +233,7 @@ var SideMenu = (function (_Component) {
             item.label,
             " "
           ),
-          this.renderChevron(item, reverse)
+          this.renderChevron(item, rtl)
         );
       }
     }
@@ -286,14 +285,14 @@ var SideMenu = (function (_Component) {
       var _props3 = this.props;
       var theme = _props3.theme;
       var onMenuItemClick = _props3.onMenuItemClick;
-      var reverse = _props3.reverse;
+      var rtl = _props3.rtl;
       var renderMenuItemContent = _props3.renderMenuItemContent;
 
       if (!this.props.children) {
         // sidemenu constructed from json
         return _react2["default"].createElement(
           "div",
-          { className: "Side-menu " + (theme ? "Side-menu-" + theme : 'Side-menu-default') + " " + (reverse ? 'reverse' : '') + " children active" },
+          { className: "Side-menu Side-menu-" + theme + " " + (rtl ? 'rtl' : '') + " children active" },
           itemTree && itemTree.map(function (item) {
             return _this6.renderItem(item, 1);
           })
@@ -302,14 +301,14 @@ var SideMenu = (function (_Component) {
         // sidemenu constructed with react components
         return _react2["default"].createElement(
           "div",
-          { className: "Side-menu " + (theme ? "Side-menu-" + theme : 'Side-menu-default') + " " + (reverse ? 'reverse' : '') + " children active" },
+          { className: "Side-menu  Side-menu-" + theme + " " + (rtl ? 'rtl' : '') + " children active" },
           _react2["default"].Children.map(this.props.children, function (child, index) {
             return _react2["default"].cloneElement(child, {
               activeState: componentStateTree[index],
               handleComponentClick: _this6.handleComponentClick.bind(_this6),
               renderMenuItemContent: renderMenuItemContent,
               onMenuItemClick: onMenuItemClick,
-              reverse: reverse,
+              rtl: rtl,
               level: 1
             });
           })
@@ -325,7 +324,8 @@ exports.SideMenu = SideMenu;
 
 SideMenu.defaultProps = {
   collapse: true,
-  reverse: false
+  rtl: false,
+  theme: 'default'
 };
 
 var Item = (function (_Component2) {
@@ -356,11 +356,11 @@ var Item = (function (_Component2) {
     }
   }, {
     key: "renderChevron",
-    value: function renderChevron(children, activeState, reverse) {
+    value: function renderChevron(children, activeState, rtl) {
       if (children) {
         if (activeState.active) {
           return _react2["default"].createElement("i", { className: "fa fa-chevron-down" });
-        } else if (reverse) {
+        } else if (rtl) {
           return _react2["default"].createElement("i", { className: "fa fa-chevron-right" });
         } else {
           return _react2["default"].createElement("i", { className: "fa fa-chevron-left" });
@@ -374,15 +374,14 @@ var Item = (function (_Component2) {
       var _props5 = this.props;
       var renderMenuItemContent = _props5.renderMenuItemContent;
       var children = _props5.children;
-      var theme = _props5.theme;
       var value = _props5.value;
       var label = _props5.label;
       var icon = _props5.icon;
       var activeState = _props5.activeState;
-      var reverse = _props5.reverse;
+      var rtl = _props5.rtl;
 
       if (renderMenuItemContent) {
-        return renderMenuItemContent({ theme: theme, value: value, label: label });
+        return renderMenuItemContent({ icon: icon, value: value, label: label });
       } else {
         return _react2["default"].createElement(
           "span",
@@ -395,7 +394,7 @@ var Item = (function (_Component2) {
             label,
             " "
           ),
-          (!theme || theme == 'default') && this.renderChevron(children, activeState, reverse)
+          this.renderChevron(children, activeState, rtl)
         );
       }
     }
@@ -411,10 +410,9 @@ var Item = (function (_Component2) {
       var icon = _props6.icon;
       var onMenuItemClick = _props6.onMenuItemClick;
       var divider = _props6.divider;
-      var theme = _props6.theme;
       var value = _props6.value;
       var children = _props6.children;
-      var reverse = _props6.reverse;
+      var rtl = _props6.rtl;
       var renderMenuItemContent = _props6.renderMenuItemContent;
 
       if (divider) {
@@ -442,7 +440,7 @@ var Item = (function (_Component2) {
                 activeState: activeState.children[index],
                 renderMenuItemContent: renderMenuItemContent,
                 onMenuItemClick: onMenuItemClick,
-                reverse: reverse,
+                rtl: rtl,
                 level: level + 1
               });
             })
@@ -456,7 +454,7 @@ var Item = (function (_Component2) {
 })(_react.Component);
 
 exports.Item = Item;
-/* render a simple label */ /* render fa chevrons for default theme */ /* render children */ /* render icon if provided*/ /* render a simple label*/ /* render fa chevrons for default theme */
+/* render a simple label */ /* render children */ /* render icon if provided*/ /* render a simple label*/
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}]},{},[1])(1)

@@ -22,17 +22,17 @@ const items = [
 	{label: 'Item 3', value: 'item3', icon: 'fa-beer'}
 ];
 
-let Example1 = React.createClass({
+let Example5 = React.createClass({
 	render: function() {
 		return (
 			<div>
 				<SideMenu
 				items={items}
-				reverse={true}
+				rtl={true}
 				/>
 			</div>
 		)
 	}
 });
 
-ReactDOM.render(<Example1 />, document.getElementById('example-1'));
+ReactDOM.render(<Example5 />, document.getElementById('example-rtl'));
