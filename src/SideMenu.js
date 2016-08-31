@@ -190,11 +190,7 @@ export class SideMenu extends Component {
   }
 
   renderItem(item, level) {
-<<<<<<< HEAD
-    const {onMenuItemClick, theme, reverse} = this.props;
-=======
-    const {onMenuItemClick} = this.props;
->>>>>>> 11646e4dd4b6129a172026e0dfe24cf1ce11e130
+    const {onMenuItemClick, reverse} = this.props;
 
     if (item.divider) {
       return (<div key={item.value} className={`divider divider-level-${level}`}>{item.label} </div>);
@@ -206,18 +202,7 @@ export class SideMenu extends Component {
         >
         <div className={`item-title ${reverse ? 'reverse' : ''}`}
         onClick={this.onItemClick(item)}>
-<<<<<<< HEAD
-          {/* render icon if provided*/}
-          {item.icon &&
-            <i className={`fa ${item.icon} item-icon`}> </i>
-          }
-          {/* render a simple label */}
-          <span> {item.label} </span>
-          {/* render fa chevrons for default theme */}
-          { (!theme || theme == 'default') && this.renderChevron(item, reverse)}
-=======
           {this.handleRenderMenuItemContent(item)}
->>>>>>> 11646e4dd4b6129a172026e0dfe24cf1ce11e130
         </div>
         {/* render children */}
         <div className={`children ${item.active ? 'active' : 'inactive'}`}>
