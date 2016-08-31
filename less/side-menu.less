@@ -28,11 +28,43 @@
     height: 42px;
     padding-top: 14px;
     padding-left: 14px;
+    padding-right: 14px;
     font-size: 12px;
+
+
+  }
+
+  &.reverse {
+    .divider {
+      text-align: right;
+    }
+
+    .item {
+      .item-title {
+        .item-label {
+          float: right;
+        }
+
+        .item-icon {
+          margin-right: 0px;
+          margin-left: 10px;
+          margin-top: 3px;
+          float: right;
+        }
+
+        .fa-chevron-down, .fa-chevron-left, .fa-chevron-right {
+          float: left;
+        }
+      }
+
+      .children {
+        padding-left: 0;
+        padding-right: 25px;
+      }
+    }
   }
 
  .item {
-
     .item-title {
       height: 40px;
       padding-top: 14px;
@@ -45,29 +77,11 @@
         margin-right: 10px;
       }
 
-      .fa-chevron-down, .fa-chevron-left {
+      .fa-chevron-down, .fa-chevron-left, .fa-chevron-right {
         float: right;
         position: relative;
         font-size: 12px;
         padding-top: 3px;
-      }
-
-      &.reverse {
-
-        span {
-          float: right;
-        }
-
-        .item-icon {
-          margin-right: 0px;
-          margin-left: 10px;
-          margin-top: 3px;
-          float: right;
-        }
-
-        .fa-chevron-down, .fa-chevron-left {
-          float: left;
-        }
       }
     }
 
