@@ -12,66 +12,17 @@
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     font-weight: 300;
   }
-
-  * {
-    box-sizing: border-box;
-  }
-
-  max-width: 400px;
-  width: 100%;
+  
   background-color: @color-blue-dark;
   color: @color-grey-light;
 
   .divider {
-    height: 42px;
-    padding-top: 14px;
-    padding-left: 14px;
     background-color: @color-blue-darkest;
     color: @color-grey-dark;
     text-transform: uppercase;
-    font-size: 12px;
   }
 
  .item {
-
-    .item-title {
-      height: 40px;
-      padding-top: 14px;
-      padding-left: 18px;
-      padding-right: 18px;
-      font-size: 14px;
-      cursor: pointer !important;
-
-      .item-icon {
-        margin-right: 10px;
-      }
-
-      .fa-chevron-down, .fa-chevron-left {
-        float: right;
-        position: relative;
-        font-size: 12px;
-        padding-top: 3px;
-      }
-
-      &.reverse {
-
-        span {
-          float: right;
-        }
-
-        .item-icon {
-          margin-right: 0px;
-          margin-left: 10px;
-          margin-top: 3px;
-          float: right;
-        }
-
-        .fa-chevron-down, .fa-chevron-left {
-          float: left;
-        }
-      }
-
-    }
 
     a {
       text-decoration: none;
@@ -95,7 +46,6 @@
     &:hover {
       > .item-title {
         color: white;
-        cursor: pointer;
 
         a {
           color: white;
@@ -104,10 +54,6 @@
     }
 
     &.item-level-1 {
-      >.item-title {
-        height: 45px;
-      }
-
       &:hover {
         >.item-title {
           background-color: lighten(@color-blue-darkest, 20%);
@@ -118,26 +64,5 @@
         border-left: 4px solid @color-blue-light;
       }
     }
-
-    .children {
-      padding-left: 25px;
-    }
-
-
   }
-
-
-  //
-  // .item {
-  //   height: 30px;
-  //   padding-top: 14px;
-  //   padding-left: 18px;
-  //   font-size: 14px;
-  //
-  //   .fa-chevron-down, .fa-chevron-left {
-  //     float: right;
-  //     position: relative;
-  //     right: 18px;
-  //   }
-  // }
 }

@@ -183,7 +183,7 @@ export class SideMenu extends Component {
           {/* render a simple label */}
           <span> {item.label} </span>
           {/* render fa chevrons for default theme */}
-          { (!theme || theme == 'default') && this.renderChevron(item)}
+          {this.renderChevron(item)}
         </span>
       );
     }
