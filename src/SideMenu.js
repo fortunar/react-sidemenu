@@ -302,7 +302,7 @@ export class Item extends Component {
             <i className={`fa ${icon} item-icon`}></i>
           }
           {/* render a simple label*/}
-          <span className="item-title"> {label} </span>
+          <span className="item-label"> {label} </span>
           {/* render fa chevrons for default theme */}
           { (!theme || theme == 'default') && this.renderChevron(children, activeState, reverse)}
         </span>

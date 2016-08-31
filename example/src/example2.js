@@ -6,7 +6,7 @@ let Example2 = React.createClass({
 	render: function() {
 		return (
 			<div>
-	      <SideMenu >
+	      <SideMenu reverse={true}>
 					<Item divider={true} label="Segment 1" value="segment1"/>
 	        <Item label="Item 1" icon="fa-search">
 	          <Item label="Item 1.1" value="item1.1" icon="fa-snapchat">
