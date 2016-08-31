@@ -27,7 +27,8 @@ var Example1 = _react2['default'].createClass({
 			'div',
 			null,
 			_react2['default'].createElement(_reactSidemenu.SideMenu, {
-				items: items
+				items: items,
+				reverse: true
 			})
 		);
 	}

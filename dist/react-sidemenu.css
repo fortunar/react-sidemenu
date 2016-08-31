@@ -22,7 +22,29 @@
   height: 42px;
   padding-top: 14px;
   padding-left: 14px;
+  padding-right: 14px;
   font-size: 12px;
+}
+.Side-menu.reverse .divider {
+  text-align: right;
+}
+.Side-menu.reverse .item .item-title .item-label {
+  float: right;
+}
+.Side-menu.reverse .item .item-title .item-icon {
+  margin-right: 0px;
+  margin-left: 10px;
+  margin-top: 3px;
+  float: right;
+}
+.Side-menu.reverse .item .item-title .fa-chevron-down,
+.Side-menu.reverse .item .item-title .fa-chevron-left,
+.Side-menu.reverse .item .item-title .fa-chevron-right {
+  float: left;
+}
+.Side-menu.reverse .item .children {
+  padding-left: 0;
+  padding-right: 25px;
 }
 .Side-menu .item .item-title {
   height: 40px;
@@ -36,24 +58,12 @@
   margin-right: 10px;
 }
 .Side-menu .item .item-title .fa-chevron-down,
-.Side-menu .item .item-title .fa-chevron-left {
+.Side-menu .item .item-title .fa-chevron-left,
+.Side-menu .item .item-title .fa-chevron-right {
   float: right;
   position: relative;
   font-size: 12px;
   padding-top: 3px;
-}
-.Side-menu .item .item-title.reverse span {
-  float: right;
-}
-.Side-menu .item .item-title.reverse .item-icon {
-  margin-right: 0px;
-  margin-left: 10px;
-  margin-top: 3px;
-  float: right;
-}
-.Side-menu .item .item-title.reverse .fa-chevron-down,
-.Side-menu .item .item-title.reverse .fa-chevron-left {
-  float: left;
 }
 .Side-menu .item:hover > .item-title {
   cursor: pointer;

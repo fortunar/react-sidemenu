@@ -1,6 +1,6 @@
 {
   "name": "react-sidemenu",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "React side menu component.",
   "main": "lib/SideMenu.js",
   "scripts": {
@@ -32,7 +32,6 @@
     "react-component-gulp-tasks": "^0.7.7",
     "react-dom": "^15.2.1"
   },
-  "browser": "lib/SideMenu.js",
   "browserify-shim": {
     "react": "global:React"
   }

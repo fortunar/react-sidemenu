@@ -70,7 +70,6 @@ var SideMenu = (function (_Component) {
       var activeBefore = item.active;
 
       // collapse
-      console.log("COLLAPSE ", collapse);
       if (collapse) {
         this.deactivateComponentTree(componentStateTree);
       }
@@ -214,6 +213,7 @@ var SideMenu = (function (_Component) {
     value: function handleRenderMenuItemContent(item) {
       var _props2 = this.props;
       var renderMenuItemContent = _props2.renderMenuItemContent;
+      var reverse = _props2.reverse;
       var theme = _props2.theme;
 
       if (renderMenuItemContent) {
@@ -229,12 +229,12 @@ var SideMenu = (function (_Component) {
           ),
           _react2["default"].createElement(
             "span",
-            null,
+            { className: "item-label" },
             " ",
             item.label,
             " "
           ),
-          this.renderChevron(item)
+          this.renderChevron(item, reverse)
         );
       }
     }
@@ -243,9 +243,7 @@ var SideMenu = (function (_Component) {
     value: function renderItem(item, level) {
       var _this5 = this;
 
-      var _props3 = this.props;
-      var onMenuItemClick = _props3.onMenuItemClick;
-      var reverse = _props3.reverse;
+      var onMenuItemClick = this.props.onMenuItemClick;
 
       if (item.divider) {
         return _react2["default"].createElement(
@@ -263,7 +261,7 @@ var SideMenu = (function (_Component) {
           },
           _react2["default"].createElement(
             "div",
-            { className: "item-title " + (reverse ? 'reverse' : ''),
+            { className: "item-title",
               onClick: this.onItemClick(item) },
             this.handleRenderMenuItemContent(item)
           ),
@@ -285,16 +283,17 @@ var SideMenu = (function (_Component) {
       var _state = this.state;
       var itemTree = _state.itemTree;
       var componentStateTree = _state.componentStateTree;
-      var _props4 = this.props;
-      var theme = _props4.theme;
-      var onMenuItemClick = _props4.onMenuItemClick;
-      var reverse = _props4.reverse;
+      var _props3 = this.props;
+      var theme = _props3.theme;
+      var onMenuItemClick = _props3.onMenuItemClick;
+      var reverse = _props3.reverse;
+      var renderMenuItemContent = _props3.renderMenuItemContent;
 
       if (!this.props.children) {
         // sidemenu constructed from json
         return _react2["default"].createElement(
           "div",
-          { className: "Side-menu " + (theme ? "Side-menu-" + theme : 'Side-menu-default') + " children active" },
+          { className: "Side-menu " + (theme ? "Side-menu-" + theme : 'Side-menu-default') + " " + (reverse ? 'reverse' : '') + " children active" },
           itemTree && itemTree.map(function (item) {
             return _this6.renderItem(item, 1);
           })
@@ -303,14 +302,15 @@ var SideMenu = (function (_Component) {
         // sidemenu constructed with react components
         return _react2["default"].createElement(
           "div",
-          { className: "Side-menu " + (theme ? "Side-menu-" + theme : 'Side-menu-default') + " children active" },
+          { className: "Side-menu " + (theme ? "Side-menu-" + theme : 'Side-menu-default') + " " + (reverse ? 'reverse' : '') + " children active" },
           _react2["default"].Children.map(this.props.children, function (child, index) {
             return _react2["default"].cloneElement(child, {
               activeState: componentStateTree[index],
               handleComponentClick: _this6.handleComponentClick.bind(_this6),
-              level: 1,
+              renderMenuItemContent: renderMenuItemContent,
               onMenuItemClick: onMenuItemClick,
-              reverse: reverse
+              reverse: reverse,
+              level: 1
             });
           })
         );
@@ -341,10 +341,10 @@ var Item = (function (_Component2) {
     key: "onItemClick",
     value: function onItemClick() {
       this.props.handleComponentClick(this.props.activeState);
-      var _props5 = this.props;
-      var onMenuItemClick = _props5.onMenuItemClick;
-      var children = _props5.children;
-      var value = _props5.value;
+      var _props4 = this.props;
+      var onMenuItemClick = _props4.onMenuItemClick;
+      var children = _props4.children;
+      var value = _props4.value;
 
       if (!children || children.length === 0) {
         if (onMenuItemClick) {
@@ -369,6 +369,37 @@ var Item = (function (_Component2) {
       return null;
     }
   }, {
+    key: "handleRenderMenuItemContent",
+    value: function handleRenderMenuItemContent() {
+      var _props5 = this.props;
+      var renderMenuItemContent = _props5.renderMenuItemContent;
+      var children = _props5.children;
+      var theme = _props5.theme;
+      var value = _props5.value;
+      var label = _props5.label;
+      var icon = _props5.icon;
+      var activeState = _props5.activeState;
+      var reverse = _props5.reverse;
+
+      if (renderMenuItemContent) {
+        return renderMenuItemContent({ theme: theme, value: value, label: label });
+      } else {
+        return _react2["default"].createElement(
+          "span",
+          null,
+          icon && _react2["default"].createElement("i", { className: "fa " + icon + " item-icon" }),
+          _react2["default"].createElement(
+            "span",
+            { className: "item-label" },
+            " ",
+            label,
+            " "
+          ),
+          (!theme || theme == 'default') && this.renderChevron(children, activeState, reverse)
+        );
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this7 = this;
@@ -384,6 +415,7 @@ var Item = (function (_Component2) {
       var value = _props6.value;
       var children = _props6.children;
       var reverse = _props6.reverse;
+      var renderMenuItemContent = _props6.renderMenuItemContent;
 
       if (divider) {
         return _react2["default"].createElement(
@@ -398,27 +430,20 @@ var Item = (function (_Component2) {
           { className: "item item-level-" + level + " " + (activeState.active ? 'active' : '') },
           _react2["default"].createElement(
             "div",
-            { className: "item-title " + (reverse ? 'reverse' : ''), onClick: this.onItemClick.bind(this) },
-            icon && _react2["default"].createElement("i", { className: "fa " + icon + " item-icon" }),
-            _react2["default"].createElement(
-              "span",
-              null,
-              " ",
-              label,
-              " "
-            ),
-            (!theme || theme == 'default') && this.renderChevron(children, activeState, reverse)
+            { className: "item-title", onClick: this.onItemClick.bind(this) },
+            this.handleRenderMenuItemContent()
           ),
           children && _react2["default"].createElement(
             "div",
-            { className: "children " + (activeState.active ? 'active' : 'inactive'), style: { paddingLeft: 20 + "px" } },
+            { className: "children " + (activeState.active ? 'active' : 'inactive') },
             _react2["default"].Children.map(children, function (child, index) {
               return _react2["default"].cloneElement(child, {
                 handleComponentClick: _this7.props.handleComponentClick,
                 activeState: activeState.children[index],
-                level: level + 1,
+                renderMenuItemContent: renderMenuItemContent,
                 onMenuItemClick: onMenuItemClick,
-                reverse: reverse
+                reverse: reverse,
+                level: level + 1
               });
             })
           )
