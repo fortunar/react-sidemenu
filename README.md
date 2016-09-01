@@ -40,7 +40,7 @@ You can run examples by yourself. Clone the repo and do:
 | collapse | true | This property gives you the capability to enable or disable collapsing menu when other elements of the menu are clicked. |
 | theme | 'default' | This sets a class for the component that you can use to apply custom styling. The class will be Side-menu-[theme_name]. **Note:** our default theme uses Font-Awesome icons. See [demo](react-sidemenu.demo.com/#custom-theme) for an detailed example.  |
 | renderMenuItemContent(item) | null | This property enables you to provide a custom render method for items. Function is passed one parameter, representing the menu item being rendered. It receives an object with attributes: icon, label and value. [Demo](react-sidemenu.demo.com/#custom-render)|
-| onMenuItemClick | `(item) => window.location.href = '#' +item.value` | This property enables you to provide custom onClick method for items. The function gets passed one parameter which is the value of the clicked item. If you do not provide an onMenuItemClick. [Demo](react-sidemenu.demo.com/#custom-click) |
+| onMenuItemClick | `(value) => window.location.href = '#' +value` | This property enables you to provide custom onClick method for items. The function gets passed one parameter which is the value of the clicked item. If you do not provide an onMenuItemClick. [Demo](react-sidemenu.demo.com/#custom-click) |
 | rtl | false | This property enables you to use the sidemenu in a right-to-left page. [Example](react-sidemenu.demo.com/#rtl) |
 
 < Item > - this component is for the non-JSON config of the menu
