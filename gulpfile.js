@@ -38,6 +38,6 @@ initGulpTasks(gulp, taskConfig);
 console.log(process.env.PORT);
 // for serving the examples on Heroku
 gulp.task('serve-prod', serve({
-  root: ['example/dist'],
-  port: process.env.PORT
+  root: ['./example/dist'],
+  port: (process.env.PORT || 8080 )
 }));
