@@ -20,15 +20,23 @@ export class SideMenu extends Component {
   }
 
   buildComponentStateTree(children, parent) {
+    const { activeItem } = this.props;
+
     return React.Children.map(children, (child) => {
       const newChild = {};
       let subTree = [];
+
+      newChild.active = false;
+      newChild.parent = parent;
+
+      if (activeItem == child.props.value) {
+        this.activateParentsComponentTree(newChild);
+      }
+
       if (child.props.children) {
         subTree = this.buildComponentStateTree(child.props.children, newChild);
       }
       newChild.children = subTree;
-      newChild.active = false;
-      newChild.parent = parent;
 
       return newChild;
     });
@@ -78,15 +86,25 @@ export class SideMenu extends Component {
   }
 
   buildTree(children, parent) {
+    const { activeItem } = this.props;
+
     return children.map((child) => {
       const newChild = { ...child };
       let subTree = [];
+
+      newChild.parent = parent;
+      newChild.active = false;
+
+      if (newChild.value == activeItem) {
+          newChild.active = true;
+          this.activeParentPath(newChild);
+      }
+
       if (child.children) {
         subTree = this.buildTree(child.children, newChild);
       }
       newChild.children = subTree;
-      newChild.parent = parent;
-      newChild.active = false;
+
       return newChild;
     });
   }
