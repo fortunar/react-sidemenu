@@ -11,15 +11,40 @@
 	<script src="https://use.fontawesome.com/4e5876b62f.js"></script>
 </head>
 <body>
-    <nav class="navbar navbar-default">
+  <!-- <nav class="navbar navbar-default">
     <div class="container-fluid">
       <div class="navbar-header">
         <a class="navbar-brand" href="#">react-sidemenu</a>
       </div>
     </div>
-  </nav>
-  <div class="container">
+  </nav> -->
+	<div class="jumbotron">
+		<h2>react-sidemenu</h2>
+		<img src="https://cdn.auth0.com/blog/react-js/react.png" width="150" height="150" />
+		<h4>Lightweight side menu component written in React.js. No jQuery, just CSS3.</h4>
+		<ul>
+			<li>Pure React.js, no external dependencies</li>
+			<li>Configure with JSON or via React components</li>
+			<li>Packed with default ready-to-use styling</li>
+			<li>Easy to customize styling guide</li>
+			<li>Support of custom properties</li>
+			<li>Detailed <a href="https://github.com/banomaster/react-sidemenu">documentation</a>
+			<li><a href="#examples" id="examples-link">Examples</a></li>
+		</ul>
+		<div class="logo-list">
+			<a href="https://github.com/banomaster/react-sidemenu">
+				<img src="https://cdn0.iconfinder.com/data/icons/octicons/1024/mark-github-256.png"/ width="20" height="20"/>
+			</a>
+			<a href="https://www.npmjs.com/package/react-sidemenu">
+				<img src="http://realityonweb.com/wp-content/uploads/2015/06/npm.logo_.png"/ height="20"/>
+			</a>
+		</div>
+	</div>
+  <div class="container" id="examples">
 		<div class="row">
+			<div class="col-xs-12">
+				<h4>Base example</h4>
+			</div>
 			<div class="col-xs-12 col-sm-6 col-md-4">
 		    <div id="example-normal" style="display: inline-block; width: 100%; margin-right: 100px;vertical-align: top;"></div>
 			</div>
@@ -110,6 +135,9 @@
 		</div>
 
 		<div class="row">
+			<div class="col-xs-12">
+				<h4>No collapse example</h4>
+			</div>
 			<div class="col-xs-12 col-sm-6 col-md-4">
 		    <div id="example-no-collapse" style="display: inline-block; width: 100%; margin-right: 100px;vertical-align: top;"></div>
 			</div>
@@ -200,6 +228,9 @@
 		</div>
 
 		<div class="row">
+			<div class="col-xs-12">
+				<h4>Custom rendering example</h4>
+			</div>
 			<div class="col-xs-12 col-sm-6 col-md-4">
 		    <div id="example-custom-render" style="display: inline-block; width: 100%; margin-right: 100px;vertical-align: top;"></div>
 			</div>
@@ -291,6 +322,9 @@
 		</div>
 
 		<div class="row">
+			<div class="col-xs-12">
+				<h4>Custom click example</h4>
+			</div>
 			<div class="col-xs-12 col-sm-6 col-md-4">
 		    <div id="example-custom-click" style="display: inline-block; width: 100%; margin-right: 100px;vertical-align: top;"></div>
 			</div>
@@ -382,6 +416,9 @@
 		</div>
 
 		<div class="row">
+			<div class="col-xs-12">
+				<h4 class="pull-right">RTL example</h4>
+			</div>
 			<div class="col-xs-12 col-sm-6 col-md-8">
 				<ul class="nav nav-tabs nav-justified">
 					<li role="presentation" class="active"><a href="#rtl-json" aria-controls="rtl-json" role="tab" data-toggle="tab">JSON structure</a></li>
@@ -479,6 +516,14 @@
 	<script src="example-custom-render.js"></script>
 	<script src="example-custom-click.js"></script>
 	<script src="example-rtl.js"></script>
+	<script>
 
+	$("#examples-link").click(function() {
+		$('html, body').animate({
+				scrollTop: $("#examples").offset().top
+		}, 1000);
+	});
+
+	</script>
 </body>
 </html>
