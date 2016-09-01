@@ -29,7 +29,7 @@ export class SideMenu extends Component {
       newChild.active = false;
       newChild.parent = parent;
 
-      if (activeItem == child.props.value) {
+      if (activeItem === child.props.value) {
         this.activateParentsComponentTree(newChild);
       }
 
@@ -95,9 +95,9 @@ export class SideMenu extends Component {
       newChild.parent = parent;
       newChild.active = false;
 
-      if (newChild.value == activeItem) {
-          newChild.active = true;
-          this.activeParentPath(newChild);
+      if (newChild.value === activeItem) {
+        newChild.active = true;
+        this.activeParentPath(newChild);
       }
 
       if (child.children) {
@@ -262,6 +262,7 @@ SideMenu.propTypes = {
   theme: PropTypes.string,
   collapse: PropTypes.bool,
   rtl: PropTypes.bool,
+  activeItem: PropTypes.string,
 };
 
 SideMenu.defaultProps = {
