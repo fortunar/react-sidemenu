@@ -39,5 +39,5 @@ initGulpTasks(gulp, taskConfig);
 // for serving the examples on Heroku
 gulp.task('serve-prod', serve({
   root: ['example/dist'],
-  port: 80
+  port: 80 
 }));
