@@ -50,15 +50,23 @@ var SideMenu = (function (_Component) {
     value: function buildComponentStateTree(children, parent) {
       var _this = this;
 
+      var activeItem = this.props.activeItem;
+
       return _react2["default"].Children.map(children, function (child) {
         var newChild = {};
         var subTree = [];
+
+        newChild.active = false;
+        newChild.parent = parent;
+
+        if (activeItem === child.props.value) {
+          _this.activateParentsComponentTree(newChild);
+        }
+
         if (child.props.children) {
           subTree = _this.buildComponentStateTree(child.props.children, newChild);
         }
         newChild.children = subTree;
-        newChild.active = false;
-        newChild.parent = parent;
 
         return newChild;
       });
@@ -128,9 +136,9 @@ var SideMenu = (function (_Component) {
         newChild.parent = parent;
         newChild.active = false;
 
-        if (newChild.value == activeItem) {
+        if (newChild.value === activeItem) {
           newChild.active = true;
-          activeParentPath(newChild);
+          _this3.activeParentPath(newChild);
         }
 
         if (child.children) {
@@ -329,7 +337,8 @@ SideMenu.propTypes = {
   renderMenuItemContent: _react.PropTypes.func,
   theme: _react.PropTypes.string,
   collapse: _react.PropTypes.bool,
-  rtl: _react.PropTypes.bool
+  rtl: _react.PropTypes.bool,
+  activeItem: _react.PropTypes.string
 };
 
 SideMenu.defaultProps = {
