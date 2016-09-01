@@ -44,3 +44,8 @@ gulp.task('server', function() {
         open: true
     }));
 });
+
+gulp.task('copy_favicon', function() {
+   gulp.src('./example/src/favicon.ico')
+   .pipe(gulp.dest('./example/dist'));
+});

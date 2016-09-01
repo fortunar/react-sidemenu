@@ -1,1 +1,1 @@
-web: gulp build:examples; gulp server;
+web: gulp build:examples; gulp copy_favicon gulp server;
