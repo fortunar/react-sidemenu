@@ -23,7 +23,7 @@ ES5 syntax:
     //todo
 
 ##Demo & Examples
-[Demo](react-sidemenu.demo.com) showcasing basic usage with code.
+[Demo](http://react-sidemenu-demo.herokuapp.com/) showcasing basic usage with code.
 
 You can run examples by yourself. Clone the repo and do:
 
@@ -36,7 +36,7 @@ You can run examples by yourself. Clone the repo and do:
 
 |**Option**|**Default**|**Description**|
 | --- | --- | --- |
-| items | null | |
+| items | Property for the JSON version of the component. Read further on for example how to set it. | |
 | collpase | true | This property enables you to enable or disable collapsing menu when other elements of the menu are clicked. |
 | theme | 'default' | This property enables you to set different theme of the menu by providing a themename, where you should have class 'Side-menu-themename' [Example](react-sidemenu.demo.com/#custom-theme)  |
 | renderMenuItemContent(item) | null | This property enables you to provide custom render method for items. Function has one attribute which is the object with attributes icon, label and value. [Example](react-sidemenu.demo.com/#custom-render)|
