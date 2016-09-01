@@ -40,7 +40,9 @@ var SideMenu = (function (_Component) {
     key: "componentWillMount",
     value: function componentWillMount() {
       if (this.props.children) {
-        this.setState({ componentStateTree: this.buildComponentStateTree(this.props.children, null) });
+        this.setState({
+          componentStateTree: this.buildComponentStateTree(this.props.children, null)
+        });
       }
     }
   }, {
@@ -184,7 +186,7 @@ var SideMenu = (function (_Component) {
           self.setState({ itemTree: itemTree });
         }
 
-        //handle what happens if the item is a leaf node
+        // handle what happens if the item is a leaf node
         if (!item.children || item.children.length === 0) {
           if (onMenuItemClick) {
             onMenuItemClick(item.value);
@@ -202,9 +204,8 @@ var SideMenu = (function (_Component) {
           return _react2["default"].createElement("i", { className: "fa fa-chevron-down" });
         } else if (rtl) {
           return _react2["default"].createElement("i", { className: "fa fa-chevron-right" });
-        } else {
-          return _react2["default"].createElement("i", { className: "fa fa-chevron-left" });
         }
+        return _react2["default"].createElement("i", { className: "fa fa-chevron-left" });
       }
       return null;
     }
@@ -217,62 +218,53 @@ var SideMenu = (function (_Component) {
 
       if (renderMenuItemContent) {
         return renderMenuItemContent(item);
-      } else {
-        return _react2["default"].createElement(
-          "span",
-          null,
-          item.icon && _react2["default"].createElement(
-            "i",
-            { className: "fa " + item.icon + " item-icon" },
-            " "
-          ),
-          _react2["default"].createElement(
-            "span",
-            { className: "item-label" },
-            " ",
-            item.label,
-            " "
-          ),
-          this.renderChevron(item, rtl)
-        );
       }
+      return _react2["default"].createElement(
+        "span",
+        null,
+        item.icon && _react2["default"].createElement("i", { className: "fa " + item.icon + " item-icon" }),
+        _react2["default"].createElement(
+          "span",
+          { className: "item-label" },
+          " ",
+          item.label,
+          " "
+        ),
+        this.renderChevron(item, rtl)
+      );
     }
   }, {
     key: "renderItem",
     value: function renderItem(item, level) {
       var _this5 = this;
 
-      var onMenuItemClick = this.props.onMenuItemClick;
-
       if (item.divider) {
         return _react2["default"].createElement(
           "div",
           { key: item.value, className: "divider divider-level-" + level },
-          item.label,
-          " "
-        );
-      } else {
-        return _react2["default"].createElement(
-          "div",
-          {
-            key: item.value,
-            className: "item item-level-" + level + " " + (item.active ? 'active' : '')
-          },
-          _react2["default"].createElement(
-            "div",
-            { className: "item-title",
-              onClick: this.onItemClick(item) },
-            this.handleRenderMenuItemContent(item)
-          ),
-          _react2["default"].createElement(
-            "div",
-            { className: "children " + (item.active ? 'active' : 'inactive') },
-            item.children && item.children.map(function (child) {
-              return _this5.renderItem(child, level + 1);
-            })
-          )
+          item.label
         );
       }
+      return _react2["default"].createElement(
+        "div",
+        {
+          key: item.value,
+          className: "item item-level-" + level + " " + (item.active ? 'active' : '') },
+        _react2["default"].createElement(
+          "div",
+          {
+            className: "item-title",
+            onClick: this.onItemClick(item) },
+          this.handleRenderMenuItemContent(item)
+        ),
+        _react2["default"].createElement(
+          "div",
+          { className: "children " + (item.active ? 'active' : 'inactive') },
+          item.children && item.children.map(function (child) {
+            return _this5.renderItem(child, level + 1);
+          })
+        )
+      );
     }
   }, {
     key: "render",
@@ -297,23 +289,22 @@ var SideMenu = (function (_Component) {
             return _this6.renderItem(item, 1);
           })
         );
-      } else {
-        // sidemenu constructed with react components
-        return _react2["default"].createElement(
-          "div",
-          { className: "Side-menu  Side-menu-" + theme + " " + (rtl ? 'rtl' : '') + " children active" },
-          _react2["default"].Children.map(this.props.children, function (child, index) {
-            return _react2["default"].cloneElement(child, {
-              activeState: componentStateTree[index],
-              handleComponentClick: _this6.handleComponentClick.bind(_this6),
-              renderMenuItemContent: renderMenuItemContent,
-              onMenuItemClick: onMenuItemClick,
-              rtl: rtl,
-              level: 1
-            });
-          })
-        );
       }
+      // sidemenu constructed with react components
+      return _react2["default"].createElement(
+        "div",
+        { className: "Side-menu  Side-menu-" + theme + " " + (rtl ? 'rtl' : '') + " children active" },
+        _react2["default"].Children.map(this.props.children, function (child, index) {
+          return _react2["default"].cloneElement(child, {
+            activeState: componentStateTree[index],
+            handleComponentClick: _this6.handleComponentClick.bind(_this6),
+            renderMenuItemContent: renderMenuItemContent,
+            onMenuItemClick: onMenuItemClick,
+            rtl: rtl,
+            level: 1
+          });
+        })
+      );
     }
   }]);
 
@@ -321,6 +312,15 @@ var SideMenu = (function (_Component) {
 })(_react.Component);
 
 exports.SideMenu = SideMenu;
+
+SideMenu.propTypes = {
+  items: _react.PropTypes.array,
+  onMenuItemClick: _react.PropTypes.func,
+  renderMenuItemContent: _react.PropTypes.func,
+  theme: _react.PropTypes.string,
+  collapse: _react.PropTypes.bool,
+  rtl: _react.PropTypes.bool
+};
 
 SideMenu.defaultProps = {
   collapse: true,
@@ -362,9 +362,8 @@ var Item = (function (_Component2) {
           return _react2["default"].createElement("i", { className: "fa fa-chevron-down" });
         } else if (rtl) {
           return _react2["default"].createElement("i", { className: "fa fa-chevron-right" });
-        } else {
-          return _react2["default"].createElement("i", { className: "fa fa-chevron-left" });
         }
+        return _react2["default"].createElement("i", { className: "fa fa-chevron-left" });
       }
       return null;
     }
@@ -382,21 +381,20 @@ var Item = (function (_Component2) {
 
       if (renderMenuItemContent) {
         return renderMenuItemContent({ icon: icon, value: value, label: label });
-      } else {
-        return _react2["default"].createElement(
-          "span",
-          null,
-          icon && _react2["default"].createElement("i", { className: "fa " + icon + " item-icon" }),
-          _react2["default"].createElement(
-            "span",
-            { className: "item-label" },
-            " ",
-            label,
-            " "
-          ),
-          this.renderChevron(children, activeState, rtl)
-        );
       }
+      return _react2["default"].createElement(
+        "span",
+        null,
+        icon && _react2["default"].createElement("i", { className: "fa " + icon + " item-icon" }),
+        _react2["default"].createElement(
+          "span",
+          { className: "item-label" },
+          " ",
+          label,
+          " "
+        ),
+        this.renderChevron(children, activeState, rtl)
+      );
     }
   }, {
     key: "render",
@@ -407,10 +405,8 @@ var Item = (function (_Component2) {
       var label = _props6.label;
       var activeState = _props6.activeState;
       var level = _props6.level;
-      var icon = _props6.icon;
       var onMenuItemClick = _props6.onMenuItemClick;
       var divider = _props6.divider;
-      var value = _props6.value;
       var children = _props6.children;
       var rtl = _props6.rtl;
       var renderMenuItemContent = _props6.renderMenuItemContent;
@@ -422,31 +418,30 @@ var Item = (function (_Component2) {
           label,
           " "
         );
-      } else {
-        return _react2["default"].createElement(
-          "div",
-          { className: "item item-level-" + level + " " + (activeState.active ? 'active' : '') },
-          _react2["default"].createElement(
-            "div",
-            { className: "item-title", onClick: this.onItemClick.bind(this) },
-            this.handleRenderMenuItemContent()
-          ),
-          children && _react2["default"].createElement(
-            "div",
-            { className: "children " + (activeState.active ? 'active' : 'inactive') },
-            _react2["default"].Children.map(children, function (child, index) {
-              return _react2["default"].cloneElement(child, {
-                handleComponentClick: _this7.props.handleComponentClick,
-                activeState: activeState.children[index],
-                renderMenuItemContent: renderMenuItemContent,
-                onMenuItemClick: onMenuItemClick,
-                rtl: rtl,
-                level: level + 1
-              });
-            })
-          )
-        );
       }
+      return _react2["default"].createElement(
+        "div",
+        { className: "item item-level-" + level + " " + (activeState.active ? 'active' : '') },
+        _react2["default"].createElement(
+          "div",
+          { className: "item-title", onClick: this.onItemClick.bind(this) },
+          this.handleRenderMenuItemContent()
+        ),
+        children && _react2["default"].createElement(
+          "div",
+          { className: "children " + (activeState.active ? 'active' : 'inactive') },
+          _react2["default"].Children.map(children, function (child, index) {
+            return _react2["default"].cloneElement(child, {
+              handleComponentClick: _this7.props.handleComponentClick,
+              activeState: activeState.children[index],
+              renderMenuItemContent: renderMenuItemContent,
+              onMenuItemClick: onMenuItemClick,
+              rtl: rtl,
+              level: level + 1
+            });
+          })
+        )
+      );
     }
   }]);
 
@@ -454,6 +449,19 @@ var Item = (function (_Component2) {
 })(_react.Component);
 
 exports.Item = Item;
+
+Item.propTypes = {
+  label: _react.PropTypes.string,
+  value: _react.PropTypes.string,
+  activeState: _react.PropTypes.object,
+  level: _react.PropTypes.number,
+  icon: _react.PropTypes.string,
+  rtl: _react.PropTypes.bool,
+  onMenuItemClick: _react.PropTypes.func,
+  handleComponentClick: _react.PropTypes.func,
+  renderMenuItemContent: _react.PropTypes.func,
+  divider: _react.PropTypes.bool
+};
 /* render a simple label */ /* render children */ /* render icon if provided*/ /* render a simple label*/
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})

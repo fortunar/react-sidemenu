@@ -28,7 +28,7 @@ let Example1 = React.createClass({
 			<div>
 				<SideMenu
 				items={items}
-				reverse={true}
+				reverse={false}
 				/>
 			</div>
 		)
