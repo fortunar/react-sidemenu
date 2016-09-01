@@ -1,1 +1,1 @@
-web: gulp build:examples; gulp serve-prod;
+web: gulp build:examples; gulp server;

@@ -38,7 +38,7 @@
     "eslint-plugin-react": "^6.2.0",
     "eslint-plugin-standard": "^2.0.0",
     "gulp": "^3.9.1",
-    "gulp-serve": "^1.4.0",
+    "gulp-webserver": "^0.9.1",
     "react-component-gulp-tasks": "^0.7.7",
     "react-dom": "^15.2.1"
   },

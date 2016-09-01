@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var initGulpTasks = require('react-component-gulp-tasks');
-var serve = require('gulp-serve');
+var webserver = require('gulp-webserver');
+
 
 var taskConfig = {
   component: {
@@ -35,9 +36,11 @@ var taskConfig = {
 }
 
 initGulpTasks(gulp, taskConfig);
-console.log(process.env.PORT);
-// for serving the examples on Heroku
-gulp.task('serve-prod', serve({
-  root: ['./example/dist'],
-  port: (process.env.PORT || 8080 )
-}));
+gulp.task('server', function() {
+    return gulp.src('./example/dist').pipe(webserver({
+        host: '0.0.0.0',
+        port: process.env.PORT || 8080,
+        https: false,
+        open: true
+    }));
+});
