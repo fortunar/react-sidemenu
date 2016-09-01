@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var initGulpTasks = require('react-component-gulp-tasks');
+var serve = require('gulp-serve');
 
 var taskConfig = {
   component: {
@@ -34,3 +35,9 @@ var taskConfig = {
 }
 
 initGulpTasks(gulp, taskConfig);
+
+// for serving the examples on Heroku
+gulp.task('serve-prod', serve({
+  root: ['example/dist'],
+  port: 3031
+}));
