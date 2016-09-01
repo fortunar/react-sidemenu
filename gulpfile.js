@@ -28,6 +28,7 @@ var taskConfig = {
       'example-no-collapse.js',
       'example-normal.js',
       'example-rtl.js',
+      'example-custom-theme.js'
     ],
     less: [
       'app.less'

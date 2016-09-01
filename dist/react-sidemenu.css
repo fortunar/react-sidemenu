@@ -113,3 +113,6 @@
 .Side-menu.Side-menu-default .item.item-level-1.active {
   border-left: 4px solid #C4EAF2;
 }
+.Side-menu-custom .item {
+  background-color: #333;
+}
