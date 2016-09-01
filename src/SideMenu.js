@@ -1,19 +1,10 @@
-import React, {Component, PropTypes} from 'react';
+import React, { Component, PropTypes } from 'react';
 
 export class SideMenu extends Component {
 
-  propTypes: {
-    items: PropTypes.array,
-    onMenuItemClick: PropTypes.func,
-    renderMenuItemContent: PropTypes.func,
-    theme: PropTypes.string,
-    collapse: PropTypes.bool,
-    rtl: PropTypes.bool
-  }
-
   constructor(props, defaultProps) {
-   super(props, defaultProps);
-   this.state = {items: [], componentStateTree: []};
+    super(props, defaultProps);
+    this.state = { items: [], componentStateTree: [] };
   }
 
   //
@@ -22,13 +13,15 @@ export class SideMenu extends Component {
 
   componentWillMount() {
     if (this.props.children) {
-      this.setState({componentStateTree: this.buildComponentStateTree(this.props.children, null)});
+      this.setState({
+        componentStateTree: this.buildComponentStateTree(this.props.children, null),
+      });
     }
   }
 
   buildComponentStateTree(children, parent) {
     return React.Children.map(children, (child) => {
-      let newChild = {}
+      const newChild = {};
       let subTree = [];
       if (child.props.children) {
         subTree = this.buildComponentStateTree(child.props.children, newChild);
@@ -42,8 +35,8 @@ export class SideMenu extends Component {
   }
 
   handleComponentClick(item) {
-    const {collapse} = this.props;
-    const {componentStateTree} = this.state;
+    const { collapse } = this.props;
+    const { componentStateTree } = this.state;
     const activeBefore = item.active;
 
     // collapse
@@ -51,7 +44,7 @@ export class SideMenu extends Component {
       this.deactivateComponentTree(componentStateTree);
     }
     this.activateParentsComponentTree(item, activeBefore);
-    this.setState({componentStateTree: componentStateTree});
+    this.setState({ componentStateTree: componentStateTree });
   }
 
   activateParentsComponentTree(item, activeBefore) {
@@ -77,16 +70,16 @@ export class SideMenu extends Component {
   //
 
   componentDidMount() {
-    const {items} = this.props;
+    const { items } = this.props;
 
     if (items) {
-      this.setState({itemTree: this.buildTree(items, null)});
+      this.setState({ itemTree: this.buildTree(items, null) });
     }
   }
 
   buildTree(children, parent) {
     return children.map((child) => {
-      let newChild = {...child}
+      const newChild = { ...child };
       let subTree = [];
       if (child.children) {
         subTree = this.buildTree(child.children, newChild);
@@ -115,9 +108,9 @@ export class SideMenu extends Component {
     }
   }
 
-  onItemClick (item) {
-    const {itemTree} = this.state;
-    const {onMenuItemClick, collapse} = this.props;
+  onItemClick(item) {
+    const { itemTree } = this.state;
+    const { onMenuItemClick, collapse } = this.props;
     const self = this;
     return (e) => {
       e.stopPropagation();
@@ -131,7 +124,7 @@ export class SideMenu extends Component {
         }
         item.active = true;
         self.activeParentPath(item);
-        self.setState({itemTree: itemTree});
+        self.setState({ itemTree: itemTree });
       } else {
         item.active = false;
         // if menu is in collapse mode, close only
@@ -141,10 +134,10 @@ export class SideMenu extends Component {
         if (item.parent) {
           self.activeParentPath(item.parent);
         }
-        self.setState({itemTree: itemTree});
+        self.setState({ itemTree: itemTree });
       }
 
-      //handle what happens if the item is a leaf node
+      // handle what happens if the item is a leaf node
       if (!item.children || item.children.length === 0) {
         if (onMenuItemClick) {
           onMenuItemClick(item.value);
@@ -152,55 +145,54 @@ export class SideMenu extends Component {
           window.location.href = `#${item.value}`;
         }
       }
-    }
+    };
   }
 
-  renderChevron (item, rtl) {
+  renderChevron(item, rtl) {
     if (item.children && item.children.length > 0) {
       if (item.active) {
-        return (<i className="fa fa-chevron-down"></i>);
+        return (<i className="fa fa-chevron-down" />);
       } else if (rtl) {
-        return (<i className="fa fa-chevron-right"></i>);
-      } else {
-        return (<i className="fa fa-chevron-left"></i>);
+        return (<i className="fa fa-chevron-right" />);
       }
+      return (<i className="fa fa-chevron-left" />);
     }
     return null;
   }
 
-  handleRenderMenuItemContent (item) {
-    const {renderMenuItemContent, rtl} = this.props;
+  handleRenderMenuItemContent(item) {
+    const { renderMenuItemContent, rtl } = this.props;
     if (renderMenuItemContent) {
       return renderMenuItemContent(item);
     }
-    else {
-      return (
-        <span>
-          {item.icon &&
-            <i className={`fa ${item.icon} item-icon`}> </i>
-          }
-          {/* render a simple label */}
-          <span className="item-label"> {item.label} </span>
-          {this.renderChevron(item, rtl)}
-        </span>
-      );
-    }
+    return (
+      <span>
+        {item.icon &&
+          <i className={`fa ${item.icon} item-icon`} />
+        }
+        {/* render a simple label */}
+        <span className="item-label"> { item.label } </span>
+        { this.renderChevron(item, rtl) }
+      </span>
+    );
   }
 
   renderItem(item, level) {
-    const {onMenuItemClick} = this.props;
-
     if (item.divider) {
-      return (<div key={item.value} className={`divider divider-level-${level}`}>{item.label} </div>);
+      return (
+        <div key={item.value} className={`divider divider-level-${level}`}>
+          { item.label }
+        </div>
+      );
     }
-    else {
-      return (<div
+    return (
+      <div
         key={item.value}
-        className={`item item-level-${level} ${item.active ? 'active': ''}`}
-        >
-        <div className={`item-title`}
-        onClick={this.onItemClick(item)}>
-          {this.handleRenderMenuItemContent(item)}
+        className={`item item-level-${level} ${item.active ? 'active' : ''}`}>
+        <div
+          className="item-title"
+          onClick={this.onItemClick(item)}>
+          { this.handleRenderMenuItemContent(item) }
         </div>
         {/* render children */}
         <div className={`children ${item.active ? 'active' : 'inactive'}`}>
@@ -208,13 +200,13 @@ export class SideMenu extends Component {
             this.renderItem(child, level + 1)
           )}
         </div>
-      </div>);
-    }
+      </div>
+    );
   }
 
   render() {
-    const {itemTree, componentStateTree} = this.state;
-    const {theme, onMenuItemClick, rtl, renderMenuItemContent} = this.props;
+    const { itemTree, componentStateTree } = this.state;
+    const { theme, onMenuItemClick, rtl, renderMenuItemContent } = this.props;
 
 
     if (!this.props.children) {
@@ -226,47 +218,45 @@ export class SideMenu extends Component {
           )}
         </div>
       );
-    } else {
-      // sidemenu constructed with react components
-      return (
-        <div className={`Side-menu  Side-menu-${theme} ${rtl ? 'rtl' : ''} children active`}>
-          { React.Children.map(this.props.children, (child, index) => {
-              return React.cloneElement(child, {
-                activeState: componentStateTree[index],
-                handleComponentClick: this.handleComponentClick.bind(this),
-                renderMenuItemContent: renderMenuItemContent,
-                onMenuItemClick: onMenuItemClick,
-                rtl: rtl,
-                level: 1
-              })
-          })}
-        </div>
-      )
     }
+    // sidemenu constructed with react components
+    return (
+      <div className={`Side-menu  Side-menu-${theme} ${rtl ? 'rtl' : ''} children active`}>
+        { React.Children.map(this.props.children, (child, index) => {
+          return React.cloneElement(child, {
+            activeState: componentStateTree[index],
+            handleComponentClick: this.handleComponentClick.bind(this),
+            renderMenuItemContent: renderMenuItemContent,
+            onMenuItemClick: onMenuItemClick,
+            rtl: rtl,
+            level: 1,
+          });
+        })}
+      </div>
+    );
   }
 }
+
+SideMenu.propTypes = {
+  items: PropTypes.array,
+  onMenuItemClick: PropTypes.func,
+  renderMenuItemContent: PropTypes.func,
+  theme: PropTypes.string,
+  collapse: PropTypes.bool,
+  rtl: PropTypes.bool,
+};
 
 SideMenu.defaultProps = {
   collapse: true,
   rtl: false,
-  theme: 'default'
-}
+  theme: 'default',
+};
 
 export class Item extends Component {
 
-  propTypes : {
-    label: PropTypes.string,
-    value: PropTypes.string,
-    activeState: PropTypes.object,
-    level: PropTypes.number,
-    icon: PropTypes.string,
-    devider: PropTypes.bool,
-    rtl: PropTypes.bool
-  }
-
   onItemClick() {
     this.props.handleComponentClick(this.props.activeState);
-    const {onMenuItemClick, children, value} = this.props;
+    const { onMenuItemClick, children, value } = this.props;
     if (!children || children.length === 0) {
       if (onMenuItemClick) {
         onMenuItemClick(value);
@@ -276,78 +266,84 @@ export class Item extends Component {
     }
   }
 
-  renderChevron (children, activeState, rtl) {
+  renderChevron(children, activeState, rtl) {
     if (children) {
       if (activeState.active) {
-        return (<i className="fa fa-chevron-down"></i>);
+        return (<i className="fa fa-chevron-down" />);
       } else if (rtl) {
-        return (<i className="fa fa-chevron-right"></i>);
-      } else {
-        return (<i className="fa fa-chevron-left"></i>);
+        return (<i className="fa fa-chevron-right" />);
       }
+      return (<i className="fa fa-chevron-left" />);
     }
     return null;
   }
 
-  handleRenderMenuItemContent () {
-    const {renderMenuItemContent, children, value, label, icon, activeState, rtl} = this.props;
+  handleRenderMenuItemContent() {
+    const { renderMenuItemContent, children, value, label, icon, activeState, rtl } = this.props;
     if (renderMenuItemContent) {
-      return renderMenuItemContent({icon: icon, value: value, label: label});
+      return renderMenuItemContent({ icon: icon, value: value, label: label });
     }
-    else {
-      return (
-        <span>
-          {/* render icon if provided*/}
-          {icon &&
-            <i className={`fa ${icon} item-icon`}></i>
-          }
-          {/* render a simple label*/}
-          <span className="item-label"> {label} </span>
-          { this.renderChevron(children, activeState, rtl) }
-        </span>
-      );
-    }
+    return (
+      <span>
+        {/* render icon if provided*/}
+        {icon &&
+          <i className={`fa ${icon} item-icon`} />
+        }
+        {/* render a simple label*/}
+        <span className="item-label"> {label} </span>
+        { this.renderChevron(children, activeState, rtl) }
+      </span>
+    );
   }
 
   render() {
-    const {label,
+    const { label,
       activeState,
       level,
-      icon,
       onMenuItemClick,
       divider,
-      value,
       children,
       rtl,
-      renderMenuItemContent} = this.props;
+      renderMenuItemContent } = this.props;
 
     if (divider) {
       return (
         <div className={`divider divider-level-${level}`}>{label} </div>
-      )
-    } else {
-      return (
-        <div className={`item item-level-${level} ${activeState.active ? 'active': ''}`}>
-          <div className={`item-title`} onClick={this.onItemClick.bind(this)}>
-            {this.handleRenderMenuItemContent()}
-          </div>
-          {children &&
-          <div className={`children ${activeState.active ? 'active' : 'inactive'}`}>
-            { React.Children.map(children, (child, index) => {
-                return React.cloneElement(child, {
-                  handleComponentClick: this.props.handleComponentClick,
-                  activeState: activeState.children[index],
-                  renderMenuItemContent: renderMenuItemContent,
-                  onMenuItemClick: onMenuItemClick,
-                  rtl: rtl,
-                  level: level + 1
-                })
-            })}
-          </div>}
-        </div>
-      )
+      );
     }
-
+    return (
+      <div className={`item item-level-${level} ${activeState.active ? 'active' : ''}`}>
+        <div className="item-title" onClick={this.onItemClick.bind(this)}>
+          {this.handleRenderMenuItemContent()}
+        </div>
+        {children &&
+          <div className={`children ${activeState.active ? 'active' : 'inactive'}`}>
+            {React.Children.map(children, (child, index) => {
+              return React.cloneElement(child, {
+                handleComponentClick: this.props.handleComponentClick,
+                activeState: activeState.children[index],
+                renderMenuItemContent: renderMenuItemContent,
+                onMenuItemClick: onMenuItemClick,
+                rtl: rtl,
+                level: level + 1,
+              });
+            })}
+          </div>
+        }
+      </div>
+    );
   }
-
 }
+
+Item.propTypes = {
+  label: PropTypes.string,
+  value: PropTypes.string,
+  activeState: PropTypes.object,
+  level: PropTypes.number,
+  icon: PropTypes.string,
+  rtl: PropTypes.bool,
+  onMenuItemClick: PropTypes.func,
+  handleComponentClick: PropTypes.func,
+  renderMenuItemContent: PropTypes.func,
+  divider: PropTypes.bool,
+};

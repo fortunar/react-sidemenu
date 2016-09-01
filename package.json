@@ -24,10 +24,19 @@
     "url": "https://github.com/banomaster/react-sidemenu/issues"
   },
   "homepage": "https://github.com/banomaster/react-sidemenu#readme",
-  "dependencies" : {
+  "dependencies": {
     "react": "^15.2.1"
   },
   "devDependencies": {
+    "babel-eslint": "^6.1.2",
+    "eslint": "^3.4.0",
+    "eslint-config-airbnb": "^10.0.1",
+    "eslint-config-standard": "^6.0.0",
+    "eslint-plugin-import": "^1.14.0",
+    "eslint-plugin-jsx-a11y": "^2.2.1",
+    "eslint-plugin-promise": "^2.0.1",
+    "eslint-plugin-react": "^6.2.0",
+    "eslint-plugin-standard": "^2.0.0",
     "gulp": "^3.9.1",
     "react-component-gulp-tasks": "^0.7.7",
     "react-dom": "^15.2.1"
