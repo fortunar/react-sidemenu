@@ -74,43 +74,56 @@
 .Side-menu .item .children {
   padding-left: 25px;
 }
-.Side-menu.Side-menu-default {
+.Side-menu-custom .divider {
+  background-color: #ABABAB;
+  font-weight: 600;
+}
+.Side-menu-custom .item {
+  background-color: #CCC;
+}
+.Side-menu-custom .item.item-level-1 .item-label {
+  font-style: italic;
+}
+.Side-menu-custom .item.item-level-2 .item-label {
+  font-size: 10px;
+}
+.Side-menu-default {
   background-color: #222D32;
   color: #B8C7CE;
 }
-.Side-menu.Side-menu-default *:not(i) {
+.Side-menu-default *:not(i) {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300;
 }
-.Side-menu.Side-menu-default .divider {
+.Side-menu-default .divider {
   background-color: #1A2226;
   color: #4A636E;
   text-transform: uppercase;
 }
-.Side-menu.Side-menu-default .item a {
+.Side-menu-default .item a {
   text-decoration: none;
   color: #B8C7CE;
 }
-.Side-menu.Side-menu-default .item.active {
+.Side-menu-default .item.active {
   color: white;
 }
-.Side-menu.Side-menu-default .item.active .children {
+.Side-menu-default .item.active .children {
   color: #B8C7CE;
 }
-.Side-menu.Side-menu-default .item.active > .item-title > a {
+.Side-menu-default .item.active > .item-title > a {
   color: white;
 }
-.Side-menu.Side-menu-default .item:hover > .item-title {
+.Side-menu-default .item:hover > .item-title {
   color: white;
 }
-.Side-menu.Side-menu-default .item:hover > .item-title a {
+.Side-menu-default .item:hover > .item-title a {
   color: white;
 }
-.Side-menu.Side-menu-default .item.item-level-1:hover > .item-title {
+.Side-menu-default .item.item-level-1:hover > .item-title {
   background-color: #435863;
 }
-.Side-menu.Side-menu-default .item.item-level-1:hover,
-.Side-menu.Side-menu-default .item.item-level-1.active {
+.Side-menu-default .item.item-level-1:hover,
+.Side-menu-default .item.item-level-1.active {
   border-left: 4px solid #C4EAF2;
 }
 body {
@@ -131,4 +144,17 @@ body {
 .jumbotron .logo-list a {
   text-decoration: none !important;
   margin: 0 8px;
+}
+.Side-menu-custom .divider {
+  background-color: #ABABAB;
+  font-weight: 600;
+}
+.Side-menu-custom .item {
+  background-color: #CCC;
+}
+.Side-menu-custom .item.item-level-1 .item-label {
+  font-style: italic;
+}
+.Side-menu-custom .item.item-level-2 .item-label {
+  font-size: 10px;
 }
