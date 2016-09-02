@@ -533,6 +533,99 @@
 
 		<div class="row">
 			<div class="col-xs-12">
+				<h4>Active item exmple</h4>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-4">
+		    <div id="example-active-item" style="display: inline-block; width: 100%; margin-right: 100px;vertical-align: top;"></div>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-8">
+				<ul class="nav nav-tabs nav-justified">
+					<li role="presentation" class="active"><a href="#active-item-json" aria-controls="active-item-json" role="tab" data-toggle="tab">JSON structure</a></li>
+				  <li role="presentation"><a href="#active-item-components" aria-controls="active-item-components" role="tab" data-toggle="tab">React Components structure</a></li>
+				</ul>
+				<div class="tab-content">
+			    <div role="tabpanel" class="tab-pane fade in active" id="active-item-json">
+						<pre><code class="javascript hljs">
+  import React from 'react';
+  import SideMenu from 'react-sidemenu';
+  import ReactDOM from 'react-dom';
+
+  const items = [
+  	{divider: true, label: 'Main navigation', value: 'main-nav'},
+  	{label: 'item 1', value: 'item1', icon: 'fa-search',
+  	children: [
+  		{label: 'item 1.1', value: 'item1.1', icon: 'fa-snapchat',
+  		children: [
+  			{label: 'item 1.1.1', value: 'item1.1.1', icon: 'fa-anchor'},
+  			{label: 'item 1.1.2', value: 'item1.1.2', icon: 'fa-bar-chart'}]},
+  		{label: 'item 1.2', value: 'item1.2'}]},
+  	{label: 'item 2', value: 'item2', icon: 'fa-automobile',
+  	children: [
+  		{label: 'item 2.1', value: 'item2.1',
+  		children: [
+  			{label: 'item 2.1.1', value: 'item2.1.1'},
+  			{label: 'item 2.1.2', value: 'item2.1.2'}]},
+  		{label: 'item 2.2', value: 'item2.2'}]},
+  	{divider: true, label: 'Motors', value: 'motors-nav'},
+  	{label: 'item 3', value: 'item3', icon: 'fa-beer'}
+  ];
+
+  let ExampleActive = React.createClass({
+  	render: function() {
+  		return (
+			&lt;div&gt;
+  		&lt;SideMenu items={items} activeItem=&quot;item1.1&quot; /&gt;
+  		&lt;/div&gt;
+  		)
+  	}
+  });
+
+  ReactDOM.render(<Example1 />, document.getElementById('example-1'));
+			      </code></pre>
+					</div>
+			    <div role="tabpanel" class="tab-pane fade" id="active-item-components">
+						<pre><code class="javascript hljs">
+	import React from 'react';
+	import {SideMenu, Item} from 'react-sidemenu';
+	import ReactDOM from 'react-dom';
+
+	let Example2 = React.createClass({
+		render: function() {
+			return (
+			&lt;div&gt;
+	      &lt;SideMenu activeItem=&quot;item1.1&quot; &gt;
+		&lt;Item divider={true} label=&quot;Segment 1&quot; value=&quot;segment1&quot;/&gt;
+	        &lt;Item label=&quot;Item 1&quot; icon=&quot;fa-search&quot;&gt;
+	          &lt;Item label=&quot;Item 1.1&quot; value=&quot;item1.1&quot; icon=&quot;fa-snapchat&quot;&gt;
+	            &lt;Item label=&quot;Item 1.1.1&quot; value=&quot;item1.1.1&quot; icon=&quot;fa-anchor&quot;/&gt;
+	            &lt;Item label=&quot;Item 1.1.2&quot; value=&quot;item1.1.2&quot; icon=&quot;fa-bar-chart&quot;/&gt;
+	          &lt;/Item&gt;
+	          &lt;Item label=&quot;Item 1.2&quot; value=&quot;item1.2&quot;/&gt;
+	        &lt;/Item&gt;
+	        &lt;Item label=&quot;Item 2&quot; value=&quot;item2&quot; icon=&quot;fa-automobile&quot;&gt;
+	          &lt;Item label=&quot;Item 2.1&quot; value=&quot;item2.1.1&quot;&gt;
+	            &lt;Item label=&quot;Item 2.1.1&quot; value=&quot;item2.1.1&quot;/&gt;
+	            &lt;Item label=&quot;Item 2.1.2&quot; value=&quot;item2.1.2&quot;/&gt;
+	          &lt;/Item&gt;
+	          &lt;Item label=&quot;Item 2.2&quot; value=&quot;item2.2&quot;/&gt;
+	        &lt;/Item&gt;
+		&lt;Item divider={true} label=&quot;Segment 2&quot; value=&quot;segment2&quot;/&gt;
+		&lt;Item label=&quot;Item 3&quot; value=&quot;item3&quot; icon=&quot;fa-beer&quot;/&gt;
+	      &lt;/SideMenu&gt;
+		&lt;/div&gt;
+			)
+		}
+	});
+
+	ReactDOM.render(<ExampleActive />, document.getElementById('example-2'));
+	      </code></pre>
+					</div>
+			  </div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-12">
 				<h4 class="pull-right">RTL example</h4>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-8">
@@ -623,100 +716,6 @@
 		    <div id="example-rtl" style="display: inline-block; width: 100%; margin-right: 100px;vertical-align: top;"></div>
 			</div>
 		</div>
-
-
-			<div class="col-xs-12">
-				<h4 class="pull-right">Active item exmple</h4>
-			</div>
-			<div class="col-xs-12 col-sm-6 col-md-4">
-		    <div id="example-active-item" style="display: inline-block; width: 100%; margin-right: 100px;vertical-align: top;"></div>
-			</div>
-			<div class="col-xs-12 col-sm-6 col-md-8">
-				<ul class="nav nav-tabs nav-justified">
-					<li role="presentation" class="active"><a href="#rtl-json" aria-controls="rtl-json" role="tab" data-toggle="tab">JSON structure</a></li>
-				  <li role="presentation"><a href="#rtl-components" aria-controls="rtl-components" role="tab" data-toggle="tab">React Components structure</a></li>
-				</ul>
-				<div class="tab-content">
-			    <div role="tabpanel" class="tab-pane fade in active" id="rtl-json">
-						<pre><code class="javascript hljs">
-  import React from 'react';
-  import SideMenu from 'react-sidemenu';
-  import ReactDOM from 'react-dom';
-
-  const items = [
-  	{divider: true, label: 'Main navigation', value: 'main-nav'},
-  	{label: 'item 1', value: 'item1', icon: 'fa-search',
-  	children: [
-  		{label: 'item 1.1', value: 'item1.1', icon: 'fa-snapchat',
-  		children: [
-  			{label: 'item 1.1.1', value: 'item1.1.1', icon: 'fa-anchor'},
-  			{label: 'item 1.1.2', value: 'item1.1.2', icon: 'fa-bar-chart'}]},
-  		{label: 'item 1.2', value: 'item1.2'}]},
-  	{label: 'item 2', value: 'item2', icon: 'fa-automobile',
-  	children: [
-  		{label: 'item 2.1', value: 'item2.1',
-  		children: [
-  			{label: 'item 2.1.1', value: 'item2.1.1'},
-  			{label: 'item 2.1.2', value: 'item2.1.2'}]},
-  		{label: 'item 2.2', value: 'item2.2'}]},
-  	{divider: true, label: 'Motors', value: 'motors-nav'},
-  	{label: 'item 3', value: 'item3', icon: 'fa-beer'}
-  ];
-
-  let ExampleActive = React.createClass({
-  	render: function() {
-  		return (
-			&lt;div&gt;
-  		&lt;SideMenu items={items} rtl={true} /&gt;
-  		&lt;/div&gt;
-  		)
-  	}
-  });
-
-  ReactDOM.render(<Example1 />, document.getElementById('example-1'));
-			      </code></pre>
-					</div>
-			    <div role="tabpanel" class="tab-pane fade" id="rtl-components">
-						<pre><code class="javascript hljs">
-	import React from 'react';
-	import {SideMenu, Item} from 'react-sidemenu';
-	import ReactDOM from 'react-dom';
-
-	let Example2 = React.createClass({
-		render: function() {
-			return (
-			&lt;div&gt;
-	      &lt;SideMenu rtl={true} &gt;
-		&lt;Item divider={true} label=&quot;Segment 1&quot; value=&quot;segment1&quot;/&gt;
-	        &lt;Item label=&quot;Item 1&quot; icon=&quot;fa-search&quot;&gt;
-	          &lt;Item label=&quot;Item 1.1&quot; value=&quot;item1.1&quot; icon=&quot;fa-snapchat&quot;&gt;
-	            &lt;Item label=&quot;Item 1.1.1&quot; value=&quot;item1.1.1&quot; icon=&quot;fa-anchor&quot;/&gt;
-	            &lt;Item label=&quot;Item 1.1.2&quot; value=&quot;item1.1.2&quot; icon=&quot;fa-bar-chart&quot;/&gt;
-	          &lt;/Item&gt;
-	          &lt;Item label=&quot;Item 1.2&quot; value=&quot;item1.2&quot;/&gt;
-	        &lt;/Item&gt;
-	        &lt;Item label=&quot;Item 2&quot; value=&quot;item2&quot; icon=&quot;fa-automobile&quot;&gt;
-	          &lt;Item label=&quot;Item 2.1&quot; value=&quot;item2.1.1&quot;&gt;
-	            &lt;Item label=&quot;Item 2.1.1&quot; value=&quot;item2.1.1&quot;/&gt;
-	            &lt;Item label=&quot;Item 2.1.2&quot; value=&quot;item2.1.2&quot;/&gt;
-	          &lt;/Item&gt;
-	          &lt;Item label=&quot;Item 2.2&quot; value=&quot;item2.2&quot;/&gt;
-	        &lt;/Item&gt;
-		&lt;Item divider={true} label=&quot;Segment 2&quot; value=&quot;segment2&quot;/&gt;
-		&lt;Item label=&quot;Item 3&quot; value=&quot;item3&quot; icon=&quot;fa-beer&quot;/&gt;
-	      &lt;/SideMenu&gt;
-		&lt;/div&gt;
-			)
-		}
-	});
-
-	ReactDOM.render(<ExampleActive />, document.getElementById('example-2'));
-	      </code></pre>
-					</div>
-			  </div>
-			</div>
-		</div>
-
   </div>
   <script>hljs.initHighlightingOnLoad();</script>
 	<script src="common.js"></script>
