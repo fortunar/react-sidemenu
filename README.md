@@ -2,6 +2,8 @@
 
 Lightweight side menu component written in React.js. No jQuery, just CSS3.
 
+<img src="https://s18.postimg.org/m1fhnu0wp/react_sidemenu.png" width="300">
+
 ##Features
  - Pure React.js, no external dependencies
  - Configure via JSON or via React components
@@ -23,7 +25,7 @@ ES5 syntax:
     var SideMenu = require('react-slick').SideMenu;
 
 ##Demo & Examples
-[Demo](http://react-sidemenu-demo.herokuapp.com/) showcasing the functionalities & code examples.
+[Demo](http://react-sidemenu-demo.herokuapp.com/) showcasing the functionalities & code examples (wait for it to load a bit as it is on free plan on Heroku).
 
 You can run examples by yourself. Clone the repo and do:
 
