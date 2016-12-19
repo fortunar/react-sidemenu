@@ -25,7 +25,7 @@ ES5 syntax:
     var SideMenu = require('react-slick').SideMenu;
 
 ##Demo & Examples
-[Demo](http://react-sidemenu-demo.herokuapp.com/) showcasing the functionalities & code examples (wait for it to load a bit as it is on free plan on Heroku).
+[Demo](http://react-sidemenu-demo.herokuapp.com/) showcasing the functionalities & code examples (wait for it to load a bit as it is on free plan on Heroku). We use Font Awesome as a CDN for the example icons to show.
 
 You can run examples by yourself. Clone the repo and do:
 
