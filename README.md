@@ -44,7 +44,7 @@ You can run examples by yourself. Clone the repo and do:
 | renderMenuItemContent({ icon: icon, value: value, label: label }) | null | This property enables you to provide a custom render method for items. Function is passed one parameter, representing the menu item being rendered. It receives an object with attributes: icon, label and value. [Demo](http://react-sidemenu-demo.herokuapp.com/)|
 | onMenuItemClick | `(value) => window.location.href = '#' +value` | This property enables you to provide custom onClick method for items. The function gets passed one parameter which is the value of the clicked item. If you do not provide an onMenuItemClick. [Demo](react-sidemenu.demo.com/#custom-click) |
 | rtl | false | This property enables you to use the sidemenu in a right-to-left page. [Example](http://react-sidemenu-demo.herokuapp.com/) |
-| shouldTriggerClickOnParents | null | This property enables triggering 'onMenuItemClick' on parent items that have children. |
+| shouldTriggerClickOnParents | false | This property enables triggering 'onMenuItemClick' on parent items that have children. |
 
 < Item > - this component is for the non-JSON config of the menu
 
