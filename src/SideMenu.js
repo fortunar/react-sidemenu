@@ -128,12 +128,11 @@ export class SideMenu extends Component {
 
   onItemClick(item) {
     const { itemTree } = this.state;
-    const { onMenuItemClick, collapse } = this.props;
+    const { onMenuItemClick, collapse, shouldTriggerClickOnParents } = this.props;
     const self = this;
     return (e) => {
       e.stopPropagation();
       e.nativeEvent.stopImmediatePropagation();
-
       // handle UI changes
       if (!item.active) {
         // if menu is in collapse mode, close all items
@@ -155,8 +154,12 @@ export class SideMenu extends Component {
         self.setState({ itemTree: itemTree });
       }
 
+      // check if item has an onClick method defined
+      if (item.onClick) {
+        item.onClick(item.value);
+      }
       // handle what happens if the item is a leaf node
-      if (!item.children || item.children.length === 0) {
+      else if (!item.children || item.children.length === 0 || shouldTriggerClickOnParents) {
         if (onMenuItemClick) {
           onMenuItemClick(item.value);
         } else {
@@ -224,7 +227,7 @@ export class SideMenu extends Component {
 
   render() {
     const { itemTree, componentStateTree } = this.state;
-    const { theme, onMenuItemClick, rtl, renderMenuItemContent } = this.props;
+    const { theme, onMenuItemClick, rtl, renderMenuItemContent, shouldTriggerClickOnParents } = this.props;
 
 
     if (!this.props.children) {
@@ -246,6 +249,7 @@ export class SideMenu extends Component {
             handleComponentClick: this.handleComponentClick.bind(this),
             renderMenuItemContent: renderMenuItemContent,
             onMenuItemClick: onMenuItemClick,
+            shouldTriggerClickOnParents: shouldTriggerClickOnParents,
             rtl: rtl,
             level: 1,
           });
@@ -275,8 +279,11 @@ export class Item extends Component {
 
   onItemClick() {
     this.props.handleComponentClick(this.props.activeState);
-    const { onMenuItemClick, children, value } = this.props;
-    if (!children || children.length === 0) {
+    const { onMenuItemClick, children, value, shouldTriggerClickOnParents, onClick } = this.props;
+    if (onClick) {
+      onClick(value);
+    }
+    else if (!children || children.length === 0 || shouldTriggerClickOnParents) {
       if (onMenuItemClick) {
         onMenuItemClick(value);
       } else {
@@ -323,7 +330,9 @@ export class Item extends Component {
       divider,
       children,
       rtl,
-      renderMenuItemContent } = this.props;
+      renderMenuItemContent,
+      shouldTriggerClickOnParents
+   } = this.props;
 
     if (divider) {
       return (
@@ -343,6 +352,7 @@ export class Item extends Component {
                 activeState: activeState.children[index],
                 renderMenuItemContent: renderMenuItemContent,
                 onMenuItemClick: onMenuItemClick,
+                shouldTriggerClickOnParents: shouldTriggerClickOnParents,
                 rtl: rtl,
                 level: level + 1,
               });
