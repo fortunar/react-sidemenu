@@ -1,5 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 
+// Random for keys
+
+export const getRandom = () => {
+  return String(Math.random()).substr(2);
+}
+
 export class SideMenu extends Component {
 
   constructor(props, defaultProps) {
@@ -201,14 +207,14 @@ export class SideMenu extends Component {
   renderItem(item, level) {
     if (item.divider) {
       return (
-        <div key={item.value} className={`divider divider-level-${level}`}>
+        <div key={`${item.value}${getRandom()}`} className={`divider divider-level-${level}`}>
           { item.label }
         </div>
       );
     }
     return (
       <div
-        key={item.value}
+        key={`${item.value}${getRandom()}`}
         className={`item item-level-${level} ${item.active ? 'active' : ''}`}>
         <div
           className="item-title"
