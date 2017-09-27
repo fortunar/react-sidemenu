@@ -11,6 +11,15 @@ export class SideMenu extends Component {
   // methods for COMPONENT structure
   //
 
+  componentWillUpdate(nextProps, nextState){
+    if(this.props != nextProps){
+    const { items } = nextProps;    
+      if (items) {
+        this.setState({ itemTree: this.buildTree(items, null) });
+      }
+    }
+  }
+
   componentWillMount() {
     if (this.props.children) {
       this.setState({
