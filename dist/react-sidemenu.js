@@ -37,14 +37,12 @@ var SideMenu = (function (_Component) {
   //
 
   _createClass(SideMenu, [{
-    key: "componentWillUpdate",
-    value: function componentWillUpdate(nextProps, nextState) {
-      if (this.props != nextProps) {
-        var items = nextProps.items;
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(nextProps) {
+      var items = nextProps.items;
 
-        if (items) {
-          this.setState({ itemTree: this.buildTree(items, null) });
-        }
+      if (items) {
+        this.setState({ itemTree: this.buildTree(items, null) });
       }
     }
   }, {
