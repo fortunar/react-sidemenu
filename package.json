@@ -25,7 +25,8 @@
   },
   "homepage": "https://github.com/banomaster/react-sidemenu#readme",
   "dependencies": {
-    "react": "^15.2.1"
+    "react": "^15.2.1",
+    "require-dir": "^0.3.2"
   },
   "devDependencies": {
     "babel-eslint": "^6.1.2",
