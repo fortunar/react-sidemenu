@@ -22,6 +22,14 @@ var _react = (typeof window !== "undefined" ? window['React'] : typeof global !=
 
 var _react2 = _interopRequireDefault(_react);
 
+// Random for keys
+
+var getRandom = function getRandom() {
+  return String(Math.random()).substr(2);
+};
+
+exports.getRandom = getRandom;
+
 var SideMenu = (function (_Component) {
   _inherits(SideMenu, _Component);
 
@@ -272,14 +280,14 @@ var SideMenu = (function (_Component) {
       if (item.divider) {
         return _react2["default"].createElement(
           "div",
-          { key: item.value, className: "divider divider-level-" + level },
+          { key: "" + item.value + getRandom(), className: "divider divider-level-" + level },
           item.label
         );
       }
       return _react2["default"].createElement(
         "div",
         {
-          key: item.value,
+          key: "" + item.value + getRandom(),
           className: "item item-level-" + level + " " + (item.active ? 'active' : '') },
         _react2["default"].createElement(
           "div",
@@ -382,6 +390,8 @@ var Item = (function (_Component2) {
       var shouldTriggerClickOnParents = _props4.shouldTriggerClickOnParents;
       var onClick = _props4.onClick;
       var extras = _props4.extras;
+
+      
 
       if (onClick) {
         onClick(value);
