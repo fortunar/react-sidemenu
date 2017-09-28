@@ -21,6 +21,14 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+// Random for keys
+
+var getRandom = function getRandom() {
+  return String(Math.random()).substr(2);
+};
+
+exports.getRandom = getRandom;
+
 var SideMenu = (function (_Component) {
   _inherits(SideMenu, _Component);
 
@@ -36,6 +44,15 @@ var SideMenu = (function (_Component) {
   //
 
   _createClass(SideMenu, [{
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(nextProps) {
+      var items = nextProps.items;
+
+      if (items) {
+        this.setState({ itemTree: this.buildTree(items, null) });
+      }
+    }
+  }, {
     key: "componentWillMount",
     value: function componentWillMount() {
       if (this.props.children) {
@@ -176,12 +193,12 @@ var SideMenu = (function (_Component) {
       var _props = this.props;
       var onMenuItemClick = _props.onMenuItemClick;
       var collapse = _props.collapse;
+      var shouldTriggerClickOnParents = _props.shouldTriggerClickOnParents;
 
       var self = this;
       return function (e) {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
-
         // handle UI changes
         if (!item.active) {
           // if menu is in collapse mode, close all items
@@ -203,14 +220,18 @@ var SideMenu = (function (_Component) {
           self.setState({ itemTree: itemTree });
         }
 
-        // handle what happens if the item is a leaf node
-        if (!item.children || item.children.length === 0) {
-          if (onMenuItemClick) {
-            onMenuItemClick(item.value);
-          } else {
-            window.location.href = "#" + item.value;
-          }
+        // check if item has an onClick method defined
+        if (item.onClick) {
+          item.onClick(item.value);
         }
+        // handle what happens if the item is a leaf node
+        else if (!item.children || item.children.length === 0 || shouldTriggerClickOnParents) {
+            if (onMenuItemClick) {
+              onMenuItemClick(item.value, item.extras);
+            } else {
+              window.location.href = "#" + item.value;
+            }
+          }
       };
     }
   }, {
@@ -258,14 +279,14 @@ var SideMenu = (function (_Component) {
       if (item.divider) {
         return _react2["default"].createElement(
           "div",
-          { key: item.value, className: "divider divider-level-" + level },
+          { key: "" + item.value + getRandom(), className: "divider divider-level-" + level },
           item.label
         );
       }
       return _react2["default"].createElement(
         "div",
         {
-          key: item.value,
+          key: "" + item.value + getRandom(),
           className: "item item-level-" + level + " " + (item.active ? 'active' : '') },
         _react2["default"].createElement(
           "div",
@@ -296,6 +317,7 @@ var SideMenu = (function (_Component) {
       var onMenuItemClick = _props3.onMenuItemClick;
       var rtl = _props3.rtl;
       var renderMenuItemContent = _props3.renderMenuItemContent;
+      var shouldTriggerClickOnParents = _props3.shouldTriggerClickOnParents;
 
       if (!this.props.children) {
         // sidemenu constructed from json
@@ -317,6 +339,7 @@ var SideMenu = (function (_Component) {
             handleComponentClick: _this6.handleComponentClick.bind(_this6),
             renderMenuItemContent: renderMenuItemContent,
             onMenuItemClick: onMenuItemClick,
+            shouldTriggerClickOnParents: shouldTriggerClickOnParents,
             rtl: rtl,
             level: 1
           });
@@ -363,10 +386,15 @@ var Item = (function (_Component2) {
       var onMenuItemClick = _props4.onMenuItemClick;
       var children = _props4.children;
       var value = _props4.value;
+      var shouldTriggerClickOnParents = _props4.shouldTriggerClickOnParents;
+      var onClick = _props4.onClick;
+      var extras = _props4.extras;
 
-      if (!children || children.length === 0) {
+      if (onClick) {
+        onClick(value);
+      } else if (!children || children.length === 0 || shouldTriggerClickOnParents) {
         if (onMenuItemClick) {
-          onMenuItemClick(value);
+          onMenuItemClick(value, extras);
         } else {
           window.location.href = "#" + value;
         }
@@ -428,6 +456,7 @@ var Item = (function (_Component2) {
       var children = _props6.children;
       var rtl = _props6.rtl;
       var renderMenuItemContent = _props6.renderMenuItemContent;
+      var shouldTriggerClickOnParents = _props6.shouldTriggerClickOnParents;
 
       if (divider) {
         return _react2["default"].createElement(
@@ -454,6 +483,7 @@ var Item = (function (_Component2) {
               activeState: activeState.children[index],
               renderMenuItemContent: renderMenuItemContent,
               onMenuItemClick: onMenuItemClick,
+              shouldTriggerClickOnParents: shouldTriggerClickOnParents,
               rtl: rtl,
               level: level + 1
             });
@@ -478,7 +508,8 @@ Item.propTypes = {
   onMenuItemClick: _react.PropTypes.func,
   handleComponentClick: _react.PropTypes.func,
   renderMenuItemContent: _react.PropTypes.func,
-  divider: _react.PropTypes.bool
+  divider: _react.PropTypes.bool,
+  extras: _react.PropTypes.any
 };
 /* render a simple label */ /* render children */ /* render icon if provided*/ /* render a simple label*/
 
