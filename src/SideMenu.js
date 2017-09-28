@@ -17,6 +17,13 @@ export class SideMenu extends Component {
   // methods for COMPONENT structure
   //
 
+  componentWillReceiveProps(nextProps) {
+    const { items } = nextProps;    
+    if (items) {
+      this.setState({ itemTree: this.buildTree(items, null) });
+    }    
+  }
+
   componentWillMount() {
     if (this.props.children) {
       this.setState({
@@ -166,8 +173,8 @@ export class SideMenu extends Component {
       }
       // handle what happens if the item is a leaf node
       else if (!item.children || item.children.length === 0 || shouldTriggerClickOnParents) {
-        if (onMenuItemClick) {
-          onMenuItemClick(item.value);
+        if (onMenuItemClick) {          
+          onMenuItemClick(item.value, item.extras);
         } else {
           window.location.href = `#${item.value}`;
         }
@@ -285,13 +292,13 @@ export class Item extends Component {
 
   onItemClick() {
     this.props.handleComponentClick(this.props.activeState);
-    const { onMenuItemClick, children, value, shouldTriggerClickOnParents, onClick } = this.props;
+    const { onMenuItemClick, children, value, shouldTriggerClickOnParents, onClick, extras } = this.props;
     if (onClick) {
       onClick(value);
     }
     else if (!children || children.length === 0 || shouldTriggerClickOnParents) {
       if (onMenuItemClick) {
-        onMenuItemClick(value);
+        onMenuItemClick(value, extras);
       } else {
         window.location.href = `#${value}`;
       }
@@ -381,4 +388,5 @@ Item.propTypes = {
   handleComponentClick: PropTypes.func,
   renderMenuItemContent: PropTypes.func,
   divider: PropTypes.bool,
+  extras: PropTypes.any,
 };
