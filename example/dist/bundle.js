@@ -219,7 +219,7 @@ var SideMenu = (function (_Component) {
         // handle what happens if the item is a leaf node
         else if (!item.children || item.children.length === 0 || shouldTriggerClickOnParents) {
             if (onMenuItemClick) {
-              onMenuItemClick(item.value);
+              onMenuItemClick(item.value, item.extras);
             } else {
               window.location.href = "#" + item.value;
             }
@@ -380,12 +380,13 @@ var Item = (function (_Component2) {
       var value = _props4.value;
       var shouldTriggerClickOnParents = _props4.shouldTriggerClickOnParents;
       var onClick = _props4.onClick;
+      var extras = _props4.extras;
 
       if (onClick) {
         onClick(value);
       } else if (!children || children.length === 0 || shouldTriggerClickOnParents) {
         if (onMenuItemClick) {
-          onMenuItemClick(value);
+          onMenuItemClick(value, extras);
         } else {
           window.location.href = "#" + value;
         }
@@ -499,7 +500,8 @@ Item.propTypes = {
   onMenuItemClick: _react.PropTypes.func,
   handleComponentClick: _react.PropTypes.func,
   renderMenuItemContent: _react.PropTypes.func,
-  divider: _react.PropTypes.bool
+  divider: _react.PropTypes.bool,
+  extras: _react.PropTypes.any
 };
 /* render a simple label */ /* render children */ /* render icon if provided*/ /* render a simple label*/
 
