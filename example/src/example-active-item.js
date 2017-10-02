@@ -1,6 +1,7 @@
 import React from 'react';
 import {SideMenu, Item} from 'react-sidemenu';
 import ReactDOM from 'react-dom';
+import createReactClass from 'create-react-class';
 
 const items = [
 	{divider: true, label: 'Segment 1', value: 'segment1'},
@@ -22,7 +23,7 @@ const items = [
 	{label: 'Item 3', value: 'item3', icon: 'fa-beer'}
 ];
 
-let ExampleActiveItem = React.createClass({
+let ExampleActiveItem = createReactClass({
 
   getInitialState: function() {
     return { activeItem: 'item1.1.1'};

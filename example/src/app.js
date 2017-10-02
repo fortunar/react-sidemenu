@@ -1,6 +1,7 @@
 import React from 'react';
 import {SideMenu, Item} from 'react-sidemenu';
 import ReactDOM from 'react-dom';
+import createReactClass from 'create-react-class';
 
 const items = [
 	// by default all items are inactive
@@ -15,7 +16,7 @@ const items = [
 	{label: 'item 3', value: 'item3'}
 ];
 
-let App = React.createClass({
+let App = createReactClass({
 	render: function() {
 		return (
 			<div>

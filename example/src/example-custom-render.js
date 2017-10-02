@@ -1,8 +1,9 @@
 import React from 'react';
 import {SideMenu, Item} from 'react-sidemenu';
 import ReactDOM from 'react-dom';
+import createReactClass from 'create-react-class';
 
-let Example3 = React.createClass({
+let Example3 = createReactClass({
 	render: function() {
 		return (
 			<div>
