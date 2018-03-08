@@ -43,7 +43,7 @@
   <div class="container" id="examples">
 		<div class="row">
 			<div class="col-xs-12">
-				<h4>Base example</h4>
+				<h4 style="margin-top: 0px"><b>Basic example</b></h4>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-4">
 		    <div id="example-normal" style="display: inline-block; width: 100%; margin-right: 100px;vertical-align: top;"></div>
@@ -136,489 +136,21 @@
 
 		<div class="row">
 			<div class="col-xs-12">
-				<h4>No collapse example</h4>
-			</div>
-			<div class="col-xs-12 col-sm-6 col-md-4">
-		    <div id="example-no-collapse" style="display: inline-block; width: 100%; margin-right: 100px;vertical-align: top;"></div>
-			</div>
-			<div class="col-xs-12 col-sm-6 col-md-8">
-				<ul class="nav nav-tabs nav-justified">
-					<li role="presentation" class="active"><a href="#no-collapse-json" aria-controls="no-collapse-json" role="tab" data-toggle="tab">JSON structure</a></li>
-				  <li role="presentation"><a href="#no-collapse-components" aria-controls="no-collapse-components" role="tab" data-toggle="tab">React Components structure</a></li>
-				</ul>
-				<div class="tab-content">
-			    <div role="tabpanel" class="tab-pane fade in active" id="no-collapse-json">
-						<pre><code class="javascript hljs">
-  import React from 'react';
-  import SideMenu from 'react-sidemenu';
-  import ReactDOM from 'react-dom';
-
-  const items = [
-  	{divider: true, label: 'Main navigation', value: 'main-nav'},
-  	{label: 'item 1', value: 'item1', icon: 'fa-search',
-  	children: [
-  		{label: 'item 1.1', value: 'item1.1', icon: 'fa-snapchat',
-  		children: [
-  			{label: 'item 1.1.1', value: 'item1.1.1', icon: 'fa-anchor'},
-  			{label: 'item 1.1.2', value: 'item1.1.2', icon: 'fa-bar-chart'}]},
-  		{label: 'item 1.2', value: 'item1.2'}]},
-  	{label: 'item 2', value: 'item2', icon: 'fa-automobile',
-  	children: [
-  		{label: 'item 2.1', value: 'item2.1',
-  		children: [
-  			{label: 'item 2.1.1', value: 'item2.1.1'},
-  			{label: 'item 2.1.2', value: 'item2.1.2'}]},
-  		{label: 'item 2.2', value: 'item2.2'}]},
-  	{divider: true, label: 'Motors', value: 'motors-nav'},
-  	{label: 'item 3', value: 'item3', icon: 'fa-beer'}
-  ];
-
-  let Example1 = React.createClass({
-  	render: function() {
-  		return (
-&lt;div&gt;
-  				&lt;SideMenu items={items} collapse={false}/&gt;
-  			&lt;/div&gt;
-  		)
-  	}
-  });
-
-  ReactDOM.render(<Example1 />, document.getElementById('example-1'));
-			      </code></pre>
-					</div>
-			    <div role="tabpanel" class="tab-pane fade" id="no-collapse-components">
-						<pre><code class="javascript hljs">
-	import React from 'react';
-	import {SideMenu, Item} from 'react-sidemenu';
-	import ReactDOM from 'react-dom';
-
-	let Example2 = React.createClass({
-		render: function() {
-			return (
-			&lt;div&gt;
-	      &lt;SideMenu collapse={false}&gt;
-		&lt;Item divider={true} label=&quot;Segment 1&quot; value=&quot;segment1&quot;/&gt;
-	        &lt;Item label=&quot;Item 1&quot; icon=&quot;fa-search&quot;&gt;
-	          &lt;Item label=&quot;Item 1.1&quot; value=&quot;item1.1&quot; icon=&quot;fa-snapchat&quot;&gt;
-	            &lt;Item label=&quot;Item 1.1.1&quot; value=&quot;item1.1.1&quot; icon=&quot;fa-anchor&quot;/&gt;
-	            &lt;Item label=&quot;Item 1.1.2&quot; value=&quot;item1.1.2&quot; icon=&quot;fa-bar-chart&quot;/&gt;
-	          &lt;/Item&gt;
-	          &lt;Item label=&quot;Item 1.2&quot; value=&quot;item1.2&quot;/&gt;
-	        &lt;/Item&gt;
-	        &lt;Item label=&quot;Item 2&quot; value=&quot;item2&quot; icon=&quot;fa-automobile&quot;&gt;
-	          &lt;Item label=&quot;Item 2.1&quot; value=&quot;item2.1.1&quot;&gt;
-	            &lt;Item label=&quot;Item 2.1.1&quot; value=&quot;item2.1.1&quot;/&gt;
-	            &lt;Item label=&quot;Item 2.1.2&quot; value=&quot;item2.1.2&quot;/&gt;
-	          &lt;/Item&gt;
-	          &lt;Item label=&quot;Item 2.2&quot; value=&quot;item2.2&quot;/&gt;
-	        &lt;/Item&gt;
-		&lt;Item divider={true} label=&quot;Segment 2&quot; value=&quot;segment2&quot;/&gt;
-		&lt;Item label=&quot;Item 3&quot; value=&quot;item3&quot; icon=&quot;fa-beer&quot;/&gt;
-	      &lt;/SideMenu&gt;
-		&lt;/div&gt;
-			)
-		}
-	});
-
-	ReactDOM.render(<Example2 />, document.getElementById('example-2'));
-	      </code></pre>
-					</div>
-			  </div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-xs-12">
-				<h4>Custom rendering example</h4>
-			</div>
-			<div class="col-xs-12 col-sm-6 col-md-4">
-		    <div id="example-custom-render" style="display: inline-block; width: 100%; margin-right: 100px;vertical-align: top;"></div>
-			</div>
-			<div class="col-xs-12 col-sm-6 col-md-8">
-				<ul class="nav nav-tabs nav-justified">
-					<li role="presentation" class="active"><a href="#custom-render-json" aria-controls="custom-render-json" role="tab" data-toggle="tab">JSON structure</a></li>
-				  <li role="presentation"><a href="#custom-render-components" aria-controls="custom-render-components" role="tab" data-toggle="tab">React Components structure</a></li>
-				</ul>
-				<div class="tab-content">
-			    <div role="tabpanel" class="tab-pane fade in active" id="custom-render-json">
-						<pre><code class="javascript hljs">
-  import React from 'react';
-  import SideMenu from 'react-sidemenu';
-  import ReactDOM from 'react-dom';
-
-  const items = [
-  	{divider: true, label: 'Main navigation', value: 'main-nav'},
-  	{label: 'item 1', value: 'item1', icon: 'fa-search',
-  	children: [
-  		{label: 'item 1.1', value: 'item1.1', icon: 'fa-snapchat',
-  		children: [
-  			{label: 'item 1.1.1', value: 'item1.1.1', icon: 'fa-anchor'},
-  			{label: 'item 1.1.2', value: 'item1.1.2', icon: 'fa-bar-chart'}]},
-  		{label: 'item 1.2', value: 'item1.2'}]},
-  	{label: 'item 2', value: 'item2', icon: 'fa-automobile',
-  	children: [
-  		{label: 'item 2.1', value: 'item2.1',
-  		children: [
-  			{label: 'item 2.1.1', value: 'item2.1.1'},
-  			{label: 'item 2.1.2', value: 'item2.1.2'}]},
-  		{label: 'item 2.2', value: 'item2.2'}]},
-  	{divider: true, label: 'Motors', value: 'motors-nav'},
-  	{label: 'item 3', value: 'item3', icon: 'fa-beer'}
-  ];
-
-  let Example1 = React.createClass({
-  	render: function() {
-  		return (
-			&lt;div&gt;
-  		&lt;SideMenu items={items}
-			renderMenuItemContent={(item) => (&lt;span&gt;&lt;strong style={{color: &quot;red&quot;}}&gt;{item.label}&lt;/strong&gt;&lt;/span&gt;)} /&gt;
-  		&lt;/div&gt;
-  		)
-  	}
-  });
-
-  ReactDOM.render(<Example1 />, document.getElementById('example-1'));
-			      </code></pre>
-					</div>
-			    <div role="tabpanel" class="tab-pane fade" id="custom-render-components">
-						<pre><code class="javascript hljs">
-	import React from 'react';
-	import {SideMenu, Item} from 'react-sidemenu';
-	import ReactDOM from 'react-dom';
-
-	let Example2 = React.createClass({
-		render: function() {
-			return (
-			&lt;div&gt;
-	      &lt;SideMenu renderMenuItemContent={(item) => (&lt;span&gt;&lt;strong style={{color: &quot;red&quot;}}&gt;{item.label}&lt;/strong&gt;&lt;/span&gt;)}&gt;
-		&lt;Item divider={true} label=&quot;Segment 1&quot; value=&quot;segment1&quot;/&gt;
-	        &lt;Item label=&quot;Item 1&quot; icon=&quot;fa-search&quot;&gt;
-	          &lt;Item label=&quot;Item 1.1&quot; value=&quot;item1.1&quot; icon=&quot;fa-snapchat&quot;&gt;
-	            &lt;Item label=&quot;Item 1.1.1&quot; value=&quot;item1.1.1&quot; icon=&quot;fa-anchor&quot;/&gt;
-	            &lt;Item label=&quot;Item 1.1.2&quot; value=&quot;item1.1.2&quot; icon=&quot;fa-bar-chart&quot;/&gt;
-	          &lt;/Item&gt;
-	          &lt;Item label=&quot;Item 1.2&quot; value=&quot;item1.2&quot;/&gt;
-	        &lt;/Item&gt;
-	        &lt;Item label=&quot;Item 2&quot; value=&quot;item2&quot; icon=&quot;fa-automobile&quot;&gt;
-	          &lt;Item label=&quot;Item 2.1&quot; value=&quot;item2.1.1&quot;&gt;
-	            &lt;Item label=&quot;Item 2.1.1&quot; value=&quot;item2.1.1&quot;/&gt;
-	            &lt;Item label=&quot;Item 2.1.2&quot; value=&quot;item2.1.2&quot;/&gt;
-	          &lt;/Item&gt;
-	          &lt;Item label=&quot;Item 2.2&quot; value=&quot;item2.2&quot;/&gt;
-	        &lt;/Item&gt;
-		&lt;Item divider={true} label=&quot;Segment 2&quot; value=&quot;segment2&quot;/&gt;
-		&lt;Item label=&quot;Item 3&quot; value=&quot;item3&quot; icon=&quot;fa-beer&quot;/&gt;
-	      &lt;/SideMenu&gt;
-		&lt;/div&gt;
-			)
-		}
-	});
-
-	ReactDOM.render(<Example2 />, document.getElementById('example-2'));
-	      </code></pre>
-					</div>
-			  </div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-xs-12">
-				<h4>Custom click example</h4>
-			</div>
-			<div class="col-xs-12 col-sm-6 col-md-4">
-		    <div id="example-custom-click" style="display: inline-block; width: 100%; margin-right: 100px;vertical-align: top;"></div>
-			</div>
-			<div class="col-xs-12 col-sm-6 col-md-8">
-				<ul class="nav nav-tabs nav-justified">
-					<li role="presentation" class="active"><a href="#custom-click-json" aria-controls="custom-click-json" role="tab" data-toggle="tab">JSON structure</a></li>
-				  <li role="presentation"><a href="#custom-click-components" aria-controls="custom-click-components" role="tab" data-toggle="tab">React Components structure</a></li>
-				</ul>
-				<div class="tab-content">
-			    <div role="tabpanel" class="tab-pane fade in active" id="custom-click-json">
-						<pre><code class="javascript hljs">
-	import React from 'react';
-  import SideMenu from 'react-sidemenu';
-  import ReactDOM from 'react-dom';
-
-  const items = [
-  	{divider: true, label: 'Main navigation', value: 'main-nav'},
-  	{label: 'item 1', value: 'item1', icon: 'fa-search',
-  	children: [
-  		{label: 'item 1.1', value: 'item1.1', icon: 'fa-snapchat',
-  		children: [
-  			{label: 'item 1.1.1', value: 'item1.1.1', icon: 'fa-anchor'},
-  			{label: 'item 1.1.2', value: 'item1.1.2', icon: 'fa-bar-chart'}]},
-  		{label: 'item 1.2', value: 'item1.2'}]},
-  	{label: 'item 2', value: 'item2', icon: 'fa-automobile',
-  	children: [
-  		{label: 'item 2.1', value: 'item2.1',
-  		children: [
-  			{label: 'item 2.1.1', value: 'item2.1.1'},
-  			{label: 'item 2.1.2', value: 'item2.1.2'}]},
-  		{label: 'item 2.2', value: 'item2.2'}]},
-  	{divider: true, label: 'Motors', value: 'motors-nav'},
-  	{label: 'item 3', value: 'item3', icon: 'fa-beer'}
-  ];
-
-  let Example1 = React.createClass({
-  	render: function() {
-  		return (
-			&lt;div&gt;
-  		&lt;SideMenu items={items}
-			onMenuItemClick={(value) => alert(&quot;You just clicked me: ${value}&quot;)} /&gt;
-  		&lt;/div&gt;
-  		)
-  	}
-  });
-
-  ReactDOM.render(<Example1 />, document.getElementById('example-1'));
-			      </code></pre>
-					</div>
-			    <div role="tabpanel" class="tab-pane fade" id="custom-click-components">
-						<pre><code class="javascript hljs">
-	import React from 'react';
-	import {SideMenu, Item} from 'react-sidemenu';
-	import ReactDOM from 'react-dom';
-
-	let Example2 = React.createClass({
-		render: function() {
-			return (
-			&lt;div&gt;
-	      &lt;SideMenu onMenuItemClick={(value) => alert(&quot;You just clicked me: ${value}&quot;)} &gt;
-		&lt;Item divider={true} label=&quot;Segment 1&quot; value=&quot;segment1&quot;/&gt;
-	        &lt;Item label=&quot;Item 1&quot; icon=&quot;fa-search&quot;&gt;
-	          &lt;Item label=&quot;Item 1.1&quot; value=&quot;item1.1&quot; icon=&quot;fa-snapchat&quot;&gt;
-	            &lt;Item label=&quot;Item 1.1.1&quot; value=&quot;item1.1.1&quot; icon=&quot;fa-anchor&quot;/&gt;
-	            &lt;Item label=&quot;Item 1.1.2&quot; value=&quot;item1.1.2&quot; icon=&quot;fa-bar-chart&quot;/&gt;
-	          &lt;/Item&gt;
-	          &lt;Item label=&quot;Item 1.2&quot; value=&quot;item1.2&quot;/&gt;
-	        &lt;/Item&gt;
-	        &lt;Item label=&quot;Item 2&quot; value=&quot;item2&quot; icon=&quot;fa-automobile&quot;&gt;
-	          &lt;Item label=&quot;Item 2.1&quot; value=&quot;item2.1.1&quot;&gt;
-	            &lt;Item label=&quot;Item 2.1.1&quot; value=&quot;item2.1.1&quot;/&gt;
-	            &lt;Item label=&quot;Item 2.1.2&quot; value=&quot;item2.1.2&quot;/&gt;
-	          &lt;/Item&gt;
-	          &lt;Item label=&quot;Item 2.2&quot; value=&quot;item2.2&quot;/&gt;
-	        &lt;/Item&gt;
-		&lt;Item divider={true} label=&quot;Segment 2&quot; value=&quot;segment2&quot;/&gt;
-		&lt;Item label=&quot;Item 3&quot; value=&quot;item3&quot; icon=&quot;fa-beer&quot;/&gt;
-	      &lt;/SideMenu&gt;
-		&lt;/div&gt;
-			)
-		}
-	});
-
-	ReactDOM.render(<Example2 />, document.getElementById('example-2'));
-	      </code></pre>
-					</div>
-			  </div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-xs-12">
-				<h4>Custom theme example</h4>
-			</div>
-			<div class="col-xs-12 col-sm-6 col-md-4">
-		    <div id="example-custom-theme" style="display: inline-block; width: 100%; margin-right: 100px;vertical-align: top;"></div>
-			</div>
-			<div class="col-xs-12 col-sm-6 col-md-8">
-				<ul class="nav nav-tabs nav-justified">
-					<li role="presentation" class="active"><a href="#custom-theme-json" aria-controls="custom-theme-json" role="tab" data-toggle="tab">JSON structure</a></li>
-				  <li role="presentation"><a href="#custom-theme-components" aria-controls="custom-theme-components" role="tab" data-toggle="tab">React Components structure</a></li>
-					<li role="presentation"><a href="#custom-theme-less" aria-controls="custom-theme-less" role="tab" data-toggle="tab">Custom template less</a></li>
-				</ul>
-				<div class="tab-content">
-			    <div role="tabpanel" class="tab-pane fade in active" id="custom-theme-json">
-						<pre><code class="javascript hljs">
-  import React from 'react';
-  import SideMenu from 'react-sidemenu';
-  import ReactDOM from 'react-dom';
-
-  const items = [
-  	{divider: true, label: 'Main navigation', value: 'main-nav'},
-  	{label: 'item 1', value: 'item1', icon: 'fa-search',
-  	children: [
-  		{label: 'item 1.1', value: 'item1.1', icon: 'fa-snapchat',
-  		children: [
-  			{label: 'item 1.1.1', value: 'item1.1.1', icon: 'fa-anchor'},
-  			{label: 'item 1.1.2', value: 'item1.1.2', icon: 'fa-bar-chart'}]},
-  		{label: 'item 1.2', value: 'item1.2'}]},
-  	{label: 'item 2', value: 'item2', icon: 'fa-automobile',
-  	children: [
-  		{label: 'item 2.1', value: 'item2.1',
-  		children: [
-  			{label: 'item 2.1.1', value: 'item2.1.1'},
-  			{label: 'item 2.1.2', value: 'item2.1.2'}]},
-  		{label: 'item 2.2', value: 'item2.2'}]},
-  	{divider: true, label: 'Motors', value: 'motors-nav'},
-  	{label: 'item 3', value: 'item3', icon: 'fa-beer'}
-  ];
-
-  let Example1 = React.createClass({
-  	render: function() {
-  		return (
-			&lt;div&gt;
-  		&lt;SideMenu items={items} theme='custom' /&gt;
-  		&lt;/div&gt;
-  		)
-  	}
-  });
-
-  ReactDOM.render(<Example1 />, document.getElementById('example-1'));
-			      </code></pre>
-					</div>
-			    <div role="tabpanel" class="tab-pane fade" id="custom-theme-components">
-						<pre><code class="javascript hljs">
-	import React from 'react';
-	import {SideMenu, Item} from 'react-sidemenu';
-	import ReactDOM from 'react-dom';
-
-	let Example2 = React.createClass({
-		render: function() {
-			return (
-			&lt;div&gt;
-	      &lt;SideMenu theme='custom' &gt;
-		&lt;Item divider={true} label=&quot;Segment 1&quot; value=&quot;segment1&quot;/&gt;
-	        &lt;Item label=&quot;Item 1&quot; icon=&quot;fa-search&quot;&gt;
-	          &lt;Item label=&quot;Item 1.1&quot; value=&quot;item1.1&quot; icon=&quot;fa-snapchat&quot;&gt;
-	            &lt;Item label=&quot;Item 1.1.1&quot; value=&quot;item1.1.1&quot; icon=&quot;fa-anchor&quot;/&gt;
-	            &lt;Item label=&quot;Item 1.1.2&quot; value=&quot;item1.1.2&quot; icon=&quot;fa-bar-chart&quot;/&gt;
-	          &lt;/Item&gt;
-	          &lt;Item label=&quot;Item 1.2&quot; value=&quot;item1.2&quot;/&gt;
-	        &lt;/Item&gt;
-	        &lt;Item label=&quot;Item 2&quot; value=&quot;item2&quot; icon=&quot;fa-automobile&quot;&gt;
-	          &lt;Item label=&quot;Item 2.1&quot; value=&quot;item2.1.1&quot;&gt;
-	            &lt;Item label=&quot;Item 2.1.1&quot; value=&quot;item2.1.1&quot;/&gt;
-	            &lt;Item label=&quot;Item 2.1.2&quot; value=&quot;item2.1.2&quot;/&gt;
-	          &lt;/Item&gt;
-	          &lt;Item label=&quot;Item 2.2&quot; value=&quot;item2.2&quot;/&gt;
-	        &lt;/Item&gt;
-		&lt;Item divider={true} label=&quot;Segment 2&quot; value=&quot;segment2&quot;/&gt;
-		&lt;Item label=&quot;Item 3&quot; value=&quot;item3&quot; icon=&quot;fa-beer&quot;/&gt;
-	      &lt;/SideMenu&gt;
-		&lt;/div&gt;
-			)
-		}
-	});
-
-	ReactDOM.render(<Example2 />, document.getElementById('example-2'));
-	      </code></pre>
-					</div>
-					<div role="tabpanel" class="tab-pane fade" id="custom-theme-less">
-						<pre><code class="javascript hljs">
-	.Side-menu-custom {
-	  .divider {
-	    background-color: #ABABAB;
-	    font-weight: 600;
-	  }
-
-	  .item {
-	    background-color: #CCC;
-
-	    &.item-level-1 .item-label {
-	      font-style: italic;
-	    }
-
-	    &.item-level-2 .item-label {
-	      font-size: 10px;
-	    }
-	  }
-	}
-	      		</code></pre>
-					</div>
-			  </div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-xs-12">
-				<h4>Active item exmple</h4>
+				<b>
+					<h4><b>Active item exmple</b></h4>
+				</b>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-4">
 		    <div id="example-active-item" style="display: inline-block; width: 100%; margin-right: 100px;vertical-align: top;"></div>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-8">
 				<ul class="nav nav-tabs nav-justified">
-					<li role="presentation" class="active"><a href="#active-item-json" aria-controls="active-item-json" role="tab" data-toggle="tab">JSON structure</a></li>
-				  <li role="presentation"><a href="#active-item-components" aria-controls="active-item-components" role="tab" data-toggle="tab">React Components structure</a></li>
+					<li role="presentation" class="active"><a href="#active-item-json" aria-controls="active-item-json" role="tab" data-toggle="tab">Active item exmple code</a></li>
 				</ul>
 				<div class="tab-content">
 			    <div role="tabpanel" class="tab-pane fade in active" id="active-item-json">
-						<pre><code class="javascript hljs">
-  import React from 'react';
-  import SideMenu from 'react-sidemenu';
-  import ReactDOM from 'react-dom';
-
-  const items = [
-  	{divider: true, label: 'Main navigation', value: 'main-nav'},
-  	{label: 'item 1', value: 'item1', icon: 'fa-search',
-  	children: [
-  		{label: 'item 1.1', value: 'item1.1', icon: 'fa-snapchat',
-  		children: [
-  			{label: 'item 1.1.1', value: 'item1.1.1', icon: 'fa-anchor'},
-  			{label: 'item 1.1.2', value: 'item1.1.2', icon: 'fa-bar-chart'}]},
-  		{label: 'item 1.2', value: 'item1.2'}]},
-  	{label: 'item 2', value: 'item2', icon: 'fa-automobile',
-  	children: [
-  		{label: 'item 2.1', value: 'item2.1',
-  		children: [
-  			{label: 'item 2.1.1', value: 'item2.1.1'},
-  			{label: 'item 2.1.2', value: 'item2.1.2'}]},
-  		{label: 'item 2.2', value: 'item2.2'}]},
-  	{divider: true, label: 'Motors', value: 'motors-nav'},
-  	{label: 'item 3', value: 'item3', icon: 'fa-beer'}
-  ];
-
-  let ExampleActive = React.createClass({
-  	render: function() {
-  		return (
-			&lt;div&gt;
-  		&lt;SideMenu items={items} activeItem=&quot;item1.1&quot; /&gt;
-  		&lt;/div&gt;
-  		)
-  	}
-  });
-
-  ReactDOM.render(<Example1 />, document.getElementById('example-1'));
+						<pre><code class="javascript hljs">&lt;SideMenu items={items} activeItem=&quot;item1.1&quot; /&gt;
 			      </code></pre>
-					</div>
-			    <div role="tabpanel" class="tab-pane fade" id="active-item-components">
-						<pre><code class="javascript hljs">
-	import React from 'react';
-	import {SideMenu, Item} from 'react-sidemenu';
-	import ReactDOM from 'react-dom';
-
-	let Example2 = React.createClass({
-		render: function() {
-			return (
-			&lt;div&gt;
-	      &lt;SideMenu activeItem=&quot;item1.1&quot; &gt;
-		&lt;Item divider={true} label=&quot;Segment 1&quot; value=&quot;segment1&quot;/&gt;
-	        &lt;Item label=&quot;Item 1&quot; icon=&quot;fa-search&quot;&gt;
-	          &lt;Item label=&quot;Item 1.1&quot; value=&quot;item1.1&quot; icon=&quot;fa-snapchat&quot;&gt;
-	            &lt;Item label=&quot;Item 1.1.1&quot; value=&quot;item1.1.1&quot; icon=&quot;fa-anchor&quot;/&gt;
-	            &lt;Item label=&quot;Item 1.1.2&quot; value=&quot;item1.1.2&quot; icon=&quot;fa-bar-chart&quot;/&gt;
-	          &lt;/Item&gt;
-	          &lt;Item label=&quot;Item 1.2&quot; value=&quot;item1.2&quot;/&gt;
-	        &lt;/Item&gt;
-	        &lt;Item label=&quot;Item 2&quot; value=&quot;item2&quot; icon=&quot;fa-automobile&quot;&gt;
-	          &lt;Item label=&quot;Item 2.1&quot; value=&quot;item2.1.1&quot;&gt;
-	            &lt;Item label=&quot;Item 2.1.1&quot; value=&quot;item2.1.1&quot;/&gt;
-	            &lt;Item label=&quot;Item 2.1.2&quot; value=&quot;item2.1.2&quot;/&gt;
-	          &lt;/Item&gt;
-	          &lt;Item label=&quot;Item 2.2&quot; value=&quot;item2.2&quot;/&gt;
-	        &lt;/Item&gt;
-		&lt;Item divider={true} label=&quot;Segment 2&quot; value=&quot;segment2&quot;/&gt;
-		&lt;Item label=&quot;Item 3&quot; value=&quot;item3&quot; icon=&quot;fa-beer&quot;/&gt;
-	      &lt;/SideMenu&gt;
-		&lt;/div&gt;
-			)
-		}
-	});
-
-	ReactDOM.render(<ExampleActive />, document.getElementById('example-2'));
-	      </code></pre>
 					</div>
 			  </div>
 			</div>
@@ -626,94 +158,130 @@
 
 		<div class="row">
 			<div class="col-xs-12">
-				<h4 class="pull-right">RTL example</h4>
+				<b>
+				<h4><b>No collapse example</b></h4>
+				</b>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-4">
+		    <div id="example-no-collapse" style="display: inline-block; width: 100%; margin-right: 100px;vertical-align: top;"></div>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-8">
 				<ul class="nav nav-tabs nav-justified">
-					<li role="presentation" class="active"><a href="#rtl-json" aria-controls="rtl-json" role="tab" data-toggle="tab">JSON structure</a></li>
-				  <li role="presentation"><a href="#rtl-components" aria-controls="rtl-components" role="tab" data-toggle="tab">React Components structure</a></li>
+					<li role="presentation" class="active"><a href="#no-collapse-json" aria-controls="no-collapse-json" role="tab" data-toggle="tab">No collapse example code</a></li>
 				</ul>
 				<div class="tab-content">
-			    <div role="tabpanel" class="tab-pane fade in active" id="rtl-json">
-						<pre><code class="javascript hljs">
-  import React from 'react';
-  import SideMenu from 'react-sidemenu';
-  import ReactDOM from 'react-dom';
-
-  const items = [
-  	{divider: true, label: 'Main navigation', value: 'main-nav'},
-  	{label: 'item 1', value: 'item1', icon: 'fa-search',
-  	children: [
-  		{label: 'item 1.1', value: 'item1.1', icon: 'fa-snapchat',
-  		children: [
-  			{label: 'item 1.1.1', value: 'item1.1.1', icon: 'fa-anchor'},
-  			{label: 'item 1.1.2', value: 'item1.1.2', icon: 'fa-bar-chart'}]},
-  		{label: 'item 1.2', value: 'item1.2'}]},
-  	{label: 'item 2', value: 'item2', icon: 'fa-automobile',
-  	children: [
-  		{label: 'item 2.1', value: 'item2.1',
-  		children: [
-  			{label: 'item 2.1.1', value: 'item2.1.1'},
-  			{label: 'item 2.1.2', value: 'item2.1.2'}]},
-  		{label: 'item 2.2', value: 'item2.2'}]},
-  	{divider: true, label: 'Motors', value: 'motors-nav'},
-  	{label: 'item 3', value: 'item3', icon: 'fa-beer'}
-  ];
-
-  let Example1 = React.createClass({
-  	render: function() {
-  		return (
-			&lt;div&gt;
-  		&lt;SideMenu items={items} rtl={true} /&gt;
-  		&lt;/div&gt;
-  		)
-  	}
-  });
-
-  ReactDOM.render(<Example1 />, document.getElementById('example-1'));
+			    <div role="tabpanel" class="tab-pane fade in active" id="no-collapse-json">
+						<pre><code class="javascript hljs">&lt;SideMenu items={items} collapse={false}/&gt;
 			      </code></pre>
 					</div>
-			    <div role="tabpanel" class="tab-pane fade" id="rtl-components">
-						<pre><code class="javascript hljs">
-	import React from 'react';
-	import {SideMenu, Item} from 'react-sidemenu';
-	import ReactDOM from 'react-dom';
+			    
+			  </div>
+			</div>
+		</div>
 
-	let Example2 = React.createClass({
-		render: function() {
-			return (
-			&lt;div&gt;
-	      &lt;SideMenu rtl={true} &gt;
-		&lt;Item divider={true} label=&quot;Segment 1&quot; value=&quot;segment1&quot;/&gt;
-	        &lt;Item label=&quot;Item 1&quot; icon=&quot;fa-search&quot;&gt;
-	          &lt;Item label=&quot;Item 1.1&quot; value=&quot;item1.1&quot; icon=&quot;fa-snapchat&quot;&gt;
-	            &lt;Item label=&quot;Item 1.1.1&quot; value=&quot;item1.1.1&quot; icon=&quot;fa-anchor&quot;/&gt;
-	            &lt;Item label=&quot;Item 1.1.2&quot; value=&quot;item1.1.2&quot; icon=&quot;fa-bar-chart&quot;/&gt;
-	          &lt;/Item&gt;
-	          &lt;Item label=&quot;Item 1.2&quot; value=&quot;item1.2&quot;/&gt;
-	        &lt;/Item&gt;
-	        &lt;Item label=&quot;Item 2&quot; value=&quot;item2&quot; icon=&quot;fa-automobile&quot;&gt;
-	          &lt;Item label=&quot;Item 2.1&quot; value=&quot;item2.1.1&quot;&gt;
-	            &lt;Item label=&quot;Item 2.1.1&quot; value=&quot;item2.1.1&quot;/&gt;
-	            &lt;Item label=&quot;Item 2.1.2&quot; value=&quot;item2.1.2&quot;/&gt;
-	          &lt;/Item&gt;
-	          &lt;Item label=&quot;Item 2.2&quot; value=&quot;item2.2&quot;/&gt;
-	        &lt;/Item&gt;
-		&lt;Item divider={true} label=&quot;Segment 2&quot; value=&quot;segment2&quot;/&gt;
-		&lt;Item label=&quot;Item 3&quot; value=&quot;item3&quot; icon=&quot;fa-beer&quot;/&gt;
-	      &lt;/SideMenu&gt;
-		&lt;/div&gt;
-			)
+		<div class="row">
+			<div class="col-xs-12">
+				<b>
+				<h4><b>Custom rendering example</b></h4>
+				</b>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-4">
+		    <div id="example-custom-render" style="display: inline-block; width: 100%; margin-right: 100px;vertical-align: top;"></div>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-8">
+				<ul class="nav nav-tabs nav-justified">
+					<li role="presentation" class="active"><a href="#custom-render-json" aria-controls="custom-render-json" role="tab" data-toggle="tab">Custom rendering example code</a></li>
+				</ul>
+				<div class="tab-content">
+			    <div role="tabpanel" class="tab-pane fade in active" id="custom-render-json">
+						<pre><code class="javascript hljs">&lt;SideMenu items={items} renderMenuItemContent={(item) => 
+(&lt;span&gt;&lt;strong style={{color: &quot;red&quot;}}&gt;{item.label}&lt;/strong&gt;&lt;/span&gt;)} /&gt;
+
+			      </code></pre>
+					</div>
+			  </div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-12">
+				<b>
+				<h4><b>Custom click example</b></h4>
+				</b>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-4">
+		    <div id="example-custom-click" style="display: inline-block; width: 100%; margin-right: 100px;vertical-align: top;"></div>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-8">
+				<ul class="nav nav-tabs nav-justified">
+					<li role="presentation" class="active"><a href="#custom-click-json" aria-controls="custom-click-json" role="tab" data-toggle="tab">Custom Click Code</a></li>
+				</ul>
+				<div class="tab-content">
+			    <div role="tabpanel" class="tab-pane fade in active" id="custom-click-json">
+						<pre><code class="javascript hljs">&lt;SideMenu items={items} onMenuItemClick={(value) => alert(&quot;You just clicked me: ${value}&quot;)} /&gt;
+			      </code></pre>
+					</div>
+			    
+			  </div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-12">
+				<h4><b>Custom theme example</b></h4>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-4">
+		    <div id="example-custom-theme" style="display: inline-block; width: 100%; margin-right: 100px;vertical-align: top;"></div>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-8">
+				<ul class="nav nav-tabs nav-justified">
+						<li role="presentation" class="active"><a href="#custom-theme-less" aria-controls="custom-theme-less" role="tab" data-toggle="tab">Custom template less code</a></li>
+				</ul>
+				<div class="tab-content">
+						<div role="tabpanel" class="tab-pane fade in active" id="custom-theme-less">
+								<pre><code class="css hljs">
+.Side-menu-custom {
+	.divider {
+		background-color: #ABABAB;
+		font-weight: 600;
+	}
+
+	.item {
+		background-color: #CCC;
+
+		&.item-level-1 .item-label {
+			font-style: italic;
 		}
-	});
 
-	ReactDOM.render(<Example2 />, document.getElementById('example-2'));
-	      </code></pre>
+		&.item-level-2 .item-label {
+			font-size: 10px;
+		}
+	}
+}
+								</code></pre>
+							</div>
+			  </div>
+			</div>
+		</div>
+
+		
+
+		<div class="row">
+			<div class="col-xs-12">
+				<h4 class="pull-right"><b>RTL example</b></h4>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-8">
+				<ul class="nav nav-tabs nav-justified">
+						<li role="presentation" class="active"><a href="#crtl-components"role="tab" data-toggle="tab">RTL example code</a></li>
+				</ul>
+				<div class="tab-content">
+			    <div role="tabpanel" class="tab-pane fade in active" id="rtl-components">
+						<pre><code class="jsx hljs">&lt;SideMenu rtl={true}/&gt;</code></pre>
 					</div>
 			  </div>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-4">
-		    <div id="example-rtl" style="display: inline-block; width: 100%; margin-right: 100px;vertical-align: top;"></div>
+		    <div id="example-rtl" style="display: inline-block; width: 100%; margin-right: 100px;vertical-align: top; margin-bottom: 100px"></div>
 			</div>
 		</div>
   </div>

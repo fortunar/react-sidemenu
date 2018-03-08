@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-// Random for keys
-
-export const getRandom = () => {
-  return String(Math.random()).substr(2);
-}
 
 export class SideMenu extends Component {
 
   constructor(props, defaultProps) {
     super(props, defaultProps);
-    this.state = { items: [], componentStateTree: [] };
+    this.state = { items: [], componentStateTree: [], activeItem: this.props.activeItem };
+    this.onClickDictionary = {};
   }
 
   //
@@ -22,7 +18,12 @@ export class SideMenu extends Component {
     const { items } = nextProps;    
     if (items) {
       this.setState({ itemTree: this.buildTree(items, null) });
-    }    
+    }
+    if (this.state.activeItem != nextProps.activeItem) {
+      if (this.onClickDictionary[nextProps.activeItem]) {
+        this.onClickDictionary[nextProps.activeItem]();
+      }
+    }
   }
 
   componentWillMount() {
@@ -145,8 +146,10 @@ export class SideMenu extends Component {
     const { onMenuItemClick, collapse, shouldTriggerClickOnParents } = this.props;
     const self = this;
     return (e) => {
-      e.stopPropagation();
-      e.nativeEvent.stopImmediatePropagation();
+      if (e) {
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+      }
       // handle UI changes
       if (!item.active) {
         // if menu is in collapse mode, close all items
@@ -174,12 +177,14 @@ export class SideMenu extends Component {
       }
       // handle what happens if the item is a leaf node
       else if (!item.children || item.children.length === 0 || shouldTriggerClickOnParents) {
-        if (onMenuItemClick) {          
+        if (onMenuItemClick) {
           onMenuItemClick(item.value, item.extras);
         } else {
           window.location.href = `#${item.value}`;
         }
       }
+
+      this.setState({...this.state, activeItem: item.value});
     };
   }
 
@@ -215,14 +220,15 @@ export class SideMenu extends Component {
   renderItem(item, level) {
     if (item.divider) {
       return (
-        <div key={`${item.value}${getRandom()}`} className={`divider divider-level-${level}`}>
+        <div key={item.value} className={`divider divider-level-${level}`}>
           { item.label }
         </div>
       );
     }
+    this.onClickDictionary[item.value] = this.onItemClick(item);
     return (
       <div
-        key={`${item.value}${getRandom()}`}
+        key={item.value}
         className={`item item-level-${level} ${item.active ? 'active' : ''}`}>
         <div
           className="item-title"
@@ -243,7 +249,7 @@ export class SideMenu extends Component {
     const { itemTree, componentStateTree } = this.state;
     const { theme, onMenuItemClick, rtl, renderMenuItemContent, shouldTriggerClickOnParents } = this.props;
 
-
+    const sidemenuComponent = this;
     if (!this.props.children) {
       // sidemenu constructed from json
       return (
@@ -266,6 +272,7 @@ export class SideMenu extends Component {
             shouldTriggerClickOnParents: shouldTriggerClickOnParents,
             rtl: rtl,
             level: 1,
+            sidemenuComponent: sidemenuComponent
           });
         })}
       </div>
@@ -293,7 +300,7 @@ export class Item extends Component {
 
   onItemClick() {
     this.props.handleComponentClick(this.props.activeState);
-    const { onMenuItemClick, children, value, shouldTriggerClickOnParents, onClick, extras } = this.props;
+    const { onMenuItemClick, children, value, shouldTriggerClickOnParents, onClick, extras, sidemenuComponent } = this.props;
     if (onClick) {
       onClick(value);
     }
@@ -303,6 +310,9 @@ export class Item extends Component {
       } else {
         window.location.href = `#${value}`;
       }
+    }
+    if (sidemenuComponent) {
+      sidemenuComponent.setState({...sidemenuComponent.state, activeItem: value});
     }
   }
 
@@ -345,13 +355,18 @@ export class Item extends Component {
       children,
       rtl,
       renderMenuItemContent,
-      shouldTriggerClickOnParents
+      shouldTriggerClickOnParents,
+      value,
+      sidemenuComponent
    } = this.props;
 
     if (divider) {
       return (
         <div className={`divider divider-level-${level}`}>{label} </div>
       );
+    }
+    if (sidemenuComponent) {
+      sidemenuComponent.onClickDictionary[value] = this.onItemClick.bind(this);
     }
     return (
       <div className={`item item-level-${level} ${activeState.active ? 'active' : ''}`}>
@@ -369,6 +384,7 @@ export class Item extends Component {
                 shouldTriggerClickOnParents: shouldTriggerClickOnParents,
                 rtl: rtl,
                 level: level + 1,
+                sidemenuComponent: sidemenuComponent
               });
             })}
           </div>
@@ -389,5 +405,4 @@ Item.propTypes = {
   handleComponentClick: PropTypes.func,
   renderMenuItemContent: PropTypes.func,
   divider: PropTypes.bool,
-  extras: PropTypes.any,
 };

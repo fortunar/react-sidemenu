@@ -39,6 +39,7 @@ You can run examples by yourself. Clone the repo and do:
 |**Option**|**Default**|**Description**|
 | --- | --- | --- |
 | items | null | Property for the JSON configuration of the component SideMenu component. Check out the [demo](http://react-sidemenu-demo.herokuapp.com/) to find out how it works. |
+| activeItem | null | Preset starting active item. Also used for opening and closing menu items from code (e.g. from a button). |
 | collapse | true | This property gives you the capability to enable or disable collapsing menu when other elements of the menu are clicked. |
 | theme | 'default' | This sets a class for the component that you can use to apply custom styling. The class will be Side-menu-[theme_name]. **Note:** our default theme uses Font Awesome icons. See [demo](http://react-sidemenu-demo.herokuapp.com/) for an detailed example.  |
 | renderMenuItemContent({ icon: icon, value: value, label: label }) | null | This property enables you to provide a custom render method for items. Function is passed one parameter, representing the menu item being rendered. It receives an object with attributes: icon, label and value. [Demo](http://react-sidemenu-demo.herokuapp.com/)|

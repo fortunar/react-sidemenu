@@ -7,6 +7,9 @@ let Example4 = createReactClass({
 	render: function() {
 		return (
 			<div>
+				<p>
+          You can bind custom click events on menu cell clicks. Default behavior changes href in URL.
+        </p>
 	      <SideMenu onMenuItemClick={(value) => alert(`You just clicked me: ${value}`)}>
 					<Item divider={true} label="Segment 1" value="segment1"/>
 	        <Item label="Item 1" icon="fa-search">

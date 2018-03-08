@@ -7,6 +7,9 @@ let Example3 = createReactClass({
 	render: function() {
 		return (
 			<div>
+				<p>
+          You can render custom menu item cells.
+        </p>
 	      <SideMenu renderMenuItemContent={(item) => (<span><strong style={{color: 'red'}}>{item.label}</strong></span>)}>
 					<Item divider={true} label="Segment 1" value="segment1"/>
 	        <Item label="Item 1" icon="fa-search">

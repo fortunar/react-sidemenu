@@ -7,6 +7,9 @@ let ExampleTheme = createReactClass({
 	render: function() {
 		return (
 			<div>
+				<p>
+          You can style the menu any way you want. Follow our less template on your right.
+        </p>
 	      <SideMenu theme='custom'>
 					<Item divider={true} label="Segment 1" value="segment1"/>
 	        <Item label="Item 1" icon="fa-search">

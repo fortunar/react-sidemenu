@@ -7,6 +7,9 @@ let Example2 = createReactClass({
 	render: function() {
 		return (
 			<div>
+				<p>
+          This propery controls whether sections of menu collapse when you click on other items.
+        </p>
 	      <SideMenu collapse={false}>
 					<Item divider={true} label="Segment 1" value="segment1"/>
 	        <Item label="Item 1" icon="fa-search">
