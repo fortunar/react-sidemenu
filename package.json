@@ -46,5 +46,8 @@
   },
   "browserify-shim": {
     "react": "global:React"
+  },
+  "engines": {
+    "node": "6.13.1"
   }
 }
