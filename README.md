@@ -2,7 +2,7 @@
 
 Lightweight side menu component written in React.js. No jQuery, just CSS3.
 
-<img src="https://s18.postimg.org/m1fhnu0wp/react_sidemenu.png" width="300">
+<img src="https://image.ibb.co/kEYBhe/Screen_Shot_2018_08_17_at_9_24_09_AM.png" width="300">
 
 ## Features
  - Pure React.js, no external dependencies
