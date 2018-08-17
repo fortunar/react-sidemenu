@@ -1,3 +1,4 @@
+
 # react-sidemenu
 
 Lightweight side menu component written in React.js. No jQuery, just CSS3.
@@ -23,7 +24,7 @@ ES6 syntax:
 ES5 syntax:
 
     var SideMenu = require('react-sidemenu').SideMenu;
-
+**Styling:** To use default styling include `react-sidemenu.css`  to your project. For an idea on how to customize styling see [Demo](http://react-sidemenu-demo.herokuapp.com/).
 ## Demo & Examples
 [Demo](http://react-sidemenu-demo.herokuapp.com/) showcasing the functionalities & code examples (wait for it to load a bit as it is on free plan on Heroku). We use Font Awesome as a CDN for the example icons to show.
 
