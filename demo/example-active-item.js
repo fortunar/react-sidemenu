@@ -1,16 +1,14 @@
-import React from 'react';
-import {SideMenu, Item} from 'react-sidemenu';
-import ReactDOM from 'react-dom';
-import createReactClass from 'create-react-class';
+import React, {Component} from 'react';
+import SideMenu, {Item} from 'src';
 
-let ExampleActiveItem = createReactClass({
+export default class ExampleActiveItem extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {activeItem : 'item1.1.1'};
+  }
 
-  getInitialState: function() {
-    return { activeItem: 'item1.1.1'};
-  },
-
-	render: function() {
-		return (
+  render() {
+    return (
 			<div>
         <p>
           <b>activeItem</b> propery presets the active menu item and opens all the necessary parents.
@@ -41,8 +39,6 @@ let ExampleActiveItem = createReactClass({
           <Item label="Item 3" value="item3" icon="fa-beer"/>
         </SideMenu>
 			</div>
-		)
-	}
-});
-
-ReactDOM.render(<ExampleActiveItem />, document.getElementById('example-active-item'));
+		);
+  }
+}

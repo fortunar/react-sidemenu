@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-
-export class SideMenu extends Component {
+export default class SideMenu extends Component {
 
   constructor(props, defaultProps) {
     super(props, defaultProps);

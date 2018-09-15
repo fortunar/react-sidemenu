@@ -1,16 +1,14 @@
-import React from 'react';
-import {SideMenu, Item} from 'react-sidemenu';
-import ReactDOM from 'react-dom';
-import createReactClass from 'create-react-class';
+import React, {Component} from 'react';
+import SideMenu, {Item} from 'src';
 
-let Example2 = createReactClass({
-	render: function() {
+export default class ExampleCustomTheme extends Component {
+	render() {
 		return (
 			<div>
 				<p>
-          This propery controls whether sections of menu collapse when you click on other items.
+          You can style the menu any way you want. Follow our less template on your right.
         </p>
-	      <SideMenu collapse={false}>
+	      <SideMenu theme='custom'>
 					<Item divider={true} label="Segment 1" value="segment1"/>
 	        <Item label="Item 1" icon="fa-search">
 	          <Item label="Item 1.1" value="item1.1" icon="fa-snapchat">
@@ -30,8 +28,6 @@ let Example2 = createReactClass({
 					<Item label="Item 3" value="item3" icon="fa-beer"/>
 	      </SideMenu>
 			</div>
-		)
+		);
 	}
-});
-
-ReactDOM.render(<Example2 />, document.getElementById('example-no-collapse'));
+}

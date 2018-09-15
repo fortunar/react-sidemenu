@@ -1,7 +1,5 @@
-import React from 'react';
-import {SideMenu} from 'react-sidemenu';
-import ReactDOM from 'react-dom';
-import createReactClass from 'create-react-class';
+import React, {Component} from 'react';
+import SideMenu from 'src';
 
 const items = [
 	{divider: true, label: 'Segment 1', value: 'segment1'},
@@ -23,8 +21,8 @@ const items = [
 	{label: 'Item 3', value: 'item3', icon: 'fa-beer'}
 ];
 
-let Example1 = createReactClass({
-	render: function() {
+export default class ExampleNormal extends Component {
+	render() {
 		return (
 			<div>
 				<SideMenu
@@ -32,8 +30,6 @@ let Example1 = createReactClass({
 				reverse={false}
 				/>
 			</div>
-		)
+		);
 	}
-});
-
-ReactDOM.render(<Example1 />, document.getElementById('example-normal'));
+}

@@ -1,16 +1,19 @@
 <!doctype html>
 <html>
 <head>
-	<title>React Starter Component</title>
+	<title>React Side Menu Component</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<script   src="https://code.jquery.com/jquery-2.2.4.js"   integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="   crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/solarized-dark.min.css">
-  <link rel="stylesheet" href="app.css">
-	<script src="https://use.fontawesome.com/4e5876b62f.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-jsx.min.js"></script>
+  <script src="https://use.fontawesome.com/4e5876b62f.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="app.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-css.min.js">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/themes/prism-tomorrow.min.css">
 </head>
-<body>
+<body class="language-jsx">
   <!-- <nav class="navbar navbar-default">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -55,79 +58,58 @@
 				</ul>
 				<div class="tab-content">
 			    <div role="tabpanel" class="tab-pane fade in active" id="json">
-						<pre><code class="javascript hljs">
-  import React from 'react';
-  import SideMenu from 'react-sidemenu';
-  import ReactDOM from 'react-dom';
+						<pre><code class="language-jsx">
+const items = [
+  {divider: true, label: 'Main navigation', value: 'main-nav'},
+  {label: 'item 1', value: 'item1', icon: 'fa-search',
+  children: [
+    {label: 'item 1.1', value: 'item1.1', icon: 'fa-snapchat',
+    children: [
+      {label: 'item 1.1.1', value: 'item1.1.1', icon: 'fa-anchor'},
+      {label: 'item 1.1.2', value: 'item1.1.2', icon: 'fa-bar-chart'}]},
+    {label: 'item 1.2', value: 'item1.2'}]},
+  {label: 'item 2', value: 'item2', icon: 'fa-automobile',
+  children: [
+    {label: 'item 2.1', value: 'item2.1',
+    children: [
+      {label: 'item 2.1.1', value: 'item2.1.1'},
+      {label: 'item 2.1.2', value: 'item2.1.2'}]},
+    {label: 'item 2.2', value: 'item2.2'}]},
+  {divider: true, label: 'Motors', value: 'motors-nav'},
+  {label: 'item 3', value: 'item3', icon: 'fa-beer'}
+];
 
-  const items = [
-  	{divider: true, label: 'Main navigation', value: 'main-nav'},
-  	{label: 'item 1', value: 'item1', icon: 'fa-search',
-  	children: [
-  		{label: 'item 1.1', value: 'item1.1', icon: 'fa-snapchat',
-  		children: [
-  			{label: 'item 1.1.1', value: 'item1.1.1', icon: 'fa-anchor'},
-  			{label: 'item 1.1.2', value: 'item1.1.2', icon: 'fa-bar-chart'}]},
-  		{label: 'item 1.2', value: 'item1.2'}]},
-  	{label: 'item 2', value: 'item2', icon: 'fa-automobile',
-  	children: [
-  		{label: 'item 2.1', value: 'item2.1',
-  		children: [
-  			{label: 'item 2.1.1', value: 'item2.1.1'},
-  			{label: 'item 2.1.2', value: 'item2.1.2'}]},
-  		{label: 'item 2.2', value: 'item2.2'}]},
-  	{divider: true, label: 'Motors', value: 'motors-nav'},
-  	{label: 'item 3', value: 'item3', icon: 'fa-beer'}
-  ];
-
-  let Example1 = React.createClass({
-  	render: function() {
-  		return (
-&lt;div&gt;
-  				&lt;SideMenu items={items}/&gt;
-  			&lt;/div&gt;
-  		)
-  	}
-  });
-
-  ReactDOM.render(<Example1 />, document.getElementById('example-1'));
-			      </code></pre>
+class Menu extends Component {
+  render() {
+    return (&lt;SideMenu items={items}/&gt;);
+  }
+}
+            </code></pre>
 					</div>
 			    <div role="tabpanel" class="tab-pane fade" id="components">
-						<pre><code class="javascript hljs">
-	import React from 'react';
-	import {SideMenu, Item} from 'react-sidemenu';
-	import ReactDOM from 'react-dom';
+						<pre><code class="language-jsx">
 
-	let Example2 = React.createClass({
-		render: function() {
-			return (
-			&lt;div&gt;
-	      &lt;SideMenu&gt;
-		&lt;Item divider={true} label=&quot;Segment 1&quot; value=&quot;segment1&quot;/&gt;
-	        &lt;Item label=&quot;Item 1&quot; icon=&quot;fa-search&quot;&gt;
-	          &lt;Item label=&quot;Item 1.1&quot; value=&quot;item1.1&quot; icon=&quot;fa-snapchat&quot;&gt;
-	            &lt;Item label=&quot;Item 1.1.1&quot; value=&quot;item1.1.1&quot; icon=&quot;fa-anchor&quot;/&gt;
-	            &lt;Item label=&quot;Item 1.1.2&quot; value=&quot;item1.1.2&quot; icon=&quot;fa-bar-chart&quot;/&gt;
-	          &lt;/Item&gt;
-	          &lt;Item label=&quot;Item 1.2&quot; value=&quot;item1.2&quot;/&gt;
-	        &lt;/Item&gt;
-	        &lt;Item label=&quot;Item 2&quot; value=&quot;item2&quot; icon=&quot;fa-automobile&quot;&gt;
-	          &lt;Item label=&quot;Item 2.1&quot; value=&quot;item2.1.1&quot;&gt;
-	            &lt;Item label=&quot;Item 2.1.1&quot; value=&quot;item2.1.1&quot;/&gt;
-	            &lt;Item label=&quot;Item 2.1.2&quot; value=&quot;item2.1.2&quot;/&gt;
-	          &lt;/Item&gt;
-	          &lt;Item label=&quot;Item 2.2&quot; value=&quot;item2.2&quot;/&gt;
-	        &lt;/Item&gt;
-		&lt;Item divider={true} label=&quot;Segment 2&quot; value=&quot;segment2&quot;/&gt;
-		&lt;Item label=&quot;Item 3&quot; value=&quot;item3&quot; icon=&quot;fa-beer&quot;/&gt;
-	      &lt;/SideMenu&gt;
-		&lt;/div&gt;
-			)
-		}
-	});
+&lt;SideMenu&gt;
+    &lt;Item divider={true} label=&quot;Segment 1&quot; value=&quot;segment1&quot;/&gt;
+    &lt;Item label=&quot;Item 1&quot; icon=&quot;fa-search&quot;&gt;
+        &lt;Item label=&quot;Item 1.1&quot; value=&quot;item1.1&quot; icon=&quot;fa-snapchat&quot;&gt;
+            &lt;Item label=&quot;Item 1.1.1&quot; value=&quot;item1.1.1&quot; icon=&quot;fa-anchor&quot;/&gt;
+            &lt;Item label=&quot;Item 1.1.2&quot; value=&quot;item1.1.2&quot; icon=&quot;fa-bar-chart&quot;/&gt;
+        &lt;/Item&gt;
+        &lt;Item label=&quot;Item 1.2&quot; value=&quot;item1.2&quot;/&gt;
+    &lt;/Item&gt;
+    &lt;Item label=&quot;Item 2&quot; value=&quot;item2&quot; icon=&quot;fa-automobile&quot;&gt;
+        &lt;Item label=&quot;Item 2.1&quot; value=&quot;item2.1.1&quot;&gt;
+            &lt;Item label=&quot;Item 2.1.1&quot; value=&quot;item2.1.1&quot;/&gt;
+            &lt;Item label=&quot;Item 2.1.2&quot; value=&quot;item2.1.2&quot;/&gt;
+        &lt;/Item&gt;
+        &lt;Item label=&quot;Item 2.2&quot; value=&quot;item2.2&quot;/&gt;
+    &lt;/Item&gt;
+    &lt;Item divider={true} label=&quot;Segment 2&quot; value=&quot;segment2&quot;/&gt;
+    &lt;Item label=&quot;Item 3&quot; value=&quot;item3&quot; icon=&quot;fa-beer&quot;/&gt;
+&lt;/SideMenu&gt;
 
-	ReactDOM.render(<Example2 />, document.getElementById('example-2'));
+
 	      </code></pre>
 					</div>
 			  </div>
@@ -218,7 +200,7 @@
 				</ul>
 				<div class="tab-content">
 			    <div role="tabpanel" class="tab-pane fade in active" id="custom-click-json">
-						<pre><code class="javascript hljs">&lt;SideMenu items={items} onMenuItemClick={(value) => alert(&quot;You just clicked me: ${value}&quot;)} /&gt;
+						<pre><code class="javascript hljs">&lt;SideMenu items={items} onMenuItemClick={(value) => alert(&quot;You just clicked me:&quot; + value)} /&gt;
 			      </code></pre>
 					</div>
 			    
@@ -235,11 +217,11 @@
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-8">
 				<ul class="nav nav-tabs nav-justified">
-						<li role="presentation" class="active"><a href="#custom-theme-less" aria-controls="custom-theme-less" role="tab" data-toggle="tab">Custom template less code</a></li>
+						<li role="presentation" class="active"><a href="#custom-theme-less" aria-controls="custom-theme-less" role="tab" data-toggle="tab">Custom theme (Less code example)</a></li>
 				</ul>
 				<div class="tab-content">
 						<div role="tabpanel" class="tab-pane fade in active" id="custom-theme-less">
-								<pre><code class="css hljs">
+								<pre><code class="language-css">
 .Side-menu-custom {
 	.divider {
 		background-color: #ABABAB;
@@ -285,16 +267,6 @@
 			</div>
 		</div>
   </div>
-  <script>hljs.initHighlightingOnLoad();</script>
-	<script src="common.js"></script>
-	<script src="bundle.js"></script>
-	<script src="example-normal.js"></script>
-	<script src="example-no-collapse.js"></script>
-	<script src="example-custom-render.js"></script>
-	<script src="example-custom-click.js"></script>
-	<script src="example-rtl.js"></script>
-	<script src="example-custom-theme.js"></script>
-	<script src="example-active-item.js"></script>
 	<script>
 
 	$("#examples-link").click(function() {

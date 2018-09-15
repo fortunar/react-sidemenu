@@ -1,16 +1,14 @@
-import React from 'react';
-import {SideMenu, Item} from 'react-sidemenu';
-import ReactDOM from 'react-dom';
-import createReactClass from 'create-react-class';
+import React, {Component} from 'react';
+import SideMenu, {Item} from 'src';
 
-let Example3 = createReactClass({
-	render: function() {
+export default class ExampleCustomClick extends Component {
+	render() {
 		return (
 			<div>
 				<p>
-          You can render custom menu item cells.
+          You can bind custom click events on menu cell clicks. Default behavior changes href in URL.
         </p>
-	      <SideMenu renderMenuItemContent={(item) => (<span><strong style={{color: 'red'}}>{item.label}</strong></span>)}>
+	      <SideMenu onMenuItemClick={(value) => alert(`You just clicked me: ${value}`)}>
 					<Item divider={true} label="Segment 1" value="segment1"/>
 	        <Item label="Item 1" icon="fa-search">
 	          <Item label="Item 1.1" value="item1.1" icon="fa-snapchat">
@@ -30,8 +28,6 @@ let Example3 = createReactClass({
 					<Item label="Item 3" value="item3" icon="fa-beer"/>
 	      </SideMenu>
 			</div>
-		)
+		);
 	}
-});
-
-ReactDOM.render(<Example3 />, document.getElementById('example-custom-render'));
+}

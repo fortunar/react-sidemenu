@@ -1,4 +1,5 @@
 
+
 # react-sidemenu
 
 Lightweight side menu component written in React.js. No jQuery, just CSS3.
@@ -24,9 +25,10 @@ ES6 syntax:
 ES5 syntax:
 
     var SideMenu = require('react-sidemenu').SideMenu;
-**Styling:** To use default styling include `react-sidemenu.css`  to your project. For an idea on how to customize styling see [Demo](http://react-sidemenu-demo.herokuapp.com/).
+## Styling!
+ To use default styling include `side-menu.css`  to your project. You can find it in dist folder when installing via `npm`. For an idea on how to customize styling see [Demo](https://fortunar.github.io/react-sidemenu/).
 ## Demo & Examples
-[Demo](http://react-sidemenu-demo.herokuapp.com/) showcasing the functionalities & code examples (wait for it to load a bit as it is on free plan on Heroku). We use Font Awesome as a CDN for the example icons to show.
+[Demo](https://fortunar.github.io/react-sidemenu/) showcasing the functionalities & code examples. We use Font Awesome as a CDN for the example icons to show.
 
 You can run examples by yourself. Clone the repo and do:
 
@@ -35,7 +37,7 @@ You can run examples by yourself. Clone the repo and do:
 
 ## Options
 
-< SideMenu > - main component
+`<SideMenu>` - main component
 
 |**Option**|**Default**|**Description**|
 | --- | --- | --- |
@@ -48,7 +50,7 @@ You can run examples by yourself. Clone the repo and do:
 | rtl | false | This property enables you to use the sidemenu in a right-to-left page. [Example](http://react-sidemenu-demo.herokuapp.com/) |
 | shouldTriggerClickOnParents | false | This property enables triggering 'onMenuItemClick' on parent items that have children. |
 
-< Item > - this component is for the non-JSON config of the menu
+`<Item>` - this component is for the non-JSON config of the menu
 
 |**Option**|**Description**|
 | --- | --- |
@@ -63,5 +65,5 @@ You can run examples by yourself. Clone the repo and do:
 Any contribution is welcome.
 
 To be done:
-
  - tests & CI support
+ - refactor examples code (it's awful, I know)

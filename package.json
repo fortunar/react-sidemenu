@@ -1,10 +1,16 @@
 {
   "name": "react-sidemenu",
-  "version": "0.0.15",
-  "description": "React side menu component.",
-  "main": "lib/SideMenu.js",
+  "version": "1.0.0",
+  "description": "Lightweight customizable React sidemenu component.",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --mode development",
+    "transpile": "babel src -d dist && ./node_modules/less/bin/lessc src/side-menu.less dist/side-menu.css",
+    "prepublishOnly": "npm run transpile",
+    "build": "webpack --mode production",
+    "deploy": "gh-pages -d demo/dist",
+    "publish-demo": "npm run build && npm run deploy"
   },
   "repository": {
     "type": "git",
@@ -24,29 +30,31 @@
     "url": "https://github.com/banomaster/react-sidemenu/issues"
   },
   "homepage": "https://github.com/banomaster/react-sidemenu#readme",
-  "dependencies": {
-    "babelify": "6.3.0",
-    "brfs": "1.4.1",
-    "babel-core": "5.8.25",
-    "babel-plugin-object-assign": "1.2.1",
-    "browserify": "11.1.0",
-    "chalk": "1.1.1",
-    "create-react-class": "15.6.2",
-    "gulp-connect": "5.5.0",
-    "gulp-less": "4.0.1",
-    "gulp-util": "3.0.6",
-    "react": "^16.0.0",
-    "require-dir": "1.0.0",
-    "merge-stream": "1.0.0",
-    "vinyl-source-stream": "1.1.0",
-    "watchify": "3.11.0"
+  "peerDependencies": {
+    "react": "^16.3.0",
+    "react-dom": "^16.3.0"
   },
   "devDependencies": {
-    "gulp": "3.9.1",
-    "gulp-webserver": "0.9.1",
-    "react-dom": "^16.0.0"
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^1.0.0",
+    "gh-pages": "^1.2.0",
+    "html-webpack-plugin": "^3.2.0",
+    "less": "^3.8.1",
+    "less-loader": "^4.1.0",
+    "react": "^16.5.1",
+    "react-dom": "^16.5.1",
+    "react-syntax-highlighter": "^8.0.1",
+    "replace": "^1.0.0",
+    "style-loader": "^0.23.0",
+    "webpack": "^4.19.0",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.8"
   },
-  "browserify-shim": {
-    "react": "global:React"
-  }
+  "dependencies": {}
 }
