@@ -6,24 +6,24 @@ export default class SideMenu extends Component {
   constructor(props, defaultProps) {
     super(props, defaultProps);
     this.state = { items: [], componentStateTree: [], activeItem: this.props.activeItem };
+    // onClick dictionary is maintained to enable changing active item with a prop change
+    // This way we don't have to search the component tree for the item matching the 
+    // activeItem prop.
     this.onClickDictionary = {};
   }
 
-  //
-  // methods for COMPONENT structure
-  //
-
   componentWillReceiveProps(nextProps) {
-    const { items } = nextProps;    
-    if (items) {
-      this.setState({ itemTree: this.buildTree(items, null) });
-    }
     if (this.state.activeItem != nextProps.activeItem) {
       if (this.onClickDictionary[nextProps.activeItem]) {
         this.onClickDictionary[nextProps.activeItem]();
       }
     }
   }
+
+
+  //
+  // methods for SideMenu using COMPONENT structure
+  //
 
   componentWillMount() {
     if (this.props.children) {
@@ -88,7 +88,7 @@ export default class SideMenu extends Component {
   }
 
   //
-  // methods for JSON structure
+  // methods for SideMenu using JSON structure
   //
 
   componentDidMount() {

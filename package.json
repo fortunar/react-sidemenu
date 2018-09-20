@@ -1,6 +1,6 @@
 {
   "name": "react-sidemenu",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Lightweight customizable React sidemenu component.",
   "main": "dist/index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "start": "webpack-dev-server --mode development",
     "transpile": "babel src -d dist && ./node_modules/less/bin/lessc src/side-menu.less dist/side-menu.css",
     "prepublishOnly": "npm run transpile",
-    "build": "webpack --mode production",
+    "build": "webpack --env.production --mode production",
     "deploy": "gh-pages -d demo/dist",
     "publish-demo": "npm run build && npm run deploy"
   },
@@ -47,6 +47,7 @@
     "html-webpack-plugin": "^3.2.0",
     "less": "^3.8.1",
     "less-loader": "^4.1.0",
+    "mini-css-extract-plugin": "^0.4.3",
     "react": "^16.5.1",
     "react-dom": "^16.5.1",
     "react-syntax-highlighter": "^8.0.1",
