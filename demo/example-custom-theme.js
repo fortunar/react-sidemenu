@@ -1,6 +1,8 @@
+// @flow
 import React, {Component} from 'react';
 import SideMenu, {Item} from 'src';
 
+// $FlowFixMe
 export default class ExampleCustomTheme extends Component {
 	render() {
 		return (
@@ -10,7 +12,7 @@ export default class ExampleCustomTheme extends Component {
         </p>
 	      <SideMenu theme='custom'>
 					<Item divider={true} label="Segment 1" value="segment1"/>
-	        <Item label="Item 1" icon="fa-search">
+	        <Item label="Item 1" value="item1" icon="fa-search">
 	          <Item label="Item 1.1" value="item1.1" icon="fa-snapchat">
 	            <Item label="Item 1.1.1" value="item1.1.1" icon="fa-anchor"/>
 	            <Item label="Item 1.1.2" value="item1.1.2" icon="fa-bar-chart"/>

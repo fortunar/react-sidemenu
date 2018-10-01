@@ -1,19 +1,101 @@
+// @flow
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import type { Node as React$Node } from 'react';
 
-export default class SideMenu extends Component {
+// types
+type JSONItem = {
+  label: string,
+  value: string,
+  icon?: string,
+  children?: Array<JSONItem | JSONDivider>,
+  extras?: any
+}
 
-  constructor(props, defaultProps) {
-    super(props, defaultProps);
-    this.state = { items: [], componentStateTree: [], activeItem: this.props.activeItem };
-    // onClick dictionary is maintained to enable changing active item with a prop change
-    // This way we don't have to search the component tree for the item matching the 
-    // activeItem prop.
-    this.onClickDictionary = {};
+type JSONDivider = {
+  divider: true,
+  label: string,
+  value: string
+}
+
+type JSONStateTreeItem = {
+  parent: ?JSONStateTreeItem,
+  active: ?boolean,
+  value: string,
+  children: ?Array<JSONStateTreeItem>,
+  onClick: (any) => mixed,
+  extras: any,
+  icon: ?string,
+  label: ?string,
+  divider: ?boolean
+}
+
+type Props = {
+  items?: Array<JSONItem | JSONDivider>,
+  onMenuItemClick?: (value : string, extras: any ) => void,
+  renderMenuItemContent?: ({ icon : ?string, value: ?string, label: ?string }) => React$Node,
+  theme: string,
+  collapse?: boolean,
+  rtl?: boolean,
+  activeItem?: string,
+  children?: Array<React$Node>,
+  shouldTriggerClickOnParents?: boolean,
+};
+
+type State = {
+  itemTree: ?Array<JSONStateTreeItem>,
+  componentStateTree: ?Array<ComponentStateTreeItem>,
+  activeItem: ?string
+}
+
+type ComponentStateTreeItem = {
+  parent: ?ComponentStateTreeItem,
+  active: boolean,
+  children: ?Array<ComponentStateTreeItem>
+}
+
+type PropsItem = {
+  label: string,
+  value: string,
+  icon?: string,
+  onMenuItemClick?: (value : string, extras: any ) => void,
+  divider?: boolean,
+  extras?: any,
+  children?: Array<React$Node>
+}
+
+
+export default class SideMenu extends Component<Props, State> {
+
+  static defaultProps = {
+    collapse: true,
+    rtl: false,
+    theme: 'default'
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.state.activeItem != nextProps.activeItem) {
+  static propTypes = {
+    items: PropTypes.array,
+    onMenuItemClick: PropTypes.func,
+    renderMenuItemContent: PropTypes.func,
+    theme: PropTypes.string,
+    collapse: PropTypes.bool,
+    rtl: PropTypes.bool,
+    activeItem: PropTypes.string
+  }
+
+  constructor(props : Props) {
+    super(props);
+    this.state = { itemTree: [], componentStateTree: [], activeItem: props.activeItem };
+  }
+
+  // onClick dictionary is maintained to enable changing active item with a prop change
+  // This way we don't have to search the component tree for the item matching the 
+  // activeItem prop.
+  onClickDictionary = {};
+
+  componentWillReceiveProps(nextProps : Props) {
+    if (nextProps.activeItem && this.state.activeItem != nextProps.activeItem) {
       if (this.onClickDictionary[nextProps.activeItem]) {
         this.onClickDictionary[nextProps.activeItem]();
       }
@@ -33,7 +115,7 @@ export default class SideMenu extends Component {
     }
   }
 
-  buildComponentStateTree(children, parent) {
+  buildComponentStateTree(children : Array<React$Node>, parent : ?ComponentStateTreeItem ) : Array<ComponentStateTreeItem> {
     const { activeItem } = this.props;
 
     return React.Children.map(children, (child) => {
@@ -44,7 +126,7 @@ export default class SideMenu extends Component {
       newChild.parent = parent;
 
       if (activeItem === child.props.value) {
-        this.activateParentsComponentTree(newChild);
+        this.activateParentsComponentTree(newChild, false);
       }
 
       if (child.props.children) {
@@ -56,7 +138,7 @@ export default class SideMenu extends Component {
     });
   }
 
-  handleComponentClick(item) {
+  handleComponentClick(item : ComponentStateTreeItem) {
     const { collapse } = this.props;
     const { componentStateTree } = this.state;
     const activeBefore = item.active;
@@ -69,15 +151,18 @@ export default class SideMenu extends Component {
     this.setState({ componentStateTree: componentStateTree });
   }
 
-  activateParentsComponentTree(item, activeBefore) {
+  activateParentsComponentTree(item : ?ComponentStateTreeItem, activeBefore : boolean) {
     if (item) {
       item.active = !activeBefore;
-      this.activateParentsComponentTree(item.parent);
+      this.activateParentsComponentTree(item.parent, false);
     }
   }
 
-  deactivateComponentTree(componentStateTree) {
-    return componentStateTree.map((child) => {
+  deactivateComponentTree(componentStateTree : ?Array<ComponentStateTreeItem>) : ?Array<ComponentStateTreeItem> {
+    if (!componentStateTree) {
+      return null;
+    }
+    return componentStateTree.map((child : ComponentStateTreeItem) => {
       child.active = false;
       if (child.children) {
         child.children = this.deactivateComponentTree(child.children);
@@ -99,22 +184,27 @@ export default class SideMenu extends Component {
     }
   }
 
-  buildTree(children, parent) {
+  buildTree(children :  Array<JSONItem | JSONDivider>, parent : ?JSONStateTreeItem) : ?Array<JSONStateTreeItem> {
     const { activeItem } = this.props;
-
-    return children.map((child) => {
-      const newChild = { ...child };
+    if (!Array.isArray(children)) {
+      return null;
+    }
+    return children.map((child : JSONItem | JSONDivider) => {
+      let newChild : any = { 
+        ...child,
+        active : false,
+        parent : parent,
+        children: null
+      };
       let subTree = [];
-
-      newChild.parent = parent;
-      newChild.active = false;
 
       if (newChild.value === activeItem) {
         newChild.active = true;
         this.activeParentPath(newChild);
       }
 
-      if (child.children) {
+      if (Array.isArray(child.children)) {
+        //$FlowFixMe
         subTree = this.buildTree(child.children, newChild);
       }
       newChild.children = subTree;
@@ -123,7 +213,10 @@ export default class SideMenu extends Component {
     });
   }
 
-  deactivateTree(itemTree) {
+  deactivateTree(itemTree : ?Array<JSONStateTreeItem>) {
+    if (!itemTree) {
+      return null;
+    }
     itemTree.forEach((item) => {
       item.active = false;
       if (item.children) {
@@ -132,19 +225,19 @@ export default class SideMenu extends Component {
     });
   }
 
-  activeParentPath(item) {
-    let curItem = item;
-    while (curItem !== null) {
+  activeParentPath(item : JSONStateTreeItem) {
+    let curItem : ?JSONStateTreeItem = item;
+    while (curItem) {
       curItem.active = true;
       curItem = curItem.parent;
     }
   }
 
-  onItemClick(item) {
+  onItemClick(item : JSONStateTreeItem) {
     const { itemTree } = this.state;
     const { onMenuItemClick, collapse, shouldTriggerClickOnParents } = this.props;
     const self = this;
-    return (e) => {
+    return (e : SyntheticTouchEvent<any>) => {
       if (e) {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
@@ -187,7 +280,7 @@ export default class SideMenu extends Component {
     };
   }
 
-  renderChevron(item, rtl) {
+  renderChevron(item : JSONStateTreeItem, rtl : ?boolean) {
     if (item.children && item.children.length > 0) {
       if (item.active) {
         return (<i className="fa fa-chevron-down" />);
@@ -199,10 +292,14 @@ export default class SideMenu extends Component {
     return null;
   }
 
-  handleRenderMenuItemContent(item) {
+  handleRenderMenuItemContent(item : JSONStateTreeItem) : React$Node {
     const { renderMenuItemContent, rtl } = this.props;
     if (renderMenuItemContent) {
-      return renderMenuItemContent(item);
+      return renderMenuItemContent({
+        icon : item.icon,
+        value: item.value,
+        label: item.label
+      });
     }
     return (
       <span>
@@ -216,7 +313,7 @@ export default class SideMenu extends Component {
     );
   }
 
-  renderItem(item, level) {
+  renderItem(item : JSONStateTreeItem, level : number) {
     if (item.divider) {
       return (
         <div key={item.value} className={`divider divider-level-${level}`}>
@@ -247,9 +344,9 @@ export default class SideMenu extends Component {
   render() {
     const { itemTree, componentStateTree } = this.state;
     const { theme, onMenuItemClick, rtl, renderMenuItemContent, shouldTriggerClickOnParents } = this.props;
-
+    
     const sidemenuComponent = this;
-    if (!this.props.children) {
+    if (! componentStateTree || componentStateTree.length == 0) {
       // sidemenu constructed from json
       return (
         <div className={`Side-menu Side-menu-${theme} ${rtl ? 'rtl' : ''} children active`}>
@@ -279,27 +376,31 @@ export default class SideMenu extends Component {
   }
 }
 
-SideMenu.propTypes = {
-  items: PropTypes.array,
-  onMenuItemClick: PropTypes.func,
-  renderMenuItemContent: PropTypes.func,
-  theme: PropTypes.string,
-  collapse: PropTypes.bool,
-  rtl: PropTypes.bool,
-  activeItem: PropTypes.string,
-};
-
-SideMenu.defaultProps = {
-  collapse: true,
-  rtl: false,
-  theme: 'default',
-};
-
-export class Item extends Component {
+// Because component version of menu is built using cloning and adding some props,
+// we need to silence errors related to these added props.
+export class Item extends Component<PropsItem> {
+  // $FlowFixMe
+  static propTypes = {
+    label: PropTypes.string,
+    value: PropTypes.string,
+    activeState: PropTypes.object,
+    level: PropTypes.number,
+    icon: PropTypes.string,
+    rtl: PropTypes.bool,
+    onMenuItemClick: PropTypes.func,
+    handleComponentClick: PropTypes.func,
+    renderMenuItemContent: PropTypes.func,
+    divider: PropTypes.bool
+  }
 
   onItemClick() {
-    this.props.handleComponentClick(this.props.activeState);
-    const { onMenuItemClick, children, value, shouldTriggerClickOnParents, onClick, extras, sidemenuComponent } = this.props;
+    
+    const { 
+      onMenuItemClick, children, value, extras,
+      // $FlowFixMe
+      sidemenuComponent, handleComponentClick, activeState, shouldTriggerClickOnParents, onClick
+    } = this.props;
+    handleComponentClick(activeState);
     if (onClick) {
       onClick(value);
     }
@@ -315,7 +416,7 @@ export class Item extends Component {
     }
   }
 
-  renderChevron(children, activeState, rtl) {
+  renderChevron(children : ?Array<React$Node>, activeState : ComponentStateTreeItem, rtl : ?boolean) {
     if (children) {
       if (activeState.active) {
         return (<i className="fa fa-chevron-down" />);
@@ -328,9 +429,14 @@ export class Item extends Component {
   }
 
   handleRenderMenuItemContent() {
+    // $FlowFixMe
     const { renderMenuItemContent, children, value, label, icon, activeState, rtl } = this.props;
     if (renderMenuItemContent) {
-      return renderMenuItemContent({ icon: icon, value: value, label: label });
+      return renderMenuItemContent({
+        icon: icon,
+        value: value,
+        label: label
+      });
     }
     return (
       <span>
@@ -346,17 +452,13 @@ export class Item extends Component {
   }
 
   render() {
-    const { label,
-      activeState,
-      level,
+    const {
+      label, 
       onMenuItemClick,
       divider,
       children,
-      rtl,
-      renderMenuItemContent,
-      shouldTriggerClickOnParents,
-      value,
-      sidemenuComponent
+      // $FlowFixMe
+      activeState, level, rtl, renderMenuItemContent, shouldTriggerClickOnParents, value, sidemenuComponent, handleComponentClick
    } = this.props;
 
     if (divider) {
@@ -376,8 +478,8 @@ export class Item extends Component {
           <div className={`children ${activeState.active ? 'active' : 'inactive'}`}>
             {React.Children.map(children, (child, index) => {
               return React.cloneElement(child, {
-                handleComponentClick: this.props.handleComponentClick,
-                activeState: activeState.children[index],
+                handleComponentClick: handleComponentClick,
+                activeState: activeState.children != null ? activeState.children[index] : null,
                 renderMenuItemContent: renderMenuItemContent,
                 onMenuItemClick: onMenuItemClick,
                 shouldTriggerClickOnParents: shouldTriggerClickOnParents,
@@ -392,16 +494,3 @@ export class Item extends Component {
     );
   }
 }
-
-Item.propTypes = {
-  label: PropTypes.string,
-  value: PropTypes.string,
-  activeState: PropTypes.object,
-  level: PropTypes.number,
-  icon: PropTypes.string,
-  rtl: PropTypes.bool,
-  onMenuItemClick: PropTypes.func,
-  handleComponentClick: PropTypes.func,
-  renderMenuItemContent: PropTypes.func,
-  divider: PropTypes.bool,
-};

@@ -1,6 +1,8 @@
+// @flow
 import React, {Component} from 'react';
 import SideMenu, {Item} from 'src';
 
+//$FlowFixMe
 export default class ExampleNoCollapse extends Component {
 	render() {
 		return(<div>
@@ -9,7 +11,7 @@ export default class ExampleNoCollapse extends Component {
         </p>
 	      <SideMenu collapse={false}>
 					<Item divider={true} label="Segment 1" value="segment1"/>
-	        <Item label="Item 1" icon="fa-search">
+	        <Item label="Item 1" value="item1" icon="fa-search">
 	          <Item label="Item 1.1" value="item1.1" icon="fa-snapchat">
 	            <Item label="Item 1.1.1" value="item1.1.1" icon="fa-anchor"/>
 	            <Item label="Item 1.1.2" value="item1.1.2" icon="fa-bar-chart"/>

@@ -1,4 +1,4 @@
 {
-  "presets": ["env", "react", "es2015"],
-  "plugins": ["transform-object-rest-spread"]
+  "presets": ["env", "react", "es2015", "flow"],
+  "plugins": ["transform-object-rest-spread", "transform-class-properties"]
 }

@@ -1,3 +1,4 @@
+// @flow
 import React, {Component} from 'react';
 import SideMenu from 'src';
 
@@ -20,7 +21,7 @@ const items = [
 	{divider: true, label: 'Segment 2', value: 'segment2'},
 	{label: 'Item 3', value: 'item3', icon: 'fa-beer'}
 ];
-
+//$FlowFixMe
 export default class ExampleNormal extends Component {
 	render() {
 		return (

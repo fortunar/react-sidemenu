@@ -1,5 +1,3 @@
-
-
 # react-sidemenu
 
 Lightweight side menu component written in React.js. No jQuery, just CSS3.
@@ -12,6 +10,7 @@ Lightweight side menu component written in React.js. No jQuery, just CSS3.
  - Packed with default ready-to-use styling
  - Easy to customize styling guide
  - Custom rendering, collapse control, right-to-left etc.
+ - Flow type checking support
 
 ## Usage
 Install the component with NPM:
@@ -19,13 +18,12 @@ Install the component with NPM:
     npm install react-sidemenu --save
 Import the component in your React.js application:
 
-ES6 syntax:
-
     import {SideMenu} from 'react-sidemenu';
-ES5 syntax:
 
-    var SideMenu = require('react-sidemenu').SideMenu;
-## Styling!
+### Flow
+If you want to have access to Flow typed components, include `SideMenu.js` from dist folder when installing via npm.
+
+## Styling!!!
  To use default styling include `side-menu.css`  to your project. You can find it in dist folder when installing via `npm`. For an idea on how to customize styling see [Demo](https://fortunar.github.io/react-sidemenu/).
 ## Demo & Examples
 [Demo](https://fortunar.github.io/react-sidemenu/) showcasing the functionalities & code examples. We use Font Awesome as a CDN for the example icons to show.
@@ -33,7 +31,9 @@ ES5 syntax:
 You can run examples by yourself. Clone the repo and do:
 
     npm install
-    gulp dev
+    npm start
+
+The examples are run using Webpack development server. 
 
 ## Options
 
@@ -41,13 +41,13 @@ You can run examples by yourself. Clone the repo and do:
 
 |**Option**|**Default**|**Description**|
 | --- | --- | --- |
-| items | null | Property for the JSON configuration of the component SideMenu component. Check out the [demo](http://react-sidemenu-demo.herokuapp.com/) to find out how it works. |
+| items | null | Property for the JSON configuration of the component SideMenu component. Check out [Demo](https://fortunar.github.io/react-sidemenu/) to find out how it works. |
 | activeItem | null | Preset starting active item. Also used for opening and closing menu items from code (e.g. from a button). |
 | collapse | true | This property gives you the capability to enable or disable collapsing menu when other elements of the menu are clicked. |
-| theme | 'default' | This sets a class for the component that you can use to apply custom styling. The class will be Side-menu-[theme_name]. **Note:** our default theme uses Font Awesome icons. See [demo](http://react-sidemenu-demo.herokuapp.com/) for an detailed example.  |
-| renderMenuItemContent({ icon: icon, value: value, label: label }) | null | This property enables you to provide a custom render method for items. Function is passed one parameter, representing the menu item being rendered. It receives an object with attributes: icon, label and value. [Demo](http://react-sidemenu-demo.herokuapp.com/)|
-| onMenuItemClick | `(value, extras) => window.location.href = '#' + value` | This property enables you to provide custom onClick method for items. The function gets passed one parameter which is the value of the clicked item. If you do not provide an onMenuItemClick. [Demo](react-sidemenu.demo.com/#custom-click )|
-| rtl | false | This property enables you to use the sidemenu in a right-to-left page. [Example](http://react-sidemenu-demo.herokuapp.com/) |
+| theme | 'default' | This sets a class for the component that you can use to apply custom styling. The class will be Side-menu-[theme_name]. **Note:** our default theme uses Font Awesome icons. See [Demo](https://fortunar.github.io/react-sidemenu/) for an detailed example.  |
+| renderMenuItemContent({ icon: icon, value: value, label: label }) | null | This property enables you to provide a custom render method for items. Function is passed one parameter, representing the menu item being rendered. It receives an object with attributes: icon, label and value. [Demo](https://fortunar.github.io/react-sidemenu/)|
+| onMenuItemClick | `(value, extras) => window.location.href = '#' + value` | This property enables you to provide custom onClick method for items. The function gets passed the value of the clicked item and item extras (object). [Demo](https://fortunar.github.io/react-sidemenu/)|
+| rtl | false | This property enables you to use the sidemenu in a right-to-left page. [Demo](https://fortunar.github.io/react-sidemenu/)|
 | shouldTriggerClickOnParents | false | This property enables triggering 'onMenuItemClick' on parent items that have children. |
 
 `<Item>` - this component is for the non-JSON config of the menu
