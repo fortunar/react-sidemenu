@@ -1,22 +1,22 @@
 // @flow
 
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import type { Node as React$Node } from 'react';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import type { Node as React$Node } from 'react'
 
 // types
+type JSONDivider = {
+  divider: true,
+  label: string,
+  value: string
+}
+
 type JSONItem = {
   label: string,
   value: string,
   icon?: string,
   children?: Array<JSONItem | JSONDivider>,
   extras?: any
-}
-
-type JSONDivider = {
-  divider: true,
-  label: string,
-  value: string
 }
 
 type JSONStateTreeItem = {
@@ -33,8 +33,8 @@ type JSONStateTreeItem = {
 
 type Props = {
   items?: Array<JSONItem | JSONDivider>,
-  onMenuItemClick?: (value : string, extras: any ) => void,
-  renderMenuItemContent?: ({ icon : ?string, value: ?string, label: ?string }) => React$Node,
+  onMenuItemClick?: (value: string, extras: any) => void,
+  renderMenuItemContent?: ({ icon: ?string, value: ?string, label: ?string }) => React$Node,
   theme: string,
   collapse?: boolean,
   rtl?: boolean,
@@ -43,31 +43,30 @@ type Props = {
   shouldTriggerClickOnParents?: boolean,
 };
 
-type State = {
-  itemTree: ?Array<JSONStateTreeItem>,
-  componentStateTree: ?Array<ComponentStateTreeItem>,
-  activeItem: ?string
-}
-
 type ComponentStateTreeItem = {
   parent: ?ComponentStateTreeItem,
   active: boolean,
   children: ?Array<ComponentStateTreeItem>
 }
 
+type State = {
+  itemTree: ?Array<JSONStateTreeItem>,
+  componentStateTree: ?Array<ComponentStateTreeItem>,
+  activeItem: ?string
+}
+
 type PropsItem = {
   label: string,
   value: string,
   icon?: string,
-  onMenuItemClick?: (value : string, extras: any ) => void,
+  onMenuItemClick?: (value: string, extras: any) => void,
   divider?: boolean,
   extras?: any,
   children?: Array<React$Node>
 }
 
-
+// components
 export default class SideMenu extends Component<Props, State> {
-
   static defaultProps = {
     collapse: true,
     rtl: false,
@@ -84,222 +83,220 @@ export default class SideMenu extends Component<Props, State> {
     activeItem: PropTypes.string
   }
 
-  constructor(props : Props) {
-    super(props);
-    this.state = { itemTree: [], componentStateTree: [], activeItem: props.activeItem };
+  constructor (props: Props) {
+    super(props)
+    this.state = { itemTree: [], componentStateTree: [], activeItem: props.activeItem }
   }
 
   // onClick dictionary is maintained to enable changing active item with a prop change
-  // This way we don't have to search the component tree for the item matching the 
+  // This way we don't have to search the component tree for the item matching the
   // activeItem prop.
   onClickDictionary = {};
 
-  componentWillReceiveProps(nextProps : Props) {
-    if (nextProps.activeItem && this.state.activeItem != nextProps.activeItem) {
+  componentWillReceiveProps (nextProps: Props) {
+    if (nextProps.activeItem && this.state.activeItem !== nextProps.activeItem) {
       if (this.onClickDictionary[nextProps.activeItem]) {
-        this.onClickDictionary[nextProps.activeItem]();
+        this.onClickDictionary[nextProps.activeItem]()
       }
     }
   }
-
 
   //
   // methods for SideMenu using COMPONENT structure
   //
 
-  componentWillMount() {
+  componentWillMount () {
     if (this.props.children) {
       this.setState({
-        componentStateTree: this.buildComponentStateTree(this.props.children, null),
-      });
+        componentStateTree: this.buildComponentStateTree(this.props.children, null)
+      })
     }
   }
 
-  buildComponentStateTree(children : Array<React$Node>, parent : ?ComponentStateTreeItem ) : Array<ComponentStateTreeItem> {
-    const { activeItem } = this.props;
+  buildComponentStateTree (children: Array<React$Node>, parent: ?ComponentStateTreeItem): Array<ComponentStateTreeItem> {
+    const { activeItem } = this.props
 
     return React.Children.map(children, (child) => {
-      const newChild = {};
-      let subTree = [];
+      const newChild = {}
+      let subTree = []
 
-      newChild.active = false;
-      newChild.parent = parent;
+      newChild.active = false
+      newChild.parent = parent
 
       if (activeItem === child.props.value) {
-        this.activateParentsComponentTree(newChild, false);
+        this.activateParentsComponentTree(newChild, false)
       }
 
       if (child.props.children) {
-        subTree = this.buildComponentStateTree(child.props.children, newChild);
+        subTree = this.buildComponentStateTree(child.props.children, newChild)
       }
-      newChild.children = subTree;
+      newChild.children = subTree
 
-      return newChild;
-    });
+      return newChild
+    })
   }
 
-  handleComponentClick(item : ComponentStateTreeItem) {
-    const { collapse } = this.props;
-    const { componentStateTree } = this.state;
-    const activeBefore = item.active;
+  handleComponentClick (item: ComponentStateTreeItem) {
+    const { collapse } = this.props
+    const { componentStateTree } = this.state
+    const activeBefore = item.active
 
     // collapse
     if (collapse) {
-      this.deactivateComponentTree(componentStateTree);
+      this.deactivateComponentTree(componentStateTree)
     }
-    this.activateParentsComponentTree(item, activeBefore);
-    this.setState({ componentStateTree: componentStateTree });
+    this.activateParentsComponentTree(item, activeBefore)
+    this.setState({ componentStateTree: componentStateTree })
   }
 
-  activateParentsComponentTree(item : ?ComponentStateTreeItem, activeBefore : boolean) {
+  activateParentsComponentTree (item: ?ComponentStateTreeItem, activeBefore: boolean) {
     if (item) {
-      item.active = !activeBefore;
-      this.activateParentsComponentTree(item.parent, false);
+      item.active = !activeBefore
+      this.activateParentsComponentTree(item.parent, false)
     }
   }
 
-  deactivateComponentTree(componentStateTree : ?Array<ComponentStateTreeItem>) : ?Array<ComponentStateTreeItem> {
+  deactivateComponentTree (componentStateTree: ?Array<ComponentStateTreeItem>): ?Array<ComponentStateTreeItem> {
     if (!componentStateTree) {
-      return null;
+      return null
     }
-    return componentStateTree.map((child : ComponentStateTreeItem) => {
-      child.active = false;
+    return componentStateTree.map((child: ComponentStateTreeItem) => {
+      child.active = false
       if (child.children) {
-        child.children = this.deactivateComponentTree(child.children);
+        child.children = this.deactivateComponentTree(child.children)
       }
 
-      return child;
-    });
+      return child
+    })
   }
 
   //
   // methods for SideMenu using JSON structure
   //
 
-  componentDidMount() {
-    const { items } = this.props;
+  componentDidMount () {
+    const { items } = this.props
 
     if (items) {
-      this.setState({ itemTree: this.buildTree(items, null) });
+      this.setState({ itemTree: this.buildTree(items, null) })
     }
   }
 
-  buildTree(children :  Array<JSONItem | JSONDivider>, parent : ?JSONStateTreeItem) : ?Array<JSONStateTreeItem> {
-    const { activeItem } = this.props;
+  buildTree (children: Array<JSONItem | JSONDivider>, parent: ?JSONStateTreeItem): ?Array<JSONStateTreeItem> {
+    const { activeItem } = this.props
     if (!Array.isArray(children)) {
-      return null;
+      return null
     }
-    return children.map((child : JSONItem | JSONDivider) => {
-      let newChild : any = { 
+    return children.map((child: JSONItem | JSONDivider) => {
+      let newChild: any = {
         ...child,
-        active : false,
-        parent : parent,
+        active: false,
+        parent: parent,
         children: null
-      };
-      let subTree = [];
+      }
+      let subTree = []
 
       if (newChild.value === activeItem) {
-        newChild.active = true;
-        this.activeParentPath(newChild);
+        newChild.active = true
+        this.activeParentPath(newChild)
       }
 
       if (Array.isArray(child.children)) {
-        //$FlowFixMe
-        subTree = this.buildTree(child.children, newChild);
+        //  $FlowFixMe
+        subTree = this.buildTree(child.children, newChild)
       }
-      newChild.children = subTree;
+      newChild.children = subTree
 
-      return newChild;
-    });
+      return newChild
+    })
   }
 
-  deactivateTree(itemTree : ?Array<JSONStateTreeItem>) {
+  deactivateTree (itemTree: ?Array<JSONStateTreeItem>) {
     if (!itemTree) {
-      return null;
+      return null
     }
     itemTree.forEach((item) => {
-      item.active = false;
+      item.active = false
       if (item.children) {
-        this.deactivateTree(item.children);
+        this.deactivateTree(item.children)
       }
-    });
+    })
   }
 
-  activeParentPath(item : JSONStateTreeItem) {
-    let curItem : ?JSONStateTreeItem = item;
+  activeParentPath (item: JSONStateTreeItem) {
+    let curItem: ?JSONStateTreeItem = item
     while (curItem) {
-      curItem.active = true;
-      curItem = curItem.parent;
+      curItem.active = true
+      curItem = curItem.parent
     }
   }
 
-  onItemClick(item : JSONStateTreeItem) {
-    const { itemTree } = this.state;
-    const { onMenuItemClick, collapse, shouldTriggerClickOnParents } = this.props;
-    const self = this;
-    return (e : SyntheticTouchEvent<any>) => {
+  onItemClick (item: JSONStateTreeItem) {
+    const { itemTree } = this.state
+    const { onMenuItemClick, collapse, shouldTriggerClickOnParents } = this.props
+    const self = this
+    return (e: SyntheticTouchEvent<any>) => {
       if (e) {
-        e.stopPropagation();
-        e.nativeEvent.stopImmediatePropagation();
+        e.stopPropagation()
+        e.nativeEvent.stopImmediatePropagation()
       }
       // handle UI changes
       if (!item.active) {
         // if menu is in collapse mode, close all items
         if (collapse) {
-          self.deactivateTree(itemTree);
+          self.deactivateTree(itemTree)
         }
-        item.active = true;
-        self.activeParentPath(item);
-        self.setState({ itemTree: itemTree });
+        item.active = true
+        self.activeParentPath(item)
+        self.setState({ itemTree: itemTree })
       } else {
-        item.active = false;
+        item.active = false
         // if menu is in collapse mode, close only
         if (item.children) {
-          self.deactivateTree(item.children);
+          self.deactivateTree(item.children)
         }
         if (item.parent) {
-          self.activeParentPath(item.parent);
+          self.activeParentPath(item.parent)
         }
-        self.setState({ itemTree: itemTree });
+        self.setState({ itemTree: itemTree })
       }
 
       // check if item has an onClick method defined
       if (item.onClick) {
-        item.onClick(item.value);
-      }
-      // handle what happens if the item is a leaf node
-      else if (!item.children || item.children.length === 0 || shouldTriggerClickOnParents) {
+        item.onClick(item.value)
+        // handle what happens if the item is a leaf node
+      } else if (!item.children || item.children.length === 0 || shouldTriggerClickOnParents) {
         if (onMenuItemClick) {
-          onMenuItemClick(item.value, item.extras);
+          onMenuItemClick(item.value, item.extras)
         } else {
-          window.location.href = `#${item.value}`;
+          window.location.href = `#${item.value}`
         }
       }
 
-      this.setState({...this.state, activeItem: item.value});
-    };
+      this.setState({ ...this.state, activeItem: item.value })
+    }
   }
 
-  renderChevron(item : JSONStateTreeItem, rtl : ?boolean) {
+  renderChevron (item: JSONStateTreeItem, rtl: ?boolean) {
     if (item.children && item.children.length > 0) {
       if (item.active) {
-        return (<i className="fa fa-chevron-down" />);
+        return (<i className="fa fa-chevron-down" />)
       } else if (rtl) {
-        return (<i className="fa fa-chevron-right" />);
+        return (<i className="fa fa-chevron-right" />)
       }
-      return (<i className="fa fa-chevron-left" />);
+      return (<i className="fa fa-chevron-left" />)
     }
-    return null;
+    return null
   }
 
-  handleRenderMenuItemContent(item : JSONStateTreeItem) : React$Node {
-    const { renderMenuItemContent, rtl } = this.props;
+  handleRenderMenuItemContent (item: JSONStateTreeItem): React$Node {
+    const { renderMenuItemContent, rtl } = this.props
     if (renderMenuItemContent) {
       return renderMenuItemContent({
-        icon : item.icon,
+        icon: item.icon,
         value: item.value,
         label: item.label
-      });
+      })
     }
     return (
       <span>
@@ -310,18 +307,18 @@ export default class SideMenu extends Component<Props, State> {
         <span className="item-label"> { item.label } </span>
         { this.renderChevron(item, rtl) }
       </span>
-    );
+    )
   }
 
-  renderItem(item : JSONStateTreeItem, level : number) {
+  renderItem (item: JSONStateTreeItem, level: number) {
     if (item.divider) {
       return (
         <div key={item.value} className={`divider divider-level-${level}`}>
           { item.label }
         </div>
-      );
+      )
     }
-    this.onClickDictionary[item.value] = this.onItemClick(item);
+    this.onClickDictionary[item.value] = this.onItemClick(item)
     return (
       <div
         key={item.value}
@@ -338,15 +335,14 @@ export default class SideMenu extends Component<Props, State> {
           )}
         </div>
       </div>
-    );
+    )
   }
 
-  render() {
-    const { itemTree, componentStateTree } = this.state;
-    const { theme, onMenuItemClick, rtl, renderMenuItemContent, shouldTriggerClickOnParents } = this.props;
-    
-    const sidemenuComponent = this;
-    if (! componentStateTree || componentStateTree.length == 0) {
+  render () {
+    const { itemTree, componentStateTree } = this.state
+    const { theme, onMenuItemClick, rtl, renderMenuItemContent, shouldTriggerClickOnParents } = this.props
+    const sidemenuComponent = this
+    if (!componentStateTree || componentStateTree.length === 0) {
       // sidemenu constructed from json
       return (
         <div className={`Side-menu Side-menu-${theme} ${rtl ? 'rtl' : ''} children active`}>
@@ -354,7 +350,7 @@ export default class SideMenu extends Component<Props, State> {
             this.renderItem(item, 1)
           )}
         </div>
-      );
+      )
     }
     // sidemenu constructed with react components
     return (
@@ -369,10 +365,10 @@ export default class SideMenu extends Component<Props, State> {
             rtl: rtl,
             level: 1,
             sidemenuComponent: sidemenuComponent
-          });
+          })
         })}
       </div>
-    );
+    )
   }
 }
 
@@ -393,81 +389,79 @@ export class Item extends Component<PropsItem> {
     divider: PropTypes.bool
   }
 
-  onItemClick() {
-    
-    const { 
+  onItemClick () {
+    const {
       onMenuItemClick, children, value, extras,
       // $FlowFixMe
       sidemenuComponent, handleComponentClick, activeState, shouldTriggerClickOnParents, onClick
-    } = this.props;
-    handleComponentClick(activeState);
+    } = this.props
+    handleComponentClick(activeState)
     if (onClick) {
-      onClick(value);
-    }
-    else if (!children || children.length === 0 || shouldTriggerClickOnParents) {
+      onClick(value)
+    } else if (!children || children.length === 0 || shouldTriggerClickOnParents) {
       if (onMenuItemClick) {
-        onMenuItemClick(value, extras);
+        onMenuItemClick(value, extras)
       } else {
-        window.location.href = `#${value}`;
+        window.location.href = `#${value}`
       }
     }
     if (sidemenuComponent) {
-      sidemenuComponent.setState({...sidemenuComponent.state, activeItem: value});
+      sidemenuComponent.setState({ ...sidemenuComponent.state, activeItem: value })
     }
   }
 
-  renderChevron(children : ?Array<React$Node>, activeState : ComponentStateTreeItem, rtl : ?boolean) {
+  renderChevron (children: ?Array<React$Node>, activeState: ComponentStateTreeItem, rtl: ?boolean) {
     if (children) {
       if (activeState.active) {
-        return (<i className="fa fa-chevron-down" />);
+        return (<i className="fa fa-chevron-down" />)
       } else if (rtl) {
-        return (<i className="fa fa-chevron-right" />);
+        return (<i className="fa fa-chevron-right" />)
       }
-      return (<i className="fa fa-chevron-left" />);
+      return (<i className="fa fa-chevron-left" />)
     }
-    return null;
+    return null
   }
 
-  handleRenderMenuItemContent() {
+  handleRenderMenuItemContent () {
     // $FlowFixMe
-    const { renderMenuItemContent, children, value, label, icon, activeState, rtl } = this.props;
+    const { renderMenuItemContent, children, value, label, icon, activeState, rtl } = this.props
     if (renderMenuItemContent) {
       return renderMenuItemContent({
         icon: icon,
         value: value,
         label: label
-      });
+      })
     }
     return (
       <span>
-        {/* render icon if provided*/}
+        {/* render icon if provided */}
         {icon &&
           <i className={`fa ${icon} item-icon`} />
         }
-        {/* render a simple label*/}
+        {/* render a simple label */}
         <span className="item-label"> {label} </span>
         { this.renderChevron(children, activeState, rtl) }
       </span>
-    );
+    )
   }
 
-  render() {
+  render () {
     const {
-      label, 
+      label,
       onMenuItemClick,
       divider,
       children,
       // $FlowFixMe
       activeState, level, rtl, renderMenuItemContent, shouldTriggerClickOnParents, value, sidemenuComponent, handleComponentClick
-   } = this.props;
+    } = this.props
 
     if (divider) {
       return (
         <div className={`divider divider-level-${level}`}>{label} </div>
-      );
+      )
     }
     if (sidemenuComponent) {
-      sidemenuComponent.onClickDictionary[value] = this.onItemClick.bind(this);
+      sidemenuComponent.onClickDictionary[value] = this.onItemClick.bind(this)
     }
     return (
       <div className={`item item-level-${level} ${activeState.active ? 'active' : ''}`}>
@@ -486,11 +480,11 @@ export class Item extends Component<PropsItem> {
                 rtl: rtl,
                 level: level + 1,
                 sidemenuComponent: sidemenuComponent
-              });
+              })
             })}
           </div>
         }
       </div>
-    );
+    )
   }
 }

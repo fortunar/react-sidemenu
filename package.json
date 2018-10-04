@@ -1,6 +1,6 @@
 {
   "name": "react-sidemenu",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Lightweight customizable React sidemenu component.",
   "main": "dist/index.js",
   "scripts": {
@@ -11,7 +11,9 @@
     "build": "webpack --env.production --mode production",
     "deploy": "gh-pages -d demo/dist",
     "publish-demo": "npm run build && npm run deploy",
-    "flow": "flow"
+    "flow": "flow",
+    "lint": "./node_modules/.bin/eslint src/index.js",
+    "test-code": "npm run flow && npm run lint"
   },
   "repository": {
     "type": "git",
@@ -38,6 +40,7 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.1",
     "babel-loader": "^7.1.4",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
@@ -47,6 +50,13 @@
     "babel-preset-react": "^6.24.1",
     "cpy-cli": "^2.0.0",
     "css-loader": "^1.0.0",
+    "eslint": "^5.6.1",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-flowtype": "^2.50.3",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
     "flow-bin": "^0.81.0",
     "gh-pages": "^1.2.0",
     "html-webpack-plugin": "^3.2.0",
