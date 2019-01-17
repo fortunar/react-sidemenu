@@ -7,6 +7,11 @@ export default class ExampleActiveItem extends Component {
     this.state = {activeItem : 'item1.1.1'};
   }
 
+  handleClick = (value) => {
+    window.location.href = `#${value}`;
+    this.setState({ activeItem: value });
+  }
+
   render() {
     return (
 			<div>
@@ -19,7 +24,8 @@ export default class ExampleActiveItem extends Component {
         <button className="btn btn-primary" onClick={() => this.setState({activeItem: 'item2.1.2'})} style={{marginBottom: 10}}>Set Active item to 2.1.2</button>
         <br/>
         <SideMenu
-          activeItem={this.state.activeItem}>
+          activeItem={this.state.activeItem}
+          onMenuItemClick={this.handleClick}>
           <Item divider={true} label="Segment 1" value="segment1"/>
           <Item label="Item 1" icon="fa-search">
             <Item label="Item 1.1" value="item1.1" icon="fa-snapchat">

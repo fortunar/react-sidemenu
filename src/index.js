@@ -93,14 +93,6 @@ export default class SideMenu extends Component<Props, State> {
   // activeItem prop.
   onClickDictionary = {};
 
-  componentWillReceiveProps (nextProps: Props) {
-    if (nextProps.activeItem && this.state.activeItem !== nextProps.activeItem) {
-      if (this.onClickDictionary[nextProps.activeItem]) {
-        this.onClickDictionary[nextProps.activeItem]()
-      }
-    }
-  }
-
   //
   // methods for SideMenu using COMPONENT structure
   //
@@ -182,6 +174,19 @@ export default class SideMenu extends Component<Props, State> {
     }
   }
 
+  componentDidUpdate (prevProps: Props, prevState: State) {
+    if (this.props.items && prevProps.items !== this.props.items) {
+      this.setState({ itemTree: this.buildTree(this.props.items, null) })
+    }
+
+    // Firing onClick functions in the dictionary when changing active item prop:
+    if (this.props.activeItem && this.props.activeItem !== prevProps.activeItem) {
+      if (this.onClickDictionary[this.props.activeItem]) {
+        this.onClickDictionary[this.props.activeItem]()
+      }
+    }
+  }
+
   buildTree (children: Array<JSONItem | JSONDivider>, parent: ?JSONStateTreeItem): ?Array<JSONStateTreeItem> {
     const { activeItem } = this.props
     if (!Array.isArray(children)) {
@@ -240,6 +245,8 @@ export default class SideMenu extends Component<Props, State> {
         e.stopPropagation()
         e.nativeEvent.stopImmediatePropagation()
       }
+
+      const isLeaf = !item.children || item.children.length === 0
       // handle UI changes
       if (!item.active) {
         // if menu is in collapse mode, close all items
@@ -249,7 +256,10 @@ export default class SideMenu extends Component<Props, State> {
         item.active = true
         self.activeParentPath(item)
         self.setState({ itemTree: itemTree })
-      } else {
+        // eslint-disable-next-line
+      } 
+      // we deactivate the item if it is active and does not have children
+      else if (!isLeaf) {
         item.active = false
         // if menu is in collapse mode, close only
         if (item.children) {
@@ -265,7 +275,7 @@ export default class SideMenu extends Component<Props, State> {
       if (item.onClick) {
         item.onClick(item.value)
         // handle what happens if the item is a leaf node
-      } else if (!item.children || item.children.length === 0 || shouldTriggerClickOnParents) {
+      } else if (isLeaf || shouldTriggerClickOnParents) {
         if (onMenuItemClick) {
           onMenuItemClick(item.value, item.extras)
         } else {
@@ -395,19 +405,23 @@ export class Item extends Component<PropsItem> {
       // $FlowFixMe
       sidemenuComponent, handleComponentClick, activeState, shouldTriggerClickOnParents, onClick
     } = this.props
-    handleComponentClick(activeState)
+
+    const isLeaf = !children || children.length === 0
     if (onClick) {
       onClick(value)
-    } else if (!children || children.length === 0 || shouldTriggerClickOnParents) {
+    } else if (isLeaf || shouldTriggerClickOnParents) {
       if (onMenuItemClick) {
         onMenuItemClick(value, extras)
       } else {
         window.location.href = `#${value}`
       }
     }
-    if (sidemenuComponent) {
-      sidemenuComponent.setState({ ...sidemenuComponent.state, activeItem: value })
-    }
+
+    handleComponentClick(activeState)
+    // if (sidemenuComponent && (!activeState.active || !isLeaf)) {
+    //   console.log(actu)
+    //   sidemenuComponent.setState({ ...sidemenuComponent.state, activeItem: value })
+    // }
   }
 
   renderChevron (children: ?Array<React$Node>, activeState: ComponentStateTreeItem, rtl: ?boolean) {
