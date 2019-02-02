@@ -1,6 +1,6 @@
 {
   "name": "react-sidemenu",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Lightweight customizable React sidemenu component.",
   "main": "dist/index.js",
   "scripts": {
@@ -34,8 +34,8 @@
   },
   "homepage": "https://github.com/banomaster/react-sidemenu#readme",
   "peerDependencies": {
-    "react": "^16.3.0",
-    "react-dom": "^16.3.0"
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -63,14 +63,14 @@
     "less": "^3.8.1",
     "less-loader": "^4.1.0",
     "mini-css-extract-plugin": "^0.4.3",
-    "react": "^16.5.1",
-    "react-dom": "^16.5.1",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
     "react-syntax-highlighter": "^8.0.1",
     "replace": "^1.0.0",
     "style-loader": "^0.23.0",
     "webpack": "^4.19.0",
     "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.8"
+    "webpack-dev-server": "^3.1.14"
   },
   "dependencies": {}
 }
