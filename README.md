@@ -19,7 +19,7 @@ Install the component with NPM:
     npm install react-sidemenu --save
 Import the component in your React.js application:
 
-    import {SideMenu} from 'react-sidemenu';
+    import SideMenu from 'react-sidemenu';
 
 ### Flow
 If you want to have access to Flow typed components, include `SideMenu.js` from dist folder when installing via npm.
